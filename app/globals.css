@@ -73,7 +73,8 @@
 @keyframes shoot { 0% { opacity: 0; transform: translate3d(0, 0, 0) rotate(-28deg) scaleX(0.3); } 4% { opacity: 1; } 16% { opacity: 0; transform: translate3d(-360px, 190px, 0) rotate(-28deg) scaleX(1); } 100% { opacity: 0; transform: translate3d(-360px, 190px, 0) rotate(-28deg) scaleX(1); } }
 @keyframes twinkle { 0%, 86%, 100% { opacity: 1; } 91% { opacity: 0.2; } }
 @keyframes smoke { 0% { transform: translateY(0) scale(0.5); opacity: 0; } 15% { opacity: 0.45; } 100% { transform: translateY(-52px) translateX(10px) scale(2.2); opacity: 0; } }
-@keyframes sweep { 0%, 100% { transform: rotate(14deg); opacity: 0.5; } 50% { transform: rotate(-58deg); opacity: 1; } }
+/* positive rotation lifts the far end of the beam into the sky; negative would bury it in the street */
+@keyframes sweep { 0%, 100% { transform: rotate(-4deg); opacity: 0.45; } 50% { transform: rotate(58deg); opacity: 1; } }
 @keyframes lamp { 0%, 100% { transform: scale(0.9); opacity: 0.7; } 50% { transform: scale(1.2); opacity: 1; } }
 @keyframes fog { 0% { transform: translate3d(-12%, 0, 0); } 100% { transform: translate3d(12%, 0, 0); } }
 @keyframes float { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-14px) rotate(3deg); } }
