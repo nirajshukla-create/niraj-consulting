@@ -16,28 +16,38 @@ export const prefersReduced = () =>
 export const clamp01 = (v: number) => Math.min(1, Math.max(0, v))
 
 /* ------------------------------------------------------------------ scroll registry
-   One passive scroll listener and one animation frame for every scroll-linked effect on
-   the page, so adding effects never adds listeners. */
-const subs = new Set<() => void>()
+   One passive scroll listener and one animation frame for every scroll-linked effect, in
+   two phases: every subscriber READS layout first, then every subscriber WRITES styles.
+   Interleaving reads and writes forces the browser to re-layout for each subscriber;
+   this way it lays out once per frame at most. */
+type Sub = { read?: () => void; write: () => void; resize?: () => void }
+const subs = new Set<Sub>()
 let raf = 0
 let bound = false
 function flush() {
   raf = 0
-  subs.forEach((f) => f())
+  subs.forEach((s) => s.read?.())
+  subs.forEach((s) => s.write())
 }
 function schedule() {
   if (!raf) raf = requestAnimationFrame(flush)
 }
-export function onScroll(fn: () => void) {
-  subs.add(fn)
+function onResize() {
+  subs.forEach((s) => s.resize?.())
+  schedule()
+}
+export function onScroll(sub: Sub | (() => void)) {
+  const s: Sub = typeof sub === "function" ? { write: sub } : sub
+  subs.add(s)
   if (!bound) {
     bound = true
     window.addEventListener("scroll", schedule, { passive: true })
-    window.addEventListener("resize", schedule)
+    window.addEventListener("resize", onResize)
   }
+  s.resize?.()
   schedule()
   return () => {
-    subs.delete(fn)
+    subs.delete(s)
   }
 }
 
@@ -92,10 +102,20 @@ export function Scrub({ children, className = "", style, start = 0.9, end = 0.3 
   useEffect(() => {
     const el = ref.current
     if (!el || prefersReduced()) return
-    return onScroll(() => {
-      const r = el.getBoundingClientRect()
-      const vh = window.innerHeight
-      el.style.setProperty("--p", clamp01((vh * start - r.top) / (vh * start - vh * end)).toFixed(3))
+    let p = 0
+    let last = -1
+    return onScroll({
+      read: () => {
+        const r = el.getBoundingClientRect()
+        const vh = window.innerHeight
+        p = clamp01((vh * start - r.top) / (vh * start - vh * end))
+      },
+      write: () => {
+        const q = Math.round(p * 500) / 500
+        if (q === last) return
+        last = q
+        el.style.setProperty("--p", q.toFixed(3))
+      },
     })
   }, [start, end])
   return (
@@ -123,8 +143,8 @@ export function FillText({ text, className = "" }: { text: string; className?: s
 
 /* ------------------------------------------------------------------ horizontal scroll
    A tall section whose inner panel pins to the viewport while its track slides sideways
-   in step with the scroll. Below 900px (and for reduced motion) the CSS turns the track
-   into a plain vertical stack and this does nothing. */
+   in step with the scroll. Sizes are measured on resize, never per frame. Below 900px
+   (and for reduced motion) the CSS turns the track into a plain vertical stack. */
 export function HScroll({ children, className = "", id }: { children: ReactNode; className?: string; id?: string }) {
   const wrap = useRef<HTMLElement>(null)
   const pin = useRef<HTMLDivElement>(null)
@@ -135,19 +155,39 @@ export function HScroll({ children, className = "", id }: { children: ReactNode;
     const t = track.current
     if (!w || !pn || !t) return
     const wide = window.matchMedia("(min-width: 900px)")
-    return onScroll(() => {
-      if (!wide.matches || prefersReduced()) {
-        t.style.transform = ""
-        w.style.removeProperty("--p")
-        return
-      }
-      const r = w.getBoundingClientRect()
-      const span = Math.max(1, w.offsetHeight - window.innerHeight)
-      const p = clamp01(-r.top / span)
-      const shift = Math.max(0, t.scrollWidth - pn.clientWidth)
-      t.style.transform = `translate3d(${(-p * shift).toFixed(1)}px, 0, 0)`
-      w.style.setProperty("--p", p.toFixed(3))
+    let active = false
+    let span = 1
+    let shift = 0
+    let top = 0
+    let x = 0
+    let last = -1
+    const off = onScroll({
+      resize: () => {
+        active = wide.matches && !prefersReduced()
+        if (!active) {
+          t.style.transform = ""
+          return
+        }
+        span = Math.max(1, w.offsetHeight - window.innerHeight)
+        shift = Math.max(0, t.scrollWidth - pn.clientWidth)
+      },
+      read: () => {
+        if (active) top = w.getBoundingClientRect().top
+      },
+      write: () => {
+        if (!active) return
+        x = Math.round(-clamp01(-top / span) * shift)
+        if (x === last) return
+        last = x
+        t.style.transform = `translate3d(${x}px, 0, 0)`
+      },
     })
+    const ro = new ResizeObserver(() => onResize())
+    ro.observe(t)
+    return () => {
+      off()
+      ro.disconnect()
+    }
   }, [])
   return (
     <section id={id} ref={wrap} className={`hscroll ${className}`}>
@@ -169,12 +209,23 @@ export function Stack({ children, className = "" }: { children: ReactNode; class
     const el = ref.current
     if (!el || prefersReduced()) return
     const cards = Array.from(el.children) as HTMLElement[]
-    return onScroll(() => {
-      for (let i = 0; i < cards.length - 1; i++) {
-        const a = cards[i].getBoundingClientRect()
-        const b = cards[i + 1].getBoundingClientRect()
-        cards[i].style.setProperty("--p", clamp01(1 - (b.top - a.top) / Math.max(1, a.height)).toFixed(3))
-      }
+    const p = cards.map(() => 0)
+    const last = cards.map(() => -1)
+    return onScroll({
+      read: () => {
+        for (let i = 0; i < cards.length - 1; i++) {
+          const a = cards[i].getBoundingClientRect()
+          const b = cards[i + 1].getBoundingClientRect()
+          p[i] = Math.round(clamp01(1 - (b.top - a.top) / Math.max(1, a.height)) * 200) / 200
+        }
+      },
+      write: () => {
+        for (let i = 0; i < cards.length - 1; i++) {
+          if (p[i] === last[i]) continue
+          last[i] = p[i]
+          cards[i].style.setProperty("--p", p[i].toFixed(3))
+        }
+      },
     })
   }, [])
   return (
@@ -251,9 +302,8 @@ export function Spotlight({ className = "" }: { className?: string }) {
     }
     const onMove = (e: PointerEvent) => {
       if (e.pointerType !== "mouse") return
-      const b = host.getBoundingClientRect()
-      x = e.clientX - b.left
-      y = e.clientY - b.top
+      x = e.clientX
+      y = e.clientY - host.getBoundingClientRect().top
       if (!raf) raf = requestAnimationFrame(paint)
     }
     host.addEventListener("pointermove", onMove, { passive: true })
@@ -271,10 +321,14 @@ export function ParallaxLayer({ speed = 0.2, className = "", children, style }: 
   useEffect(() => {
     const el = ref.current
     if (!el || prefersReduced()) return
+    let last = -1
     return onScroll(() => {
       const y = window.scrollY
       if (y > window.innerHeight * 1.2) return
-      el.style.transform = `translate3d(0, ${(y * speed).toFixed(1)}px, 0)`
+      const v = Math.round(y * speed)
+      if (v === last) return
+      last = v
+      el.style.transform = `translate3d(0, ${v}px, 0)`
     })
   }, [speed])
   return (

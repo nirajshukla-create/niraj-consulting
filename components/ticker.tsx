@@ -7,7 +7,8 @@ import { prefersReduced } from "./motion"
 /**
  * Two tilted bands scrolling against each other. Driven by a frame loop instead of a CSS
  * animation so they react to you: scrolling speeds them up and slants the type, scrolling
- * back up reverses them. Idle when off screen, still for reduced motion.
+ * back up reverses them. Widths are measured on resize, never per frame. Idle when off
+ * screen, still for reduced motion.
  */
 export function Tickers() {
   const ref = useRef<HTMLDivElement>(null)
@@ -16,6 +17,11 @@ export function Tickers() {
     if (!root || prefersReduced()) return
     const tracks = Array.from(root.querySelectorAll<HTMLElement>(".ticker__track"))
     const pos = tracks.map(() => 0)
+    const half = tracks.map(() => 1)
+    const measure = () => tracks.forEach((tr, i) => (half[i] = tr.scrollWidth / 2))
+    measure()
+    const ro = new ResizeObserver(measure)
+    tracks.forEach((tr) => ro.observe(tr))
     const dirs = [1, -1]
     const base = [64, 50] // px per second at rest
     let vel = 0
@@ -31,10 +37,9 @@ export function Tickers() {
       const boost = Math.min(Math.abs(vel), 80) * 9
       const skew = Math.max(-14, Math.min(14, vel * 0.3))
       tracks.forEach((tr, i) => {
-        const half = tr.scrollWidth / 2
         pos[i] -= dirs[i] * dir * (base[i] + boost) * dt
-        if (pos[i] <= -half) pos[i] += half
-        if (pos[i] > 0) pos[i] -= half
+        if (pos[i] <= -half[i]) pos[i] += half[i]
+        if (pos[i] > 0) pos[i] -= half[i]
         tr.style.transform = `translate3d(${pos[i].toFixed(1)}px, 0, 0) skewX(${(-skew * dirs[i]).toFixed(2)}deg)`
       })
       raf = visible ? requestAnimationFrame(tick) : 0
@@ -58,6 +63,7 @@ export function Tickers() {
     window.addEventListener("scroll", onScroll, { passive: true })
     return () => {
       io.disconnect()
+      ro.disconnect()
       window.removeEventListener("scroll", onScroll)
       if (raf) cancelAnimationFrame(raf)
     }

@@ -15,10 +15,16 @@ export function HeroMotion({ children, className = "hero" }: { children: ReactNo
     const el = ref.current
     if (!el) return
     const reduce = prefersReduced()
+    let last = -1
     const off = onScroll(() => {
-      const p = reduce ? 0 : clamp01(window.scrollY / (window.innerHeight * 0.9))
-      el.style.setProperty("--p", p.toFixed(3))
-      el.classList.toggle("hero--away", window.scrollY > window.innerHeight * 1.05)
+      const y = window.scrollY
+      const p = reduce ? 0 : Math.round(clamp01(y / (window.innerHeight * 0.9)) * 200) / 200
+      if (p !== last) {
+        last = p
+        el.style.setProperty("--p", p.toFixed(3))
+        el.classList.toggle("hero--zooming", p > 0.02)
+      }
+      el.classList.toggle("hero--away", y > window.innerHeight * 1.05)
     })
     const layers = Array.from(el.querySelectorAll<HTMLElement>("[data-depth]"))
     let raf = 0

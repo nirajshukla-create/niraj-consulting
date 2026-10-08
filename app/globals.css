@@ -92,9 +92,11 @@
 
 @layer components {
   /* --------------------------------------------------------------- layout */
-  .band { position: relative; z-index: 1; padding: clamp(56px, 8vw, 120px) var(--pad-x); background: rgb(15 22 38 / 0.9); color: var(--color-paper); }
-  .band--ink { background: rgb(23 32 57 / 0.92); }
-  .band--coral { background: rgb(23 32 57 / 0.94); }
+  /* opaque, so the browser can stop compositing the pinned hero once it is covered; the
+     glow of the sky continues as cheap static gradients instead */
+  .band { position: relative; z-index: 1; padding: clamp(56px, 8vw, 120px) var(--pad-x); background: radial-gradient(70% 50% at 85% 0%, rgb(30 140 134 / 0.1), transparent 60%), var(--color-ink); color: var(--color-paper); }
+  .band--ink { background: radial-gradient(60% 60% at 8% 100%, rgb(91 74 153 / 0.18), transparent 60%), var(--color-ink-2); }
+  .band--coral { background: radial-gradient(60% 70% at 100% 100%, rgb(216 87 58 / 0.16), transparent 60%), var(--color-ink-2); }
   /* a sheet curls over whatever sits above it, like stacked card stock */
   .sheet { border-radius: var(--sheet-r) var(--sheet-r) 0 0; margin-top: calc(-1 * var(--sheet-r)); padding-top: calc(clamp(56px, 8vw, 120px) + var(--sheet-r) * 0.6); z-index: var(--z, 1); box-shadow: 0 -1px 0 rgb(255 255 255 / 0.08), 0 -30px 80px -30px rgb(0 0 0 / 0.8); }
   .skip-link { position: absolute; left: -9999px; top: 12px; z-index: 60; padding: 10px 14px; background: var(--color-mustard); color: var(--color-ink); font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.1em; border-radius: 999px; }
@@ -122,7 +124,7 @@
   .mono-link:hover .arrow { transform: translateX(5px); }
 
   /* -------------------------------------------------------------- buttons */
-  .btn { display: inline-flex; align-items: center; gap: 10px; padding: 15px 24px; border-radius: 999px; border: 0; cursor: pointer; font-family: var(--font-mono); font-size: 12.5px; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; background: var(--color-coral); color: #fff; box-shadow: 0 12px 30px -12px rgb(216 87 58 / 0.7); transition: transform 0.4s cubic-bezier(0.2, 1.4, 0.4, 1), background-color 0.3s ease, box-shadow 0.3s ease; will-change: transform; }
+  .btn { display: inline-flex; align-items: center; gap: 10px; padding: 15px 24px; border-radius: 999px; border: 0; cursor: pointer; font-family: var(--font-mono); font-size: 12.5px; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; background: var(--color-coral); color: #fff; box-shadow: 0 12px 30px -12px rgb(216 87 58 / 0.7); transition: transform 0.4s cubic-bezier(0.2, 1.4, 0.4, 1), background-color 0.3s ease, box-shadow 0.3s ease; }
   .btn:hover { background: var(--color-coral-deep); box-shadow: 0 18px 36px -12px rgb(216 87 58 / 0.8); }
   .btn:disabled { opacity: 0.6; cursor: wait; }
   .btn .arrow { transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1); }
@@ -137,7 +139,7 @@
 
   /* ------------------------------------------------------------------ nav */
   .nav { position: fixed; inset: 0 0 auto 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px var(--pad-x); color: var(--color-paper); transition: background-color 0.4s ease, box-shadow 0.4s ease, padding 0.4s ease; }
-  .nav--solid { background: rgb(15 22 38 / 0.72); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 1px 0 rgb(255 255 255 / 0.08); padding-block: 10px; }
+  .nav--solid { background: rgb(15 22 38 / 0.94); box-shadow: 0 1px 0 rgb(255 255 255 / 0.08); padding-block: 10px; }
   .nav__brand { font-family: var(--font-display); font-weight: 800; font-size: 21px; letter-spacing: -0.03em; text-decoration: none; white-space: nowrap; display: inline-flex; align-items: center; gap: 5px; }
   .nav__brand i { font-style: normal; color: var(--color-coral-light); transition: transform 0.5s cubic-bezier(0.2, 1.4, 0.4, 1); display: inline-block; }
   .nav__brand:hover i { transform: translateY(-5px) rotate(20deg); }
@@ -171,23 +173,26 @@
      Pinned under the page. --p (set on scroll) zooms the scene out and dims it while the
      next sections slide over; data-depth layers drift with the mouse. Once covered, the
      street's animations pause but the sky keeps breathing behind the translucent page. */
-  .hero { position: sticky; top: 0; z-index: 0; min-height: 100svh; overflow: hidden; display: flex; flex-direction: column; color: var(--color-paper); background: linear-gradient(to bottom, #0a1026 0%, var(--color-ink) 50%, var(--color-ink-2) 100%); isolation: isolate; transform: scale(calc(1 - 0.06 * var(--p, 0))); transform-origin: 50% 35%; border-radius: calc(var(--p, 0) * 40px); will-change: transform; }
-  .hero--away .skyline *, .hero--away .fog, .hero--away .shoot, .hero--away .star, .hero--away .hero__body * { animation-play-state: paused !important; }
-  .hero__dim { position: absolute; inset: 0; z-index: 4; background: #05080f; opacity: calc(var(--p, 0) * 0.8); pointer-events: none; }
+  .hero { position: sticky; top: 0; z-index: 0; min-height: 100svh; overflow: hidden; display: flex; flex-direction: column; color: var(--color-paper); background: linear-gradient(to bottom, #0a1026 0%, var(--color-ink) 50%, var(--color-ink-2) 100%); isolation: isolate; transform: scale(calc(1 - 0.06 * var(--p, 0))); transform-origin: 50% 35%; will-change: transform; }
+  .hero--zooming { border-radius: 36px; }
+  .hero--away { visibility: hidden; }
+  .hero--away * { animation-play-state: paused !important; }
+  .hero__dim { position: absolute; inset: 0; z-index: 4; background: #05080f; opacity: calc(var(--p, 0) * 0.8); pointer-events: none; will-change: opacity; }
   .hero__sky { position: absolute; inset: 0; pointer-events: none; }
   .hero__layer { position: absolute; inset: 0; will-change: transform; }
-  .blob { position: absolute; border-radius: 50%; mix-blend-mode: screen; will-change: transform; }
-  .blob--a { top: -32%; left: -18%; width: 78vmax; height: 78vmax; background: radial-gradient(circle, rgb(30 140 134 / 0.62), rgb(30 140 134 / 0) 62%); animation: blob-a 28s ease-in-out infinite; }
-  .blob--b { top: -24%; right: -22%; width: 70vmax; height: 70vmax; background: radial-gradient(circle, rgb(91 74 153 / 0.7), rgb(91 74 153 / 0) 62%); animation: blob-b 34s ease-in-out infinite; }
-  .blob--c { bottom: 6%; left: 18%; width: 64vmax; height: 46vmax; background: radial-gradient(ellipse, rgb(216 87 58 / 0.38), rgb(216 87 58 / 0) 62%); animation: blob-c 40s ease-in-out infinite; }
+  /* plain alpha, no blend modes: blending full-screen layers is what makes weak GPUs stutter */
+  .blob { position: absolute; border-radius: 50%; will-change: transform; }
+  .blob--a { top: -28%; left: -14%; width: 64vmax; height: 64vmax; background: radial-gradient(circle, rgb(30 140 134 / 0.5), rgb(30 140 134 / 0) 62%); animation: blob-a 28s ease-in-out infinite; }
+  .blob--b { top: -22%; right: -18%; width: 58vmax; height: 58vmax; background: radial-gradient(circle, rgb(91 74 153 / 0.55), rgb(91 74 153 / 0) 62%); animation: blob-b 34s ease-in-out infinite; }
+  .blob--c { bottom: 8%; left: 22%; width: 54vmax; height: 38vmax; background: radial-gradient(ellipse, rgb(216 87 58 / 0.3), rgb(216 87 58 / 0) 62%); animation: blob-c 40s ease-in-out infinite; }
   .aurora { position: absolute; left: -12%; right: -12%; top: 4%; height: 46%; background: repeating-linear-gradient(100deg, transparent 0 34px, rgb(30 140 134 / 0.2) 34px 52px, transparent 52px 96px, rgb(91 74 153 / 0.2) 96px 118px, transparent 118px 170px); mask-image: linear-gradient(to bottom, transparent, black 30%, black 55%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, transparent, black 30%, black 55%, transparent 100%); animation: aurora 18s ease-in-out infinite; will-change: transform; }
   .star { position: absolute; width: 3px; height: 3px; border-radius: 50%; background: #fff; animation: star var(--t, 4s) ease-in-out infinite; animation-delay: var(--d, 0s); }
   .shoot { position: absolute; width: 180px; height: 2px; border-radius: 2px; background: linear-gradient(90deg, rgb(255 255 255 / 0.9), rgb(255 255 255 / 0)); transform-origin: left center; opacity: 0; animation: shoot var(--t, 12s) linear infinite; animation-delay: var(--d, 0s); }
   .moon { position: absolute; right: 10%; top: 16%; width: clamp(68px, 9.5vw, 150px); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 36% 34%, #fbf3dc, #ecd9a4 58%, #cfb376); box-shadow: 0 0 60px 18px rgb(215 162 63 / 0.18); animation: float 11s ease-in-out infinite; }
-  .hero__spot { position: absolute; left: -450px; top: -450px; width: 900px; height: 900px; border-radius: 50%; background: radial-gradient(circle, rgb(255 255 255 / 0.09), rgb(255 255 255 / 0) 58%); pointer-events: none; will-change: transform; mix-blend-mode: screen; }
+  .hero__spot { position: absolute; left: -350px; top: -350px; width: 700px; height: 700px; border-radius: 50%; background: radial-gradient(circle, rgb(255 255 255 / 0.07), rgb(255 255 255 / 0) 58%); pointer-events: none; will-change: transform; }
   /* the words fade out early in the zoom so they never ghost through the sections above */
   .hero__body { position: relative; z-index: 2; flex: 1; display: flex; flex-direction: column; justify-content: center; padding: clamp(110px, 14vh, 160px) var(--pad-x) clamp(220px, 28vh, 340px); perspective: 1200px; will-change: transform; opacity: calc(1 - var(--p, 0) * 1.6); }
-  .pill { display: inline-flex; align-items: center; gap: 10px; align-self: flex-start; padding: 8px 16px 8px 11px; border-radius: 999px; background: rgb(242 238 230 / 0.08); border: 1px solid rgb(242 238 230 / 0.2); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase; animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+  .pill { display: inline-flex; align-items: center; gap: 10px; align-self: flex-start; padding: 8px 16px 8px 11px; border-radius: 999px; background: rgb(15 22 38 / 0.45); border: 1px solid rgb(242 238 230 / 0.2); font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase; animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
   .pill__dot { width: 8px; height: 8px; border-radius: 50%; background: var(--color-coral); box-shadow: 0 0 0 0 rgb(216 87 58 / 0.6); animation: pulse 2s ease-out infinite; }
   .hero__title { margin: clamp(18px, 3vh, 28px) 0 0; font-size: clamp(48px, 8.4vw, 122px); line-height: 0.92; }
   .hero__line { display: block; }
@@ -196,13 +201,15 @@
   .hero__sub { margin: clamp(18px, 3vh, 30px) 0 0; max-width: 44ch; font-size: clamp(16px, 1.3vw, 18px); line-height: 1.55; color: rgb(242 238 230 / 0.82); animation: fade 1s ease both; animation-delay: 0.8s; }
   .hero__actions { margin-top: clamp(24px, 4vh, 40px); display: flex; flex-wrap: wrap; align-items: center; gap: 16px 22px; animation: fade 1s ease both; animation-delay: 1s; }
   @media (max-width: 760px) { .moon { top: 11%; right: 5%; width: 56px; } .hero__body { padding-top: clamp(140px, 22vh, 190px); } }
-  .skyline-wrap { position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; height: clamp(200px, 36vh, 430px); pointer-events: none; will-change: transform; }
-  .skyline { width: 100%; height: 100%; display: block; }
+  /* --sk is the slice scale the SVG uses (viewBox 1600x430, xMidYMax slice), so the HTML
+     beam can be pinned to the lamp at 1552,238 in viewBox units on any screen */
+  .skyline-wrap { position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; height: clamp(200px, 36vh, 430px); --sky-h: clamp(200px, 36vh, 430px); pointer-events: none; will-change: transform; container-type: inline-size; }
+  .skyline { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .skyline-lights { will-change: transform; }
   .skyline .win--lit { animation: twinkle 7s ease-in-out infinite; animation-delay: var(--d, 0s); }
-  .skyline .moonlight { animation: glow 6s ease-in-out infinite; }
   .skyline .smoke { transform-box: fill-box; transform-origin: center; animation: smoke 5s ease-out infinite; animation-delay: var(--d, 0s); }
-  .skyline .beam { transform-box: view-box; transform-origin: 1552px 238px; animation: sweep 14s ease-in-out infinite; mix-blend-mode: screen; }
   .skyline .lamp { transform-box: fill-box; transform-origin: center; animation: lamp 2.2s ease-in-out infinite; }
+  .beam { --sk: max(100cqw / 1600, var(--sky-h) / 430); position: absolute; left: calc(50% + 752 * var(--sk)); bottom: calc(192 * var(--sk)); width: calc(1700 * var(--sk)); height: calc(300 * var(--sk)); translate: -100% 50%; transform-origin: 100% 50%; background: linear-gradient(to left, rgb(255 242 200 / 0.55), rgb(255 242 200 / 0.2) 35%, rgb(255 242 200 / 0) 100%); clip-path: polygon(100% 50%, 0 0, 0 100%); animation: sweep 14s ease-in-out infinite; will-change: transform; pointer-events: none; }
   .fog { position: absolute; bottom: -2%; height: 38%; width: 80%; border-radius: 50%; background: radial-gradient(ellipse at center, rgb(236 232 222 / 0.2), rgb(236 232 222 / 0) 66%); pointer-events: none; animation: fog 36s ease-in-out infinite alternate; will-change: transform; }
   .fog--a { left: -10%; }
   .fog--b { right: -20%; width: 70%; height: 30%; animation-duration: 48s; animation-direction: alternate-reverse; }
@@ -220,13 +227,14 @@
 
   /* ---------------------------------------------------------------- intro
      Words light up one by one as --p (0..1) runs through the paragraph. */
-  .intro { position: relative; z-index: 1; background: rgb(15 22 38 / 0.9); color: var(--color-paper); padding: clamp(96px, 15vw, 200px) var(--pad-x) clamp(56px, 9vw, 120px); }
+  .intro { position: relative; z-index: 1; background: radial-gradient(60% 60% at 90% 20%, rgb(91 74 153 / 0.14), transparent 60%), var(--color-ink); color: var(--color-paper); padding: clamp(96px, 15vw, 200px) var(--pad-x) clamp(56px, 9vw, 120px); }
   .fill__text { margin: 0; max-width: 26ch; font-family: var(--font-display); font-weight: 600; font-size: clamp(25px, 3.2vw, 46px); line-height: 1.14; letter-spacing: -0.025em; }
-  .fill__w { opacity: calc(0.14 + 0.86 * clamp(0, var(--p, 1) * (var(--n, 1) + 3) - var(--i, 0), 1)); transition: opacity 0.12s linear; }
+  .fill__w { opacity: calc(0.14 + 0.86 * clamp(0, var(--p, 1) * (var(--n, 1) + 3) - var(--i, 0), 1)); }
 
   /* ----------------------------------------------------- horizontal scroll
      The tall wrapper gives the scroll room; the pin holds the viewport; the track slides. */
-  .hscroll { position: relative; z-index: 1; height: 280vh; background: rgb(15 22 38 / 0.9); color: var(--color-paper); }
+  .hscroll { position: relative; z-index: 1; height: 280vh; background: var(--color-ink); color: var(--color-paper); }
+  .hscroll__pin { background: radial-gradient(50% 60% at 100% 100%, rgb(30 140 134 / 0.1), transparent 60%); }
   .hscroll__pin { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; display: flex; align-items: center; padding: 0 var(--pad-x); }
   .hscroll__track { display: flex; align-items: center; gap: clamp(18px, 2.4vw, 28px); padding-right: var(--pad-x); will-change: transform; }
   .hscroll__track > .reveal { flex: 0 0 clamp(320px, 29vw, 420px); }
@@ -282,7 +290,7 @@
   .stack { display: grid; gap: 22px; margin-bottom: clamp(48px, 6vw, 80px); }
   .stack__card { position: sticky; top: calc(84px + var(--i, 0) * 18px); display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: clamp(18px, 3vw, 40px); align-items: center; min-height: min(54vh, 460px); padding: clamp(22px, 3.5vw, 48px); border-radius: 26px; overflow: hidden; background: var(--color-ink-2); border: 1px solid var(--glass-line); color: var(--color-paper); transform: scale(calc(1 - 0.05 * var(--p, 0))); transform-origin: 50% 0; box-shadow: 0 -10px 50px -24px rgb(0 0 0 / 0.8); will-change: transform; }
   .stack__card::before { content: ""; position: absolute; inset: 0; background: radial-gradient(70% 90% at 100% 50%, color-mix(in oklab, var(--tone) 38%, transparent), transparent 70%); pointer-events: none; }
-  .stack__card::after { content: ""; position: absolute; inset: 0; background: #05080f; opacity: calc(var(--p, 0) * 0.55); pointer-events: none; }
+  .stack__card::after { content: ""; position: absolute; inset: 0; background: #05080f; opacity: calc(var(--p, 0) * 0.55); pointer-events: none; will-change: opacity; }
   .stack__card--paper { --tone: var(--color-sea); }
   .stack__card--mustard { --tone: var(--color-mustard); }
   .stack__card--coral { --tone: var(--color-coral); }
@@ -315,7 +323,7 @@
   .person:hover .person__photo { transform: scale(1.04); }
   .person__initials { position: absolute; top: 5%; left: 6%; margin: 0; font-family: var(--font-display); font-weight: 800; font-size: clamp(80px, 10vw, 140px); line-height: 0.8; letter-spacing: -0.06em; color: var(--color-paper); transition: transform 0.7s cubic-bezier(0.2, 1.4, 0.4, 1); transform: translateZ(30px); }
   .person:hover .person__initials { transform: translateZ(40px) translate(6px, -10px) rotate(-5deg); }
-  .person__meta { position: relative; z-index: 1; background: rgb(15 22 38 / 0.62); border: 1px solid var(--glass-line); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-radius: 16px; padding: 14px 16px; transform: translateZ(20px); }
+  .person__meta { position: relative; z-index: 1; background: rgb(15 22 38 / 0.72); border: 1px solid var(--glass-line); border-radius: 16px; padding: 14px 16px; transform: translateZ(20px); }
   .person__role { margin: 0 0 6px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; color: color-mix(in oklab, var(--tone) 55%, white); }
   .person__name { margin: 0; font-family: var(--font-display); font-weight: 800; font-size: clamp(22px, 1.9vw, 26px); line-height: 1; letter-spacing: -0.03em; }
   .person__short { margin: 10px 0 0; font-size: 14px; line-height: 1.5; color: var(--dim-1); }
@@ -403,17 +411,17 @@
 
   /* --------------------------------------------------------------- cursor
      A dot on the pointer and a ring that chases it, blended with whatever is beneath. */
-  .cursor { position: fixed; left: 0; top: 0; z-index: 100; width: var(--s); height: var(--s); margin: calc(var(--s) / -2) 0 0 calc(var(--s) / -2); border-radius: 50%; pointer-events: none; opacity: 0; mix-blend-mode: difference; transition: opacity 0.3s ease, width 0.3s cubic-bezier(0.2, 0.7, 0.2, 1), height 0.3s cubic-bezier(0.2, 0.7, 0.2, 1), margin 0.3s cubic-bezier(0.2, 0.7, 0.2, 1), background-color 0.3s ease; will-change: transform; }
-  .cursor--dot { --s: 8px; background: #fff; }
-  .cursor--ring { --s: 36px; border: 1.5px solid rgb(255 255 255 / 0.9); }
+  .cursor { position: fixed; left: 0; top: 0; z-index: 100; width: var(--s); height: var(--s); margin: calc(var(--s) / -2) 0 0 calc(var(--s) / -2); border-radius: 50%; pointer-events: none; opacity: 0; transition: opacity 0.3s ease, width 0.3s cubic-bezier(0.2, 0.7, 0.2, 1), height 0.3s cubic-bezier(0.2, 0.7, 0.2, 1), margin 0.3s cubic-bezier(0.2, 0.7, 0.2, 1), background-color 0.3s ease; will-change: transform; }
+  .cursor--dot { --s: 8px; background: var(--color-paper); }
+  .cursor--ring { --s: 36px; border: 1.5px solid rgb(242 238 230 / 0.8); }
   html.has-cursor .cursor { opacity: 1; }
-  html.cursor-hover .cursor--ring { --s: 64px; background: rgb(255 255 255 / 0.14); }
+  html.cursor-hover .cursor--ring { --s: 64px; background: rgb(242 238 230 / 0.12); }
   html.cursor-hover .cursor--dot { --s: 4px; }
   @media (pointer: coarse) { .cursor { display: none; } }
 
   /* --------------------------------------------------------------- reveal
      Entrances, five flavours. Hidden only once `html.js` exists. */
-  html.js .reveal { opacity: 0; transition: opacity 0.8s ease, transform 1s cubic-bezier(0.2, 0.7, 0.2, 1); transition-delay: var(--d, 0ms); will-change: transform, opacity; }
+  html.js .reveal { opacity: 0; transition: opacity 0.8s ease, transform 1s cubic-bezier(0.2, 0.7, 0.2, 1); transition-delay: var(--d, 0ms); }
   html.js .reveal[data-effect="up"] { transform: translateY(34px); }
   html.js .reveal[data-effect="scale"] { transform: scale(0.88); }
   html.js .reveal[data-effect="deal"] { transform: rotate(var(--r, -4deg)) translateY(34px); }
@@ -431,11 +439,11 @@
    ?motion=1 (sets html.force-motion); ?motion=0 clears the override. */
 @media (prefers-reduced-motion: reduce) {
   html:not(.force-motion) { scroll-behavior: auto; }
-  html:not(.force-motion) :is(.blob, .aurora, .star, .shoot, .moon, .fog, .skyline .win--lit, .skyline .moonlight, .skyline .smoke, .skyline .beam, .skyline .lamp, .badge, .cta-band__badge, .cta-band__big, .pill__dot, .hscroll__hint .arrow, .cover .draw, .cover .sonar, .cover .dot, .cover .travel, .cover .orbit) { animation: none !important; }
+  html:not(.force-motion) :is(.blob, .aurora, .star, .shoot, .moon, .fog, .skyline .win--lit, .skyline .smoke, .beam, .skyline .lamp, .badge, .cta-band__badge, .cta-band__big, .pill__dot, .hscroll__hint .arrow, .cover .draw, .cover .sonar, .cover .dot, .cover .travel, .cover .orbit) { animation: none !important; }
   html:not(.force-motion) .shoot { display: none; }
   html:not(.force-motion) .cover .draw { stroke-dashoffset: 0; }
   html:not(.force-motion) :is(.hero__title .w, .page-hero__title .w, .hero__sub, .hero__actions, .pill, .page-hero__sub) { animation: none !important; opacity: 1; }
-  html:not(.force-motion) .hero { transform: none; border-radius: 0; }
+  html:not(.force-motion) .hero { transform: none; border-radius: 0; visibility: visible; }
   html:not(.force-motion) .hero__dim { display: none; }
   html:not(.force-motion).js .reveal { opacity: 1; transform: none; transition: none; }
   html:not(.force-motion).js .reveal[data-effect="clip"] > * { clip-path: none; transform: none; transition: none; }

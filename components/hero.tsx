@@ -3,7 +3,7 @@ import type { CSSProperties } from "react"
 import { hero } from "@/lib/site"
 import { HeroMotion } from "./hero-motion"
 import { Magnetic, ParallaxLayer, Spotlight } from "./motion"
-import { Skyline } from "./skyline"
+import { Skyline, SkylineLights } from "./skyline"
 
 function rng(seed: number) {
   let s = seed >>> 0
@@ -84,7 +84,9 @@ export function Hero() {
 
       <ParallaxLayer speed={0.08} className="skyline-wrap" aria-hidden="true">
         <div className="hero__layer" data-depth="8">
+          <div className="beam" />
           <Skyline />
+          <SkylineLights />
           <div className="fog fog--a" />
           <div className="fog fog--b" />
         </div>
