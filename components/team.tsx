@@ -1,46 +1,57 @@
 import Link from "next/link"
 import Image from "next/image"
-import { about, people, site, type Person } from "@/lib/site"
-import { Reveal } from "./motion"
+import type { CSSProperties } from "react"
+import { about, people, TONES, type Person } from "@/lib/site"
+import { Reveal, Tilt } from "./motion"
 import { SectionHead } from "./section-head"
 
-/** A 4:5 portrait, grayscale with a vignette and grain. Shows initials on fog until a photo exists. */
-export function Portrait({ person, sizes = "(max-width: 900px) 100vw, 420px" }: { person: Person; sizes?: string }) {
+/** A colour tile with a halftone fade, giant initials (or a duotone photo) and a glass caption. */
+export function PersonCard({ person, sizes = "(max-width: 900px) 100vw, 480px", short = true }: { person: Person; sizes?: string; short?: boolean }) {
+  const tone = TONES[person.tone]
   return (
-    <div className={`portrait ${person.photo ? "" : "portrait--placeholder"}`}>
-      {person.photo ? (
-        <Image src={person.photo} alt={person.name} fill sizes={sizes} />
-      ) : (
-        <span className="portrait__mono" aria-hidden="true">
-          {person.initials}
-        </span>
-      )}
-      <div className="portrait__vignette" aria-hidden="true" />
-      <div className="grain" aria-hidden="true" />
-    </div>
+    <Tilt max={6} lift={6}>
+      <div className="person" style={{ "--tone": tone.color, "--tone-deep": tone.deep } as CSSProperties}>
+        {person.photo ? (
+          <Image src={person.photo} alt={person.name} fill sizes={sizes} className="person__photo" />
+        ) : (
+          <p className="person__initials" aria-hidden="true">
+            {person.initials}
+          </p>
+        )}
+        <div className="person__dots" aria-hidden="true" />
+        <div className="person__meta">
+          <p className="person__role">{person.role}</p>
+          <h3 className="person__name">{person.name}</h3>
+          {short && <p className="person__short">{person.short}</p>}
+        </div>
+      </div>
+    </Tilt>
   )
 }
 
 export function Team() {
   return (
-    <section id="about" className="band" aria-labelledby="team-title">
-      <SectionHead n="03" kicker="Who we are" title={about.title} titleId="team-title" />
+    <section id="team" className="band sheet" style={{ "--z": 3 } as CSSProperties} aria-labelledby="team-title">
+      <SectionHead
+        n="03"
+        kicker="Who we are"
+        title={
+          <>
+            Two people, <em>one studio.</em>
+          </>
+        }
+        titleId="team-title"
+        note={about.body[0]}
+      />
       <div className="people">
         {people.map((p, i) => (
-          <Reveal key={p.id} delay={i * 120}>
-            <div className="person">
-              <Portrait person={p} />
-              <p className="person__cap">
-                {p.name} — {site.location.city}, {site.location.region}
-              </p>
-              <h3 className="person__name">{p.role}</h3>
-              <p className="person__short">{p.short}</p>
-            </div>
+          <Reveal key={p.id} effect="deal" rotate={i ? 3 : -3} delay={i * 140}>
+            <PersonCard person={p} />
           </Reveal>
         ))}
       </div>
-      <Reveal effect="fade" className="band__cta" style={{ justifyContent: "flex-start" }}>
-        <Link href="/about" className="mono-link">
+      <Reveal effect="fade" delay={200} style={{ marginTop: "clamp(28px, 4vw, 44px)" }}>
+        <Link href="/about" className="mono-link" style={{ "--tone-deep": "var(--color-coral-deep)" } as CSSProperties}>
           More about the studio <span className="arrow">→</span>
         </Link>
       </Reveal>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { SiteHeader } from "@/components/site-header"
+import { PageHero } from "@/components/page-hero"
 import { About } from "@/components/about"
 import { SiteFooter } from "@/components/site-footer"
 import { about, site } from "@/lib/site"
@@ -12,8 +13,9 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <>
-      <SiteHeader variant="dark" />
+      <SiteHeader />
       <main>
+        <PageHero kicker="About the studio" title={about.title} />
         <About />
       </main>
       <SiteFooter />

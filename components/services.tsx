@@ -1,46 +1,55 @@
 import Link from "next/link"
-import { services } from "@/lib/site"
+import type { CSSProperties } from "react"
+import { services, TONES } from "@/lib/site"
 import { Cover } from "./covers"
-import { Reveal } from "./motion"
+import { Reveal, Tilt } from "./motion"
 import { SectionHead } from "./section-head"
 
 export function Services() {
   return (
-    <section id="services" className="band band--first" aria-labelledby="services-title">
+    <section id="services" className="band" aria-labelledby="services-title">
       <SectionHead
         n="01"
         kicker="Services"
-        title="What we do"
+        title={
+          <>
+            What we <em>do</em>
+          </>
+        }
         titleId="services-title"
-        aside={<p className="section-head__note">Fixed quotes · Built in-house</p>}
+        note="Four things, done properly. Fixed quotes, everything built in-house, and one team from the first call to launch."
       />
       <div className="cards">
-        {services.map((s, i) => (
-          <Reveal key={s.id} delay={i * 90}>
-            <article className="card">
-              <div className="card__cover">
-                <Cover kind={s.cover} />
-                <div className="grain" aria-hidden="true" />
-                <span className="card__tag tag">[ {String(i + 1).padStart(2, "0")} ]</span>
-              </div>
-              <div className="card__body">
-                <h3 className="card__title">{s.title}</h3>
-                <p className="card__dek">{s.dek}</p>
-                <ul className="card__list">
-                  {s.includes.map((x) => (
-                    <li key={x}>{x}</li>
-                  ))}
-                </ul>
-              </div>
-            </article>
-          </Reveal>
-        ))}
+        {services.map((s, i) => {
+          const tone = TONES[s.tone]
+          return (
+            <Reveal key={s.id} effect="deal" rotate={i % 2 ? 3 : -3} delay={i * 110}>
+              <Tilt>
+                <article className="card" style={{ "--tone": tone.color, "--tone-deep": tone.deep } as CSSProperties}>
+                  <div className="card__cover">
+                    <Cover kind={s.cover} />
+                    <span className="card__num" aria-hidden="true">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                  </div>
+                  <div className="card__body">
+                    <h3 className="card__title">{s.title}</h3>
+                    <p className="card__dek">{s.dek}</p>
+                    <ul className="card__list">
+                      {s.includes.map((x) => (
+                        <li key={x}>{x}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  <Link href={`/contact?about=${s.id}`} className="mono-link card__link">
+                    Start here <span className="arrow">→</span>
+                  </Link>
+                </article>
+              </Tilt>
+            </Reveal>
+          )
+        })}
       </div>
-      <Reveal effect="fade" className="band__cta">
-        <Link href="/contact" className="cta">
-          Start a project <span className="arrow">→</span>
-        </Link>
-      </Reveal>
     </section>
   )
 }

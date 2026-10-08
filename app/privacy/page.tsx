@@ -1,7 +1,8 @@
 import type { Metadata } from "next"
+import type { CSSProperties } from "react"
 import { SiteHeader } from "@/components/site-header"
+import { PageHero } from "@/components/page-hero"
 import { SiteFooter } from "@/components/site-footer"
-import { SectionHead } from "@/components/section-head"
 import { site } from "@/lib/site"
 
 export const metadata: Metadata = {
@@ -12,12 +13,11 @@ export const metadata: Metadata = {
 export default function PrivacyPage() {
   return (
     <>
-      <SiteHeader variant="dark" />
+      <SiteHeader />
       <main>
-        <section className="band band--first band--last" aria-labelledby="privacy-title">
-          <SectionHead n="01" kicker="Privacy" title="Privacy" titleId="privacy-title" />
+        <PageHero kicker="Privacy" title="Short version: not much." sub="We collect what you type into the contact form, and nothing else about you." />
+        <section className="band sheet" style={{ "--z": 2 } as CSSProperties} aria-label="Privacy details">
           <div className="about__grid">
-            <p className="lede">Short version: we collect what you type into the contact form, and nothing else about you.</p>
             <div className="prose">
               <p>
                 <strong>The contact form.</strong> When you send a message we receive your name, email address, the business

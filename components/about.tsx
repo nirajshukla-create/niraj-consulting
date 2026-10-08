@@ -1,14 +1,13 @@
-import { about, people, site } from "@/lib/site"
+import type { CSSProperties } from "react"
+import { about, people, TONES } from "@/lib/site"
 import { Reveal } from "./motion"
-import { SectionHead } from "./section-head"
-import { Portrait } from "./team"
+import { PersonCard } from "./team"
 
 export function About() {
   return (
-    <section className="band band--first band--last" aria-labelledby="about-title">
-      <SectionHead n="01" kicker="About" title="About" titleId="about-title" />
+    <section className="band sheet" style={{ "--z": 2 } as CSSProperties} aria-label="About the studio">
       <div className="about__grid">
-        <Reveal>
+        <Reveal effect="left">
           <p className="lede">{about.lede}</p>
         </Reveal>
         <Reveal delay={100} className="prose">
@@ -18,33 +17,36 @@ export function About() {
         </Reveal>
       </div>
 
-      {people.map((p, i) => (
-        <Reveal key={p.id} delay={60}>
-          <article className="bio" aria-labelledby={`bio-${p.id}`}>
-            <div>
-              <p className="bio__role tag">
-                [ {String(i + 1).padStart(2, "0")} — {p.role} ]
-              </p>
-              <h3 className="bio__name" id={`bio-${p.id}`}>
-                {p.name}
-              </h3>
-              <div className="prose">
-                {p.bio.map((para) => (
-                  <p key={para.slice(0, 24)}>{para}</p>
-                ))}
+      {people.map((p, i) => {
+        const tone = TONES[p.tone]
+        return (
+          <Reveal key={p.id} delay={60}>
+            <article className="bio" aria-labelledby={`bio-${p.id}`} style={{ "--tone": tone.color, "--tone-deep": tone.deep } as CSSProperties}>
+              <div>
+                <p className="kicker bio__role">
+                  <span className="num" aria-hidden="true">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  {p.role}
+                </p>
+                <h2 className="bio__name display" id={`bio-${p.id}`}>
+                  {p.name}
+                </h2>
+                <div className="prose">
+                  {p.bio.map((para) => (
+                    <p key={para.slice(0, 24)}>{para}</p>
+                  ))}
+                </div>
               </div>
-            </div>
-            <figure className="bio__portrait">
-              <Portrait person={p} sizes="(max-width: 860px) 260px, 240px" />
-              <figcaption className="bio__cap">
-                {p.name} — {site.location.city}, {site.location.region}
-              </figcaption>
-            </figure>
-          </article>
-        </Reveal>
-      ))}
+              <figure className="bio__portrait">
+                <PersonCard person={p} sizes="(max-width: 860px) 300px, 300px" short={false} />
+              </figure>
+            </article>
+          </Reveal>
+        )
+      })}
 
-      <Reveal effect="fade">
+      <Reveal effect="fade" style={{ marginTop: "clamp(32px, 5vw, 56px)" }}>
         <div className="about__grid">
           <p className="about__closing">{about.closing}</p>
         </div>

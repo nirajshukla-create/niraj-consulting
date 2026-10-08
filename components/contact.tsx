@@ -1,14 +1,13 @@
+import type { CSSProperties } from "react"
 import { contact, site } from "@/lib/site"
 import { ContactForm } from "./contact-form"
 import { Reveal } from "./motion"
-import { SectionHead } from "./section-head"
 
-export function Contact({ n = "01", first = false }: { n?: string; first?: boolean }) {
+export function Contact() {
   return (
-    <section id="contact" className={`band band--last ${first ? "band--first" : ""}`} aria-labelledby="contact-title">
-      <SectionHead n={n} kicker="Contact" title="Start a project" titleId="contact-title" />
+    <section id="contact" className="band sheet" style={{ "--z": 2 } as CSSProperties} aria-label="Contact">
       <div className="contact">
-        <Reveal>
+        <Reveal effect="left">
           <p className="lede">{contact.lede}</p>
           <p className="contact__text">{contact.text}</p>
           <dl className="contact__facts">
@@ -30,7 +29,7 @@ export function Contact({ n = "01", first = false }: { n?: string; first?: boole
             </div>
           </dl>
         </Reveal>
-        <Reveal delay={120}>
+        <Reveal effect="scale" delay={120}>
           <ContactForm />
         </Reveal>
       </div>

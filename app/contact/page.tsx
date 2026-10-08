@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { SiteHeader } from "@/components/site-header"
+import { PageHero } from "@/components/page-hero"
 import { Contact } from "@/components/contact"
 import { SiteFooter } from "@/components/site-footer"
 import { site } from "@/lib/site"
@@ -12,9 +13,10 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <>
-      <SiteHeader variant="dark" />
+      <SiteHeader />
       <main>
-        <Contact n="01" first />
+        <PageHero kicker="Contact" title="Start a project." sub="Fixed quotes, honest answers, and no pitch deck. Tell us what you're working on." />
+        <Contact />
       </main>
       <SiteFooter />
     </>

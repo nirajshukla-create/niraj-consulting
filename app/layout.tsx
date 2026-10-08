@@ -1,15 +1,15 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Instrument_Serif, Instrument_Sans, IBM_Plex_Mono } from "next/font/google"
+import { Bricolage_Grotesque, DM_Sans, DM_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { people, services, site } from "@/lib/site"
 import "./globals.css"
 
-// Instrument Serif carries the headlines, Instrument Sans the reading text and IBM Plex Mono
-// the small labels. Swap a face here and every page follows.
-const serif = Instrument_Serif({ subsets: ["latin"], weight: "400", style: ["normal", "italic"], variable: "--font-serif-src", display: "swap" })
-const sans = Instrument_Sans({ subsets: ["latin"], weight: "variable", variable: "--font-sans-src", display: "swap" })
-const mono = IBM_Plex_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-mono-src", display: "swap" })
+// Bricolage Grotesque carries the headlines (heavy, wide, a little eccentric), DM Sans the
+// reading text and DM Mono the small labels. Swap a face here and every page follows.
+const display = Bricolage_Grotesque({ subsets: ["latin"], weight: "variable", axes: ["opsz", "wdth"], variable: "--font-display-src", display: "swap" })
+const sans = DM_Sans({ subsets: ["latin"], weight: "variable", axes: ["opsz"], variable: "--font-sans-src", display: "swap" })
+const mono = DM_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-mono-src", display: "swap" })
 
 // Vercel sets this on every deploy; set NEXT_PUBLIC_SITE_URL once a custom domain exists.
 const siteUrl =
@@ -54,7 +54,7 @@ const jsonLd = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en-CA" className={`${serif.variable} ${sans.variable} ${mono.variable}`} suppressHydrationWarning>
+    <html lang="en-CA" className={`${display.variable} ${sans.variable} ${mono.variable}`} suppressHydrationWarning>
       <body>
         {/* Marks the page as scripted before anything paints, so scroll reveals only hide
             content when the script that reveals it is guaranteed to run. */}

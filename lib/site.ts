@@ -7,17 +7,16 @@
  * TO CONFIRM WITH NIRAJ AND ZACH (written 2026-10-08):
  *  - email and phone: currently Niraj's public contacts from innovationeast.ca.
  *  - bios: Niraj's draws on his public About page; Zach's describes his role only.
- *  - photos: drop files in public/team/ and set `photo` below. Until then the site shows
- *    initials on a fog tile, framed like a portrait.
+ *  - photos: drop files in public/team/ and set `photo` below. Until then the tiles show
+ *    initials; a photo renders in duotone on the person's colour.
  *  - social links: empty strings are hidden.
  */
 
 export const site = {
   name: "The Narrows",
-  wordmark: { lead: "The", italic: "Narrows" },
   tagline: "Less noise, more signal.",
   description:
-    "Web design, social media marketing and strategy for businesses that want to be understood. A small studio in St. John's, Newfoundland and Labrador.",
+    "Web design, social media marketing and strategy for businesses that want to be noticed. A small, loud studio in St. John's, Newfoundland and Labrador.",
   email: "niraj@innovationeast.ca",
   phone: { display: "+1 (709) 689-9907", tel: "+17096899907" },
   location: {
@@ -36,23 +35,44 @@ export const nav = [
   { href: "/contact", label: "Contact" },
 ]
 
-export const hero = {
-  eyebrow: "Design · Social · Strategy — St. John's, NL",
-  lines: [
-    { text: "Less noise,", italic: false },
-    { text: "more signal.", italic: true },
-  ],
-  sub: "Web design, social media and strategy for businesses that want to be understood. A small studio in St. John's, Newfoundland.",
-  cta: { label: "Start a project", href: "/contact" },
-  scroll: { label: "What we do", href: "#services" },
+/** The four accent colours, one per service and one per person. */
+export type Tone = "coral" | "mustard" | "sea" | "plum"
+export const TONES: Record<Tone, { color: string; deep: string }> = {
+  coral: { color: "#ff5a4e", deep: "#d9382e" },
+  mustard: { color: "#f4b62f", deep: "#c98f12" },
+  sea: { color: "#1fa39c", deep: "#157f7a" },
+  plum: { color: "#6c47b8", deep: "#4f3190" },
 }
+
+export const hero = {
+  eyebrow: "Design · Social · Strategy — St. John's",
+  lines: [
+    { text: "Less noise,", accent: false },
+    { text: "more signal.", accent: true },
+  ],
+  sub: "Web design, social media and strategy for businesses that want to be noticed. A small, loud studio in St. John's, Newfoundland.",
+  cta: { label: "Start a project", href: "/contact" },
+  scroll: { label: "See what we do", href: "#services" },
+}
+
+export const ticker = [
+  "Web design",
+  "Social media",
+  "Strategy",
+  "Brand & content",
+  "St. John's, NL",
+  "Fixed quotes",
+  "Built in-house",
+  "No account managers",
+]
 
 export type CoverKind = "web" | "social" | "strategy" | "brand"
 
-export const services: { id: string; cover: CoverKind; title: string; dek: string; includes: string[] }[] = [
+export const services: { id: string; cover: CoverKind; tone: Tone; title: string; dek: string; includes: string[] }[] = [
   {
     id: "web",
     cover: "web",
+    tone: "sea",
     title: "Web design & build",
     dek: "A site that loads fast, reads clearly and tells people what to do next. Designed and built in-house, launched on modern hosting, handed over with everything you need to run it.",
     includes: ["Design & copy", "Built in Next.js", "Hosting & launch"],
@@ -60,6 +80,7 @@ export const services: { id: string; cover: CoverKind; title: string; dek: strin
   {
     id: "social",
     cover: "social",
+    tone: "coral",
     title: "Social media marketing",
     dek: "A plan for what to say, where, and how often. Then the posts, the calendar and the monthly numbers that keep it honest.",
     includes: ["Content calendar", "Posting & replies", "Monthly report"],
@@ -67,6 +88,7 @@ export const services: { id: string; cover: CoverKind; title: string; dek: strin
   {
     id: "strategy",
     cover: "strategy",
+    tone: "mustard",
     title: "Strategy & positioning",
     dek: "Who you're for, what you offer and the words to say it. We do this before design, so the design has something to say.",
     includes: ["Positioning", "Offer & pricing", "Launch plan"],
@@ -74,6 +96,7 @@ export const services: { id: string; cover: CoverKind; title: string; dek: strin
   {
     id: "brand",
     cover: "brand",
+    tone: "plum",
     title: "Brand & content",
     dek: "The identity, photography direction and copy that make everything you put out look like it came from the same place.",
     includes: ["Identity refresh", "Copywriting", "Art direction"],
@@ -101,10 +124,15 @@ export const steps = [
 export const panel = {
   tag: "How it starts",
   title: "A 30-minute call. No deck, no pitch.",
-  sub: "Tell us what you're working on and we'll tell you honestly whether we're the right fit, and what it would cost.",
-  body: "Most projects start as a website that needs to work harder, a social presence that's gone quiet, or a business that's grown past the way it describes itself. All three are fixable, and the call is free.",
-  note: "Based in St. John's. Working across Atlantic Canada.",
+  sub: "Tell us what you're working on and we'll tell you honestly whether we're the right fit, and what it would cost. Most projects start as a website that needs to work harder, a social presence that's gone quiet, or a business that's grown past the way it describes itself.",
+  note: "St. John's · Atlantic Canada",
   cta: { label: "Book a call", href: "/contact" },
+}
+
+export const cta = {
+  title: "Let's make something people notice.",
+  accent: ["notice"],
+  button: "Start a project",
 }
 
 export type Person = {
@@ -112,6 +140,7 @@ export type Person = {
   name: string
   role: string
   initials: string
+  tone: Tone
   /** Path under /public, e.g. "/team/niraj.jpg". null shows the initials tile. */
   photo: string | null
   short: string
@@ -124,6 +153,7 @@ export const people: Person[] = [
     name: "Niraj Shukla",
     role: "Principal · Strategy & design",
     initials: "NS",
+    tone: "coral",
     photo: null,
     short: "Leads strategy and design. Twenty years at the intersection of industry, academia and government in Atlantic Canada, and more than a decade running restaurants, which is where the marketing instinct comes from.",
     bio: [
@@ -137,6 +167,7 @@ export const people: Person[] = [
     name: "Zach Valiquette",
     role: "Social media & client lead",
     initials: "ZV",
+    tone: "sea",
     photo: null,
     short: "Runs the social media side and keeps every project moving. The person clients talk to most, from first call to launch and the months after.",
     bio: [
@@ -150,7 +181,7 @@ export const about = {
   title: "Two people, one studio.",
   lede: "Strategy first, then design, then the long work of keeping it going.",
   body: [
-    "We are a two-person studio in St. John's. Niraj leads strategy and design; Zach runs social and keeps every project moving. There are no account managers and no hand-offs: the people you meet on the first call are the people doing the work.",
+    "We are a two-person studio in St. John's. Niraj leads strategy and design; Zach runs social and keeps every project moving. No account managers, no hand-offs: the people you meet on the first call are the people doing the work.",
     "We take on a small number of projects at a time, quote them at a fixed price, and build everything in-house. Websites are designed and coded here, not assembled from a template. Social plans are written for your business, not pulled from a deck.",
   ],
   closing: "We are always happy to talk about positioning, websites that need to work harder, or the absolute chaos of growing a business.",

@@ -1,18 +1,25 @@
 "use client"
 
-import { useState, type FormEvent } from "react"
-import { site } from "@/lib/site"
+import { useEffect, useState, type FormEvent } from "react"
+import { services, site } from "@/lib/site"
 
 type Status = "idle" | "sending" | "sent" | "unconfigured" | "error"
 
 /**
  * Posts to /api/contact, which forwards to Resend when RESEND_API_KEY is set. Until it is,
  * the API answers 503 and the form offers a prefilled email link instead, so no message
- * is ever silently lost.
+ * is ever silently lost. A `?about=<service id>` in the URL seeds the message.
  */
 export function ContactForm() {
   const [status, setStatus] = useState<Status>("idle")
   const [draft, setDraft] = useState({ name: "", email: "", business: "", message: "" })
+  const [seed, setSeed] = useState("")
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("about")
+    const s = services.find((x) => x.id === id)
+    if (s) setSeed(`I'm interested in ${s.title.toLowerCase()}. `)
+  }, [])
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -39,8 +46,8 @@ export function ContactForm() {
 
   if (status === "sent") {
     return (
-      <div className="panel form__done" role="status">
-        <p className="tag">[ Sent ]</p>
+      <div className="form__done" role="status">
+        <p className="tag">Sent</p>
         <p className="lede">Thanks, we have it.</p>
         <p>We read every message and reply personally, usually within a business day.</p>
       </div>
@@ -65,7 +72,7 @@ export function ContactForm() {
       </div>
       <div className="field">
         <label htmlFor="message">What are you working on?</label>
-        <textarea id="message" name="message" rows={6} required minLength={5} maxLength={5000} />
+        <textarea id="message" name="message" rows={6} required minLength={5} maxLength={5000} defaultValue={seed} key={seed} />
       </div>
       {/* honeypot: hidden from people, filled by bots, silently dropped by the API */}
       <div className="field field--hp" aria-hidden="true">
@@ -73,7 +80,7 @@ export function ContactForm() {
         <input id="website" name="website" tabIndex={-1} autoComplete="off" />
       </div>
       <div className="form__foot">
-        <button type="submit" className="cta" disabled={status === "sending"}>
+        <button type="submit" className="btn" disabled={status === "sending"}>
           {status === "sending" ? (
             "Sending…"
           ) : (
