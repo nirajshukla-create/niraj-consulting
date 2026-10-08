@@ -30,6 +30,10 @@ pnpm build      # production build (what Vercel runs)
 
 Also set `NEXT_PUBLIC_SITE_URL` once a custom domain exists, so the share image and sitemap use it.
 
+## Seeing the motion on a machine with animations turned off
+
+The site honours the operating system's reduced-motion preference: if Windows has Settings → Accessibility → Visual effects → **Animation effects** switched off (or macOS has Reduce Motion on), every animation and scroll transformation is disabled and the page reads as a still layout. To review the site as visitors with animations on see it, either turn that setting on, or open any page with `?motion=1` once; that stores an owner override in the browser. `?motion=0` clears it.
+
 ## Reviewing changes
 
 `.scratch/rig/` (not committed) has Playwright scripts that screenshot every page at desktop and phone widths, prove each animation runs, and measure long tasks and layout shift against a production server on port 3100.

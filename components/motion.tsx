@@ -4,7 +4,15 @@ import { useEffect, useRef, type CSSProperties, type ReactNode, type PointerEven
 
 type Effect = "up" | "fade" | "scale" | "deal" | "left" | "clip"
 
-const reduced = () => typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches
+/**
+ * True when the visitor asked for reduced motion, unless the owner override is on
+ * (`?motion=1` sets html.force-motion; see app/layout.tsx).
+ */
+export const prefersReduced = () =>
+  typeof window !== "undefined" &&
+  !document.documentElement.classList.contains("force-motion") &&
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches
+
 export const clamp01 = (v: number) => Math.min(1, Math.max(0, v))
 
 /* ------------------------------------------------------------------ scroll registry
@@ -83,7 +91,7 @@ export function Scrub({ children, className = "", style, start = 0.9, end = 0.3 
   const ref = useRef<HTMLDivElement>(null)
   useEffect(() => {
     const el = ref.current
-    if (!el || reduced()) return
+    if (!el || prefersReduced()) return
     return onScroll(() => {
       const r = el.getBoundingClientRect()
       const vh = window.innerHeight
@@ -128,7 +136,7 @@ export function HScroll({ children, className = "", id }: { children: ReactNode;
     if (!w || !pn || !t) return
     const wide = window.matchMedia("(min-width: 900px)")
     return onScroll(() => {
-      if (!wide.matches || reduced()) {
+      if (!wide.matches || prefersReduced()) {
         t.style.transform = ""
         w.style.removeProperty("--p")
         return
@@ -159,7 +167,7 @@ export function Stack({ children, className = "" }: { children: ReactNode; class
   const ref = useRef<HTMLDivElement>(null)
   useEffect(() => {
     const el = ref.current
-    if (!el || reduced()) return
+    if (!el || prefersReduced()) return
     const cards = Array.from(el.children) as HTMLElement[]
     return onScroll(() => {
       for (let i = 0; i < cards.length - 1; i++) {
@@ -178,16 +186,21 @@ export function Stack({ children, className = "" }: { children: ReactNode; class
 
 /* ------------------------------------------------------------------ pointer effects */
 
-/** Tilts toward the pointer on devices that have one. Touch devices get the plain block. */
+/**
+ * Tilts toward the pointer on devices that have one, and tells the children where the
+ * pointer is (--mx/--my) so a card can light up under it. Touch devices get the plain block.
+ */
 export function Tilt({ children, className = "", max = 7, lift = 8 }: { children: ReactNode; className?: string; max?: number; lift?: number }) {
   const ref = useRef<HTMLDivElement>(null)
   const onMove = (e: ReactPointerEvent<HTMLDivElement>) => {
     const el = ref.current
-    if (!el || e.pointerType !== "mouse" || reduced()) return
+    if (!el || e.pointerType !== "mouse" || prefersReduced()) return
     const b = el.getBoundingClientRect()
     const px = (e.clientX - b.left) / b.width - 0.5
     const py = (e.clientY - b.top) / b.height - 0.5
     el.style.transform = `perspective(900px) rotateX(${(-py * max).toFixed(2)}deg) rotateY(${(px * max).toFixed(2)}deg) translateY(-${lift}px)`
+    el.style.setProperty("--mx", `${((px + 0.5) * 100).toFixed(1)}%`)
+    el.style.setProperty("--my", `${((py + 0.5) * 100).toFixed(1)}%`)
   }
   const reset = () => {
     if (ref.current) ref.current.style.transform = ""
@@ -205,7 +218,7 @@ export function Magnetic({ children, className = "", strength = 0.35 }: { childr
   const onMove = (e: ReactPointerEvent<HTMLSpanElement>) => {
     const el = ref.current
     const child = el?.firstElementChild as HTMLElement | null
-    if (!el || !child || e.pointerType !== "mouse" || reduced()) return
+    if (!el || !child || e.pointerType !== "mouse" || prefersReduced()) return
     const b = el.getBoundingClientRect()
     const dx = (e.clientX - (b.left + b.width / 2)) * strength
     const dy = (e.clientY - (b.top + b.height / 2)) * strength
@@ -228,7 +241,7 @@ export function Spotlight({ className = "" }: { className?: string }) {
   useEffect(() => {
     const el = ref.current
     const host = el?.parentElement
-    if (!el || !host || reduced()) return
+    if (!el || !host || prefersReduced()) return
     let raf = 0
     let x = 0
     let y = 0
@@ -257,7 +270,7 @@ export function ParallaxLayer({ speed = 0.2, className = "", children, style }: 
   const ref = useRef<HTMLDivElement>(null)
   useEffect(() => {
     const el = ref.current
-    if (!el || reduced()) return
+    if (!el || prefersReduced()) return
     return onScroll(() => {
       const y = window.scrollY
       if (y > window.innerHeight * 1.2) return

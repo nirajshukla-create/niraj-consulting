@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useRef } from "react"
+import { prefersReduced } from "./motion"
 
 /**
  * A dot that sits on the pointer and a ring that chases it, blended with whatever is
@@ -14,7 +15,7 @@ export function Cursor() {
     const d = dot.current
     const r = ring.current
     if (!d || !r) return
-    if (!window.matchMedia("(pointer: fine)").matches || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
+    if (!window.matchMedia("(pointer: fine)").matches || prefersReduced()) return
     const root = document.documentElement
     let x = window.innerWidth / 2
     let y = window.innerHeight / 2

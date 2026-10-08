@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react"
 import { ticker } from "@/lib/site"
+import { prefersReduced } from "./motion"
 
 /**
  * Two tilted bands scrolling against each other. Driven by a frame loop instead of a CSS
@@ -12,7 +13,7 @@ export function Tickers() {
   const ref = useRef<HTMLDivElement>(null)
   useEffect(() => {
     const root = ref.current
-    if (!root || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
+    if (!root || prefersReduced()) return
     const tracks = Array.from(root.querySelectorAll<HTMLElement>(".ticker__track"))
     const pos = tracks.map(() => 0)
     const dirs = [1, -1]

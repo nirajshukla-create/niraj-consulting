@@ -58,8 +58,15 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en-CA" className={`${display.variable} ${sans.variable} ${mono.variable}`} suppressHydrationWarning>
       <body>
         {/* Marks the page as scripted before anything paints, so scroll reveals only hide
-            content when the script that reveals it is guaranteed to run. */}
-        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+            content when the script that reveals it is guaranteed to run. Also applies the
+            owner's motion override: ?motion=1 forces every animation on even when the OS asks
+            for reduced motion (Windows "Animation effects" off does that); ?motion=0 clears it. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "document.documentElement.classList.add('js');try{var q=new URLSearchParams(location.search).get('motion');if(q==='1')localStorage.setItem('motion','force');if(q==='0')localStorage.removeItem('motion');if(localStorage.getItem('motion')==='force')document.documentElement.classList.add('force-motion')}catch(e){}",
+          }}
+        />
         {children}
         <Cursor />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />

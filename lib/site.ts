@@ -65,7 +65,7 @@ export const ticker = [
   "St. John's, NL",
   "Fixed quotes",
   "Built in-house",
-  "No account managers",
+  "Monthly reports",
 ]
 
 /** The statement that lights up word by word as you scroll into the page. */
@@ -184,7 +184,8 @@ export const people: Person[] = [
 ]
 
 export const about = {
-  title: "Two people, one studio.",
+  title: "Who you'll work with.",
+  teamNote: "The two people you meet on the first call are the two people doing the work. Niraj leads strategy and design; Zach runs social and keeps every project moving.",
   lede: "Strategy first, then design, then the long work of keeping it going.",
   body: [
     "We are a two-person studio in St. John's. Niraj leads strategy and design; Zach runs social and keeps every project moving. No account managers, no hand-offs: the people you meet on the first call are the people doing the work.",

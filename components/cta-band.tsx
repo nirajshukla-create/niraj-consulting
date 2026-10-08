@@ -20,7 +20,7 @@ export function CtaBand() {
       <Reveal effect="up" delay={160}>
         <div className="cta-band__row">
           <Magnetic>
-            <Link href="/contact" className="btn btn--ink">
+            <Link href="/contact" className="btn">
               {cta.button} <span className="arrow">→</span>
             </Link>
           </Magnetic>

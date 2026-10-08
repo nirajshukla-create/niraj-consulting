@@ -22,7 +22,7 @@ export function Services() {
             </>
           }
           titleId="services-title"
-          note="Four things, done properly. Fixed quotes, everything built in-house, and one team from the first call to launch."
+          note="Fixed quotes. Everything built in-house. One team from the first call to launch."
         />
         <p className="hscroll__hint" aria-hidden="true">
           Keep scrolling <span className="arrow">→</span>

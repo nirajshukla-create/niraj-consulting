@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef, type ReactNode } from "react"
-import { clamp01, onScroll } from "./motion"
+import { clamp01, onScroll, prefersReduced } from "./motion"
 
 /**
  * The hero's two pointer-and-scroll behaviours. It is pinned under the page: as you scroll,
@@ -14,7 +14,7 @@ export function HeroMotion({ children, className = "hero" }: { children: ReactNo
   useEffect(() => {
     const el = ref.current
     if (!el) return
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    const reduce = prefersReduced()
     const off = onScroll(() => {
       const p = reduce ? 0 : clamp01(window.scrollY / (window.innerHeight * 0.9))
       el.style.setProperty("--p", p.toFixed(3))

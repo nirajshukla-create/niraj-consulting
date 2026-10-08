@@ -64,7 +64,7 @@ export function Approach() {
             <p className="feature__sub">{panel.sub}</p>
             <div className="feature__foot">
               <Magnetic>
-                <Link href={panel.cta.href} className="btn btn--ink">
+                <Link href={panel.cta.href} className="btn">
                   {panel.cta.label} <span className="arrow">→</span>
                 </Link>
               </Magnetic>

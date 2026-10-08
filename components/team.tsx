@@ -34,14 +34,14 @@ export function Team() {
     <section id="team" className="band sheet" style={{ "--z": 3 } as CSSProperties} aria-labelledby="team-title">
       <SectionHead
         n="03"
-        kicker="Who we are"
+        kicker="Who you'll work with"
         title={
           <>
-            Two people, <em>one studio.</em>
+            No account <em>managers.</em>
           </>
         }
         titleId="team-title"
-        note={about.body[0]}
+        note={about.teamNote}
       />
       <div className="people">
         {people.map((p, i) => (
