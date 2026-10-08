@@ -1,6 +1,8 @@
-# Consulting site (working name: The Narrows)
+# Easterly (working name)
 
 Marketing site for Niraj Shukla and Zach Valiquette's web design, social media and strategy studio in St. John's, NL. Next.js 15 (App Router), Tailwind 4, TypeScript. Built for Vercel.
+
+The home page is built around scroll-linked transformations: a pinned hero that zooms out under the page, a manifesto that lights up word by word, a pinned services section whose cards travel sideways, approach steps that pile up as cards, tickers that react to scroll speed, and a custom cursor. All of it runs through one scroll listener and one animation frame in `components/motion.tsx`, and every effect has a plain fallback for phones and reduced motion.
 
 ## Run
 
