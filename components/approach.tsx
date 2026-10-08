@@ -1,7 +1,7 @@
 import Link from "next/link"
 import type { CSSProperties } from "react"
 import { panel, steps } from "@/lib/site"
-import { Magnetic, Reveal } from "./motion"
+import { Magnetic, Reveal, Stack } from "./motion"
 import { SectionHead } from "./section-head"
 
 /** Text on a circle, turning. The core dot gets the accent colour from CSS. */
@@ -20,6 +20,9 @@ export function Badge({ text, className = "badge" }: { text: string; className?:
   )
 }
 
+const CARD_TONES = ["paper", "mustard", "coral"] as const
+
+/** Three stages as cards that pile up as you scroll: each slides over the last, which shrinks and dims beneath it. */
 export function Approach() {
   return (
     <section id="approach" className="band band--ink sheet" style={{ "--z": 2 } as CSSProperties} aria-labelledby="approach-title">
@@ -34,27 +37,25 @@ export function Approach() {
         titleId="approach-title"
         note="Three stages. The first one is a conversation, the last one never really ends."
       />
-      <Reveal effect="fade">
-        <div className="steps">
-          <div className="steps__line" aria-hidden="true">
-            <i />
-          </div>
-          {steps.map((s, i) => (
-            <Reveal key={s.n} effect="up" delay={200 + i * 180}>
-              <div className="step">
-                <div className="step__n" aria-hidden="true">
-                  {s.n}
-                </div>
-                <h3 className="step__title">
-                  <span className="sr-only">Step {s.n}: </span>
-                  {s.title}
-                </h3>
-                <p className="step__text">{s.text}</p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </Reveal>
+      <Stack>
+        {steps.map((s, i) => (
+          <article key={s.n} className={`stack__card stack__card--${CARD_TONES[i]}`} style={{ "--i": i } as CSSProperties}>
+            <div className="stack__n" aria-hidden="true">
+              {s.n}
+            </div>
+            <div className="stack__body">
+              <h3 className="stack__title">
+                <span className="sr-only">Step {s.n}: </span>
+                {s.title}
+              </h3>
+              <p className="stack__text">{s.text}</p>
+            </div>
+            <div className="stack__mark" aria-hidden="true">
+              {s.n}
+            </div>
+          </article>
+        ))}
+      </Stack>
       <Reveal effect="scale" delay={120}>
         <article className="feature">
           <div>

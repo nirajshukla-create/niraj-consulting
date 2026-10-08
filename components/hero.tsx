@@ -1,6 +1,7 @@
 import Link from "next/link"
 import type { CSSProperties } from "react"
 import { hero } from "@/lib/site"
+import { HeroMotion } from "./hero-motion"
 import { Magnetic, ParallaxLayer, Spotlight } from "./motion"
 import { Skyline } from "./skyline"
 
@@ -14,30 +15,43 @@ function rng(seed: number) {
 const r = rng(3)
 // negative delays start every star mid-twinkle instead of all of them popping in at once
 const STARS = Array.from({ length: 46 }, () => ({ left: r() * 100, top: r() * 58, d: -(r() * 5), t: 3 + r() * 4, s: 0.6 + r() * 1 }))
+const SHOOTERS = [
+  { left: 62, top: 8, t: 11, d: -2 },
+  { left: 34, top: 14, t: 15, d: -9 },
+  { left: 84, top: 22, t: 13, d: -5 },
+]
 
 /**
- * Night over the harbour. Three colour blobs and an aurora curtain loop on their own
- * timings, the moon floats, stars breathe, a spotlight follows the pointer, and the
- * sky and the row houses slide at different speeds as you scroll. The headline flips in
- * a word at a time on load.
+ * Night over the harbour. Colour blobs and an aurora curtain loop on their own timings,
+ * the moon floats, stars breathe and the odd one falls, the lighthouse sweeps its beam
+ * across the sky, chimneys smoke, fog rolls along the street, and the sky and houses
+ * drift with the mouse and the scroll at different depths. The headline flips in a word
+ * at a time; the whole scene zooms out and dims as the page slides over it.
  */
 export function Hero() {
   let i = 0
   return (
-    <section className="hero" aria-labelledby="hero-title">
+    <HeroMotion className="hero">
       <ParallaxLayer speed={0.28} className="hero__sky" aria-hidden="true">
-        <div className="blob blob--a" />
-        <div className="blob blob--b" />
-        <div className="blob blob--c" />
-        <div className="aurora" />
-        {STARS.map((s, k) => (
-          <i key={k} className="star" style={{ left: `${s.left}%`, top: `${s.top}%`, "--d": `${s.d}s`, "--t": `${s.t}s`, transform: `scale(${s.s})` } as CSSProperties} />
-        ))}
-        <div className="moon" />
+        <div className="hero__layer" data-depth="-10">
+          <div className="blob blob--a" />
+          <div className="blob blob--b" />
+          <div className="blob blob--c" />
+          <div className="aurora" />
+          {STARS.map((s, k) => (
+            <i key={k} className="star" style={{ left: `${s.left}%`, top: `${s.top}%`, "--d": `${s.d}s`, "--t": `${s.t}s`, "--s": s.s } as CSSProperties} />
+          ))}
+          {SHOOTERS.map((s, k) => (
+            <i key={k} className="shoot" style={{ left: `${s.left}%`, top: `${s.top}%`, "--t": `${s.t}s`, "--d": `${s.d}s` } as CSSProperties} />
+          ))}
+        </div>
+        <div className="hero__layer" data-depth="-22">
+          <div className="moon" />
+        </div>
       </ParallaxLayer>
       <Spotlight className="hero__spot" />
 
-      <div className="hero__body">
+      <div className="hero__body" data-depth="-5">
         <div className="pill">
           <span className="pill__dot" aria-hidden="true" />
           <span>{hero.eyebrow}</span>
@@ -69,8 +83,13 @@ export function Hero() {
       </div>
 
       <ParallaxLayer speed={0.08} className="skyline-wrap" aria-hidden="true">
-        <Skyline />
+        <div className="hero__layer" data-depth="8">
+          <Skyline />
+          <div className="fog fog--a" />
+          <div className="fog fog--b" />
+        </div>
       </ParallaxLayer>
-    </section>
+      <div className="hero__dim" aria-hidden="true" />
+    </HeroMotion>
   )
 }

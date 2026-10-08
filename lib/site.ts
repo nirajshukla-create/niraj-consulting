@@ -1,10 +1,12 @@
 /**
  * Every fact the site shows lives here. Change it once and every page updates.
  *
- * WORKING NAME: "The Narrows" is a placeholder (the Narrows is the harbour entrance of
- * St. John's). Rename it here and the wordmark, titles, footer and metadata all follow.
+ * WORKING NAME: "Easterly" (an easterly is the wind off the Atlantic; St. John's is the
+ * easternmost city in North America; it nods to Niraj's Innovation East). No NL agency
+ * uses it as of 2026-10-08. Rename it here and the wordmark, titles, footer and metadata
+ * all follow.
  *
- * TO CONFIRM WITH NIRAJ AND ZACH (written 2026-10-08):
+ * TO CONFIRM WITH NIRAJ AND ZACH:
  *  - email and phone: currently Niraj's public contacts from innovationeast.ca.
  *  - bios: Niraj's draws on his public About page; Zach's describes his role only.
  *  - photos: drop files in public/team/ and set `photo` below. Until then the tiles show
@@ -13,10 +15,10 @@
  */
 
 export const site = {
-  name: "The Narrows",
+  name: "Easterly",
   tagline: "Less noise, more signal.",
   description:
-    "Web design, social media marketing and strategy for businesses that want to be noticed. A small, loud studio in St. John's, Newfoundland and Labrador.",
+    "Web design, social media marketing and strategy for businesses that want to be noticed. A small studio in St. John's, Newfoundland and Labrador.",
   email: "niraj@innovationeast.ca",
   phone: { display: "+1 (709) 689-9907", tel: "+17096899907" },
   location: {
@@ -35,13 +37,13 @@ export const nav = [
   { href: "/contact", label: "Contact" },
 ]
 
-/** The four accent colours, one per service and one per person. */
+/** The four accent colours, one per service and one per person. Muted, from the houses at dusk. */
 export type Tone = "coral" | "mustard" | "sea" | "plum"
 export const TONES: Record<Tone, { color: string; deep: string }> = {
-  coral: { color: "#ff5a4e", deep: "#d9382e" },
-  mustard: { color: "#f4b62f", deep: "#c98f12" },
-  sea: { color: "#1fa39c", deep: "#157f7a" },
-  plum: { color: "#6c47b8", deep: "#4f3190" },
+  coral: { color: "#d8573a", deep: "#b3432b" },
+  mustard: { color: "#d7a23f", deep: "#a87a22" },
+  sea: { color: "#1e8c86", deep: "#176c67" },
+  plum: { color: "#5b4a99", deep: "#41346f" },
 }
 
 export const hero = {
@@ -50,7 +52,7 @@ export const hero = {
     { text: "Less noise,", accent: false },
     { text: "more signal.", accent: true },
   ],
-  sub: "Web design, social media and strategy for businesses that want to be noticed. A small, loud studio in St. John's, Newfoundland.",
+  sub: "Web design, social media and strategy for businesses that want to be noticed. A small studio in St. John's, Newfoundland.",
   cta: { label: "Start a project", href: "/contact" },
   scroll: { label: "See what we do", href: "#services" },
 }
@@ -65,6 +67,10 @@ export const ticker = [
   "Built in-house",
   "No account managers",
 ]
+
+/** The statement that lights up word by word as you scroll into the page. */
+export const manifesto =
+  "We build websites that load fast, social that gets replies, and strategy that fits on one page. A two-person studio in St. John's, working for businesses that want to be noticed."
 
 export type CoverKind = "web" | "social" | "strategy" | "brand"
 

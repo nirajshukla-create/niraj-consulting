@@ -4,6 +4,36 @@ import { useEffect, useRef, type CSSProperties, type ReactNode, type PointerEven
 
 type Effect = "up" | "fade" | "scale" | "deal" | "left" | "clip"
 
+const reduced = () => typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches
+export const clamp01 = (v: number) => Math.min(1, Math.max(0, v))
+
+/* ------------------------------------------------------------------ scroll registry
+   One passive scroll listener and one animation frame for every scroll-linked effect on
+   the page, so adding effects never adds listeners. */
+const subs = new Set<() => void>()
+let raf = 0
+let bound = false
+function flush() {
+  raf = 0
+  subs.forEach((f) => f())
+}
+function schedule() {
+  if (!raf) raf = requestAnimationFrame(flush)
+}
+export function onScroll(fn: () => void) {
+  subs.add(fn)
+  if (!bound) {
+    bound = true
+    window.addEventListener("scroll", schedule, { passive: true })
+    window.addEventListener("resize", schedule)
+  }
+  schedule()
+  return () => {
+    subs.delete(fn)
+  }
+}
+
+/* ------------------------------------------------------------------ reveal */
 type RevealProps = {
   children: ReactNode
   className?: string
@@ -15,12 +45,9 @@ type RevealProps = {
   style?: CSSProperties
 }
 
-const reduced = () => typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches
-
 /**
- * Scroll-triggered entrance. Hidden only when `html.js` is present, so with JavaScript off
- * everything is visible. Fires a little before the element enters so a fast scroll never
- * catches a blank card.
+ * Entrance when the element scrolls (or slides) into view. Hidden only when `html.js` is
+ * present, so with JavaScript off everything is visible.
  */
 export function Reveal({ children, className = "", effect = "up", delay = 0, rotate, style }: RevealProps) {
   const ref = useRef<HTMLDivElement>(null)
@@ -49,6 +76,108 @@ export function Reveal({ children, className = "", effect = "up", delay = 0, rot
   )
 }
 
+/* ------------------------------------------------------------------ scrub
+   Sets --p (0 → 1) on its element as it travels from `start` to `end` of the viewport
+   height (fractions from the top). CSS turns --p into whatever transform it likes. */
+export function Scrub({ children, className = "", style, start = 0.9, end = 0.3 }: { children: ReactNode; className?: string; style?: CSSProperties; start?: number; end?: number }) {
+  const ref = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    const el = ref.current
+    if (!el || reduced()) return
+    return onScroll(() => {
+      const r = el.getBoundingClientRect()
+      const vh = window.innerHeight
+      el.style.setProperty("--p", clamp01((vh * start - r.top) / (vh * start - vh * end)).toFixed(3))
+    })
+  }, [start, end])
+  return (
+    <div ref={ref} className={className} style={style}>
+      {children}
+    </div>
+  )
+}
+
+/** A paragraph whose words light up one after another as you scroll it through the viewport. */
+export function FillText({ text, className = "" }: { text: string; className?: string }) {
+  const words = text.split(" ")
+  return (
+    <Scrub className={`fill ${className}`} start={0.88} end={0.32} style={{ "--n": words.length } as CSSProperties}>
+      <p className="fill__text">
+        {words.map((w, i) => (
+          <span key={i} className="fill__w" style={{ "--i": i } as CSSProperties}>
+            {w}{" "}
+          </span>
+        ))}
+      </p>
+    </Scrub>
+  )
+}
+
+/* ------------------------------------------------------------------ horizontal scroll
+   A tall section whose inner panel pins to the viewport while its track slides sideways
+   in step with the scroll. Below 900px (and for reduced motion) the CSS turns the track
+   into a plain vertical stack and this does nothing. */
+export function HScroll({ children, className = "", id }: { children: ReactNode; className?: string; id?: string }) {
+  const wrap = useRef<HTMLElement>(null)
+  const pin = useRef<HTMLDivElement>(null)
+  const track = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    const w = wrap.current
+    const pn = pin.current
+    const t = track.current
+    if (!w || !pn || !t) return
+    const wide = window.matchMedia("(min-width: 900px)")
+    return onScroll(() => {
+      if (!wide.matches || reduced()) {
+        t.style.transform = ""
+        w.style.removeProperty("--p")
+        return
+      }
+      const r = w.getBoundingClientRect()
+      const span = Math.max(1, w.offsetHeight - window.innerHeight)
+      const p = clamp01(-r.top / span)
+      const shift = Math.max(0, t.scrollWidth - pn.clientWidth)
+      t.style.transform = `translate3d(${(-p * shift).toFixed(1)}px, 0, 0)`
+      w.style.setProperty("--p", p.toFixed(3))
+    })
+  }, [])
+  return (
+    <section id={id} ref={wrap} className={`hscroll ${className}`}>
+      <div ref={pin} className="hscroll__pin">
+        <div ref={track} className="hscroll__track">
+          {children}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ------------------------------------------------------------------ stacking cards
+   Children are sticky cards; each one slides over the last. --p on a card is how far the
+   next card has covered it, so the CSS can shrink and dim it as it goes under. */
+export function Stack({ children, className = "" }: { children: ReactNode; className?: string }) {
+  const ref = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    const el = ref.current
+    if (!el || reduced()) return
+    const cards = Array.from(el.children) as HTMLElement[]
+    return onScroll(() => {
+      for (let i = 0; i < cards.length - 1; i++) {
+        const a = cards[i].getBoundingClientRect()
+        const b = cards[i + 1].getBoundingClientRect()
+        cards[i].style.setProperty("--p", clamp01(1 - (b.top - a.top) / Math.max(1, a.height)).toFixed(3))
+      }
+    })
+  }, [])
+  return (
+    <div ref={ref} className={`stack ${className}`}>
+      {children}
+    </div>
+  )
+}
+
+/* ------------------------------------------------------------------ pointer effects */
+
 /** Tilts toward the pointer on devices that have one. Touch devices get the plain block. */
 export function Tilt({ children, className = "", max = 7, lift = 8 }: { children: ReactNode; className?: string; max?: number; lift?: number }) {
   const ref = useRef<HTMLDivElement>(null)
@@ -70,10 +199,7 @@ export function Tilt({ children, className = "", max = 7, lift = 8 }: { children
   )
 }
 
-/**
- * The child slides toward the pointer while it is near, and springs back when it leaves.
- * The wrapper has a padded hit area so the pull starts before the pointer reaches the button.
- */
+/** The child slides toward the pointer while it is near, and springs back when it leaves. */
 export function Magnetic({ children, className = "", strength = 0.35 }: { children: ReactNode; className?: string; strength?: number }) {
   const ref = useRef<HTMLSpanElement>(null)
   const onMove = (e: ReactPointerEvent<HTMLSpanElement>) => {
@@ -126,31 +252,17 @@ export function Spotlight({ className = "" }: { className?: string }) {
   return <div ref={ref} className={className} aria-hidden="true" />
 }
 
-/**
- * Moves its children a fraction of the scroll distance while the top of the page is in
- * view. Transform only, on a frame, skipped for reduced motion.
- */
+/** Moves its children a fraction of the scroll distance while the top of the page is in view. */
 export function ParallaxLayer({ speed = 0.2, className = "", children, style }: { speed?: number; className?: string; children?: ReactNode; style?: CSSProperties }) {
   const ref = useRef<HTMLDivElement>(null)
   useEffect(() => {
     const el = ref.current
     if (!el || reduced()) return
-    let raf = 0
-    const update = () => {
-      raf = 0
+    return onScroll(() => {
       const y = window.scrollY
       if (y > window.innerHeight * 1.2) return
       el.style.transform = `translate3d(0, ${(y * speed).toFixed(1)}px, 0)`
-    }
-    const onScroll = () => {
-      if (!raf) raf = requestAnimationFrame(update)
-    }
-    update()
-    window.addEventListener("scroll", onScroll, { passive: true })
-    return () => {
-      window.removeEventListener("scroll", onScroll)
-      if (raf) cancelAnimationFrame(raf)
-    }
+    })
   }, [speed])
   return (
     <div ref={ref} className={className} style={style}>

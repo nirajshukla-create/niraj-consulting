@@ -23,22 +23,22 @@ export default async function Image() {
           display: "flex",
           flexDirection: "column",
           position: "relative",
-          backgroundColor: "#141c33",
-          backgroundImage: "linear-gradient(to bottom, #0d1330 0%, #141c33 55%, #1b2548 100%)",
-          color: "#f7f2e8",
+          backgroundColor: "#0f1626",
+          backgroundImage: "linear-gradient(to bottom, #0a1026 0%, #0f1626 55%, #172039 100%)",
+          color: "#f2eee6",
           fontFamily: "Bricolage",
           overflow: "hidden",
         }}
       >
-        <div style={{ position: "absolute", left: -200, top: -320, width: 760, height: 760, borderRadius: 380, background: "radial-gradient(circle, rgba(31,163,156,0.75), rgba(31,163,156,0) 62%)" }} />
-        <div style={{ position: "absolute", right: -220, top: -260, width: 700, height: 700, borderRadius: 350, background: "radial-gradient(circle, rgba(108,71,184,0.8), rgba(108,71,184,0) 62%)" }} />
-        <div style={{ position: "absolute", left: 420, top: 120, width: 640, height: 420, borderRadius: 320, background: "radial-gradient(circle, rgba(255,90,78,0.45), rgba(255,90,78,0) 62%)" }} />
-        <div style={{ position: "absolute", right: 150, top: 70, width: 92, height: 92, borderRadius: 46, background: "radial-gradient(circle at 36% 34%, #fff8e1, #f3dfa6 58%, #d8bb75)", boxShadow: "0 0 60px 20px rgba(244,182,47,0.25)" }} />
+        <div style={{ position: "absolute", left: -200, top: -320, width: 760, height: 760, borderRadius: 380, background: "radial-gradient(circle, rgba(30,140,134,0.6), rgba(30,140,134,0) 62%)" }} />
+        <div style={{ position: "absolute", right: -220, top: -260, width: 700, height: 700, borderRadius: 350, background: "radial-gradient(circle, rgba(91,74,153,0.7), rgba(91,74,153,0) 62%)" }} />
+        <div style={{ position: "absolute", left: 420, top: 120, width: 640, height: 420, borderRadius: 320, background: "radial-gradient(circle, rgba(216,87,58,0.38), rgba(216,87,58,0) 62%)" }} />
+        <div style={{ position: "absolute", right: 150, top: 70, width: 92, height: 92, borderRadius: 46, background: "radial-gradient(circle at 36% 34%, #fff8e1, #f3dfa6 58%, #d8bb75)", boxShadow: "0 0 60px 20px rgba(215,162,63,0.2)" }} />
         <div style={{ display: "flex", flexDirection: "column", padding: "64px 72px 0" }}>
           <div style={{ display: "flex", fontSize: 20, letterSpacing: 4, textTransform: "uppercase", opacity: 0.85 }}>{hero.eyebrow}</div>
           <div style={{ display: "flex", flexDirection: "column", fontSize: 128, lineHeight: 0.92, letterSpacing: -5, marginTop: 18 }}>
             <span>{hero.lines[0].text}</span>
-            <span style={{ color: "#ff5a4e" }}>{hero.lines[1].text}</span>
+            <span style={{ color: "#e2693f" }}>{hero.lines[1].text}</span>
           </div>
           <div style={{ display: "flex", marginTop: 26, fontSize: 24, opacity: 0.9 }}>
             {site.name} · {site.location.long}

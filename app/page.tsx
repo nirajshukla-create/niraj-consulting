@@ -1,6 +1,7 @@
 import { SiteHeader } from "@/components/site-header"
 import { Hero } from "@/components/hero"
 import { Tickers } from "@/components/ticker"
+import { Intro } from "@/components/intro"
 import { Services } from "@/components/services"
 import { Approach } from "@/components/approach"
 import { Team } from "@/components/team"
@@ -17,6 +18,7 @@ export default function Home() {
       <main>
         <Hero />
         <Tickers />
+        <Intro />
         <Services />
         <Approach />
         <Team />

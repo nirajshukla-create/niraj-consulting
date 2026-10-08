@@ -2,6 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Bricolage_Grotesque, DM_Sans, DM_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
+import { Cursor } from "@/components/cursor"
 import { people, services, site } from "@/lib/site"
 import "./globals.css"
 
@@ -60,6 +61,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             content when the script that reveals it is guaranteed to run. */}
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
         {children}
+        <Cursor />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <Analytics />
       </body>
