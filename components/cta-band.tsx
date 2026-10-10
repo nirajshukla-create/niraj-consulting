@@ -1,35 +1,24 @@
 import Link from "next/link"
-import type { CSSProperties } from "react"
-import { cta, site } from "@/lib/site"
-import { Badge } from "./approach"
-import { Letters, Magnetic, Reveal } from "./motion"
+import { site } from "@/lib/site"
+import { ScrollScene } from "./scroll-scene"
+import { ClosingTransformation } from "./closing-transformation"
 
-/** The loud close: a giant headline whose letters wave when you brush a word, a turning badge, one button. */
 export function CtaBand() {
   return (
-    <section className="band band--coral sheet cta-band" style={{ "--z": 4 } as CSSProperties} aria-labelledby="cta-title">
-      <div className="cta-band__big" aria-hidden="true" />
-      <div className="cta-band__badge">
-        <Badge text="Start a project · St. John's NL · " className="badge" />
-      </div>
-      <Reveal effect="clip">
-        <h2 id="cta-title" className="cta-band__title display">
-          <Letters text={cta.title} accentWords={cta.accent} />
-        </h2>
-      </Reveal>
-      <Reveal effect="up" delay={160}>
-        <div className="cta-band__row">
-          <Magnetic>
-            <Link href="/contact" className="btn">
-              {cta.button} <span className="arrow">→</span>
-            </Link>
-          </Magnetic>
-          <div className="cta-band__contact">
-            <a href={`mailto:${site.email}`}>{site.email}</a>
-            <a href={`tel:${site.phone.tel}`}>{site.phone.display}</a>
+    <ScrollScene className="editorial-closing editorial-closing--transform" labelledBy="cta-title">
+      <div className="editorial-shell">
+        <div className="editorial-closing__rule" aria-hidden="true" />
+        <div className="editorial-closing__body">
+          <div className="editorial-closing__copy">
+            <p className="editorial-heading__label">06 — A conversation</p>
+            <h2 id="cta-title">What are you working on?</h2>
+            <p>Tell us where you are and what you want to change. We’ll take it from there.</p>
+            <Link href="/contact" className="editorial-link">Start a conversation <span aria-hidden="true">→</span></Link>
+            <a className="editorial-closing__email" href={`mailto:${site.email}`}>{site.email}</a>
           </div>
+          <ClosingTransformation />
         </div>
-      </Reveal>
-    </section>
+      </div>
+    </ScrollScene>
   )
 }

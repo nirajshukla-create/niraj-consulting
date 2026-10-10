@@ -46,7 +46,7 @@ export function ContactForm() {
 
   if (status === "sent") {
     return (
-      <div className="form__done" role="status">
+      <div className="form__done editorial-form__done" role="status">
         <p className="tag">Sent</p>
         <p className="lede">Thanks, we have it.</p>
         <p>We read every message and reply personally, usually within a business day.</p>
@@ -55,7 +55,7 @@ export function ContactForm() {
   }
 
   return (
-    <form className="form" onSubmit={onSubmit}>
+    <form className="form editorial-form" onSubmit={onSubmit}>
       <div className="form__row">
         <div className="field">
           <label htmlFor="name">Name</label>
@@ -93,7 +93,7 @@ export function ContactForm() {
       </div>
       {status === "unconfigured" && (
         <p className="form__alert" role="alert">
-          The form isn&apos;t connected yet. <a href={mailto}>Send it by email instead →</a>
+          Your message hasn&apos;t been sent. Email us with the details you entered. <a href={mailto}>Open email draft →</a>
         </p>
       )}
       {status === "error" && (

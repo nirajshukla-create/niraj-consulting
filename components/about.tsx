@@ -1,56 +1,46 @@
-import type { CSSProperties } from "react"
-import { about, people, TONES } from "@/lib/site"
+import Image from "next/image"
+import Link from "next/link"
+import { about, people } from "@/lib/site"
 import { Reveal } from "./motion"
-import { PersonCard } from "./team"
 
 export function About() {
   return (
-    <section className="band sheet" style={{ "--z": 2 } as CSSProperties} aria-label="About the studio">
-      <div className="about__grid">
-        <Reveal effect="left">
-          <p className="lede">{about.lede}</p>
-        </Reveal>
-        <Reveal delay={100} className="prose">
-          {about.body.map((p) => (
-            <p key={p.slice(0, 24)}>{p}</p>
-          ))}
-        </Reveal>
-      </div>
-
-      {people.map((p, i) => {
-        const tone = TONES[p.tone]
-        return (
-          <Reveal key={p.id} delay={60}>
-            <article className="bio" aria-labelledby={`bio-${p.id}`} style={{ "--tone": tone.color, "--tone-deep": tone.deep } as CSSProperties}>
-              <div>
-                <p className="kicker bio__role">
-                  <span className="num" aria-hidden="true">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  {p.role}
-                </p>
-                <h2 className="bio__name display" id={`bio-${p.id}`}>
-                  {p.name}
-                </h2>
-                <div className="prose">
-                  {p.bio.map((para) => (
-                    <p key={para.slice(0, 24)}>{para}</p>
-                  ))}
-                </div>
-              </div>
-              <figure className="bio__portrait">
-                <PersonCard person={p} sizes="(max-width: 860px) 300px, 300px" short={false} />
-              </figure>
-            </article>
+    <section className="inner-section about-editorial" aria-label="About the studio">
+      <div className="editorial-shell">
+        <div className="about-editorial__intro">
+          <Reveal effect="fade"><h2 className="inner-lede">{about.lede}</h2></Reveal>
+          <Reveal effect="fade" delay={80} className="inner-prose">
+            {about.body.map((paragraph) => <p key={paragraph.slice(0, 24)}>{paragraph}</p>)}
+            <Link className="inner-text-link" href="/#services">Explore our services <span aria-hidden="true">↗</span></Link>
           </Reveal>
-        )
-      })}
-
-      <Reveal effect="fade" style={{ marginTop: "clamp(32px, 5vw, 56px)" }}>
-        <div className="about__grid">
-          <p className="about__closing">{about.closing}</p>
         </div>
-      </Reveal>
+
+        <div className="about-editorial__people">
+          {people.map((person) => (
+            <Reveal key={person.id} effect="fade">
+              <article className="about-bio" id={`bio-${person.id}`} aria-labelledby={`bio-${person.id}-title`}>
+                <div className="about-bio__visual">
+                  {person.photo ? (
+                    <div className="about-bio__portrait"><Image src={person.photo} alt={person.name} fill sizes="(max-width: 680px) 280px, 320px" className="about-bio__photo" /></div>
+                  ) : (
+                    <div className="about-bio__initials" aria-hidden="true">{person.initials}</div>
+                  )}
+                </div>
+                <div className="about-bio__content">
+                  <p className="inner-label about-bio__role">{person.role}</p>
+                  <h2 className="about-bio__name" id={`bio-${person.id}-title`}>{person.name}</h2>
+                  <div className="inner-prose">{person.bio.map((paragraph) => <p key={paragraph.slice(0, 24)}>{paragraph}</p>)}</div>
+                </div>
+              </article>
+            </Reveal>
+          ))}
+        </div>
+
+        <div className="inner-endnote">
+          <p>{about.closing}</p>
+          <Link className="inner-text-link" href="/contact">Start a conversation <span aria-hidden="true">↗</span></Link>
+        </div>
+      </div>
     </section>
   )
 }

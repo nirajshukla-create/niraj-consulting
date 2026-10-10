@@ -1,10 +1,8 @@
 /**
  * Every fact the site shows lives here. Change it once and every page updates.
  *
- * WORKING NAME: "Easterly" (an easterly is the wind off the Atlantic; St. John's is the
- * easternmost city in North America; it nods to Niraj's Innovation East). No NL agency
- * uses it as of 2026-10-08. Rename it here and the wordmark, titles, footer and metadata
- * all follow.
+ * Innovation East Consulting — name selected by Niraj.
+ * Brand text, page metadata and contact identity are configured here.
  *
  * TO CONFIRM WITH NIRAJ AND ZACH:
  *  - email and phone: currently Niraj's public contacts from innovationeast.ca.
@@ -15,10 +13,11 @@
  */
 
 export const site = {
-  name: "Easterly",
-  tagline: "Less noise, more signal.",
+  name: "Innovation East Consulting",
+  wordmark: { primary: "Innovation East", secondary: "Consulting" },
+  tagline: "Ideas into action.",
   description:
-    "Web design, social media marketing and strategy for businesses that want to be noticed. A small studio in St. John's, Newfoundland and Labrador.",
+    "Independent strategy, design and digital communications. Innovation East Consulting, based in St. John's, Newfoundland and Labrador.",
   email: "niraj@innovationeast.ca",
   phone: { display: "+1 (709) 689-9907", tel: "+17096899907" },
   location: {
@@ -32,7 +31,9 @@ export const site = {
 
 export const nav = [
   { href: "/#services", label: "Services" },
+  { href: "/#featured-work", label: "Work" },
   { href: "/#approach", label: "Approach" },
+  { href: "/#design-lab", label: "Design lab" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ]
@@ -49,12 +50,12 @@ export const TONES: Record<Tone, { color: string; deep: string }> = {
 export const hero = {
   eyebrow: "Design · Social · Strategy — St. John's",
   lines: [
-    { text: "Less noise,", accent: false },
-    { text: "more signal.", accent: true },
+    { text: "Innovation", accent: false },
+    { text: "East.", accent: true },
   ],
-  sub: "Web design, social media and strategy for businesses that want to be noticed. A small studio in St. John's, Newfoundland.",
-  cta: { label: "Start a project", href: "/contact" },
-  scroll: { label: "See what we do", href: "#services" },
+  sub: "Thoughtful strategy. Considered design. A practical way forward for your business.",
+  cta: { label: "Start a conversation", href: "/contact" },
+  scroll: { label: "Explore our work", href: "#featured-work" },
 }
 
 export const ticker = [
@@ -70,7 +71,7 @@ export const ticker = [
 
 /** The statement that lights up word by word as you scroll into the page. */
 export const manifesto =
-  "We build websites that load fast, social that gets replies, and strategy that fits on one page. A two-person studio in St. John's, working for businesses that want to be noticed."
+  "Good work starts with understanding the problem. We bring together strategy, design and digital communications to help businesses find a clear direction—and put it into practice. Based in St. John’s, working directly with you."
 
 export type CoverKind = "web" | "social" | "strategy" | "brand"
 
@@ -80,7 +81,7 @@ export const services: { id: string; cover: CoverKind; tone: Tone; title: string
     cover: "web",
     tone: "sea",
     title: "Web design & build",
-    dek: "A site that loads fast, reads clearly and tells people what to do next. Designed and built in-house, launched on modern hosting, handed over with everything you need to run it.",
+    dek: "A fast, clear website that tells your story and makes the next step obvious. Designed, built and launched in-house.",
     includes: ["Design & copy", "Built in Next.js", "Hosting & launch"],
   },
   {
@@ -88,7 +89,7 @@ export const services: { id: string; cover: CoverKind; tone: Tone; title: string
     cover: "social",
     tone: "coral",
     title: "Social media marketing",
-    dek: "A plan for what to say, where, and how often. Then the posts, the calendar and the monthly numbers that keep it honest.",
+    dek: "A clear plan, strong posts and someone keeping the conversation going. With a monthly report that makes sense.",
     includes: ["Content calendar", "Posting & replies", "Monthly report"],
   },
   {
@@ -96,7 +97,7 @@ export const services: { id: string; cover: CoverKind; tone: Tone; title: string
     cover: "strategy",
     tone: "mustard",
     title: "Strategy & positioning",
-    dek: "Who you're for, what you offer and the words to say it. We do this before design, so the design has something to say.",
+    dek: "Know who you’re for, what makes you different and how to say it. Then put a practical launch plan behind it.",
     includes: ["Positioning", "Offer & pricing", "Launch plan"],
   },
   {
@@ -104,7 +105,7 @@ export const services: { id: string; cover: CoverKind; tone: Tone; title: string
     cover: "brand",
     tone: "plum",
     title: "Brand & content",
-    dek: "The identity, photography direction and copy that make everything you put out look like it came from the same place.",
+    dek: "Identity, words and art direction that make your business recognisable everywhere it shows up.",
     includes: ["Identity refresh", "Copywriting", "Art direction"],
   },
 ]
@@ -130,7 +131,7 @@ export const steps = [
 export const panel = {
   tag: "How it starts",
   title: "A 30-minute call. No deck, no pitch.",
-  sub: "Tell us what you're working on and we'll tell you honestly whether we're the right fit, and what it would cost. Most projects start as a website that needs to work harder, a social presence that's gone quiet, or a business that's grown past the way it describes itself.",
+  sub: "Tell us what’s working, what isn’t, and what you want to change. We’ll talk through the fit, the next steps, and the price.",
   note: "St. John's · Atlantic Canada",
   cta: { label: "Book a call", href: "/contact" },
 }
@@ -160,8 +161,8 @@ export const people: Person[] = [
     role: "Principal · Strategy & design",
     initials: "NS",
     tone: "coral",
-    photo: null,
-    short: "Leads strategy and design. Twenty years at the intersection of industry, academia and government in Atlantic Canada, and more than a decade running restaurants, which is where the marketing instinct comes from.",
+    photo: "/team/niraj.jpg",
+    short: "Strategy and design, grounded in twenty years across Atlantic Canada’s innovation community and more than a decade running restaurants.",
     bio: [
       "Niraj leads strategy and design. He has spent his career at the intersection of industry, academia and government in Atlantic Canada: a decade with Mitacs, including five years as Regional Director for Atlantic Canada, and now Director of Intellectual Property Programs at Springboard Atlantic, helping startups and scale-ups navigate, fund and protect their ideas.",
       "The marketing instinct comes from somewhere less academic. He spent more than a decade as a franchise operator scaling multiple restaurant brands, where the website, the social feed and the sign out front all had to pay for themselves.",
@@ -175,7 +176,7 @@ export const people: Person[] = [
     initials: "ZV",
     tone: "sea",
     photo: null,
-    short: "Runs the social media side and keeps every project moving. The person clients talk to most, from first call to launch and the months after.",
+    short: "Social media, client conversations, and the details that keep each project moving—from the first call to the months after launch.",
     bio: [
       "Zach runs the social media side of the studio: the content calendar, the posting, the replies and the monthly numbers that show whether any of it is working.",
       "He is also the person clients talk to most. From the first call to launch, and through the months of care after it, Zach is the one who knows where every project stands and what happens next.",
@@ -185,7 +186,7 @@ export const people: Person[] = [
 
 export const about = {
   title: "Who you'll work with.",
-  teamNote: "The two people you meet on the first call are the two people doing the work. Niraj leads strategy and design; Zach runs social and keeps every project moving.",
+  teamNote: "Niraj leads strategy and design. Zach runs social and keeps every project moving. You work directly with both.",
   lede: "Strategy first, then design, then the long work of keeping it going.",
   body: [
     "We are a two-person studio in St. John's. Niraj leads strategy and design; Zach runs social and keeps every project moving. No account managers, no hand-offs: the people you meet on the first call are the people doing the work.",

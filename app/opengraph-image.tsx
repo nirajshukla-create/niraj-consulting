@@ -1,57 +1,55 @@
 import { ImageResponse } from "next/og"
 import { readFile } from "node:fs/promises"
 import { join } from "node:path"
-import { Skyline } from "@/components/skyline"
 import { hero, site } from "@/lib/site"
 
-// The share image: the night sky, the headline in Bricolage Grotesque and the row houses.
-// Rendered once at build time because nothing in it is dynamic.
 export const runtime = "nodejs"
 export const alt = `${site.name} — ${site.tagline}`
 export const size = { width: 1200, height: 630 }
 export const contentType = "image/png"
 
+/** The same serif identity and original monochrome coastline as the home page. */
 export default async function Image() {
-  const font = await readFile(join(process.cwd(), "app", "fonts", "BricolageGrotesque-ExtraBold.ttf"))
+  const [regular, italic, labels, coast] = await Promise.all([
+    readFile(join(process.cwd(), "app", "fonts", "LibreBodoni-Bold.ttf")),
+    readFile(join(process.cwd(), "app", "fonts", "LibreBodoni-BoldItalic.ttf")),
+    readFile(join(process.cwd(), "app", "fonts", "SpaceMono-Regular.ttf")),
+    readFile(join(process.cwd(), "public", "identity", "innovation-east-coast.png")),
+  ])
+  const words = site.wordmark.primary.split(" ")
+  const accent = words.pop()
 
   return new ImageResponse(
     (
-      <div
-        style={{
-          width: "100%",
-          height: "100%",
-          display: "flex",
-          flexDirection: "column",
-          position: "relative",
-          backgroundColor: "#0f1626",
-          backgroundImage: "linear-gradient(to bottom, #0a1026 0%, #0f1626 55%, #172039 100%)",
-          color: "#f2eee6",
-          fontFamily: "Bricolage",
-          overflow: "hidden",
-        }}
-      >
-        <div style={{ position: "absolute", left: -200, top: -320, width: 760, height: 760, borderRadius: 380, background: "radial-gradient(circle, rgba(30,140,134,0.6), rgba(30,140,134,0) 62%)" }} />
-        <div style={{ position: "absolute", right: -220, top: -260, width: 700, height: 700, borderRadius: 350, background: "radial-gradient(circle, rgba(91,74,153,0.7), rgba(91,74,153,0) 62%)" }} />
-        <div style={{ position: "absolute", left: 420, top: 120, width: 640, height: 420, borderRadius: 320, background: "radial-gradient(circle, rgba(216,87,58,0.38), rgba(216,87,58,0) 62%)" }} />
-        <div style={{ position: "absolute", right: 150, top: 70, width: 92, height: 92, borderRadius: 46, background: "radial-gradient(circle at 36% 34%, #fff8e1, #f3dfa6 58%, #d8bb75)", boxShadow: "0 0 60px 20px rgba(215,162,63,0.2)" }} />
-        <div style={{ display: "flex", flexDirection: "column", padding: "64px 72px 0" }}>
-          <div style={{ display: "flex", fontSize: 20, letterSpacing: 4, textTransform: "uppercase", opacity: 0.85 }}>{hero.eyebrow}</div>
-          <div style={{ display: "flex", flexDirection: "column", fontSize: 128, lineHeight: 0.92, letterSpacing: -5, marginTop: 18 }}>
-            <span>{hero.lines[0].text}</span>
-            <span style={{ color: "#e2693f" }}>{hero.lines[1].text}</span>
+      <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", position: "relative", backgroundColor: "#000000", color: "#f3f0e8", fontFamily: "Bodoni", fontWeight: 700, overflow: "hidden" }}>
+        {/* A bottom-aligned crop keeps the coastline in the wide share format. */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={`data:image/png;base64,${coast.toString("base64")}`} alt="" width={1200} height={900} style={{ position: "absolute", left: 0, bottom: 0 }} />
+        <div style={{ position: "absolute", inset: 0, backgroundImage: "linear-gradient(90deg, rgba(0,0,0,.82) 0%, rgba(0,0,0,.58) 58%, rgba(0,0,0,.3) 100%)" }} />
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", margin: "34px 60px 0", paddingBottom: 20, borderBottom: "1px solid #f3f0e840" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
+            <div style={{ display: "flex", fontSize: 29, letterSpacing: -1 }}><span>{words.join(" ")}&nbsp;</span><span style={{ fontStyle: "italic" }}>{accent}</span></div>
+            <span style={{ fontFamily: "Labels", fontWeight: 400, fontSize: 9, letterSpacing: 3 }}>{site.wordmark.secondary.toUpperCase()}</span>
           </div>
-          <div style={{ display: "flex", marginTop: 26, fontSize: 24, opacity: 0.9 }}>
-            {site.name} · {site.location.long}
-          </div>
+          <span style={{ fontFamily: "Labels", fontWeight: 400, fontSize: 11, letterSpacing: 2 }}>ST. JOHN’S, NEWFOUNDLAND</span>
         </div>
-        <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, display: "flex", height: 210 }}>
-          <Skyline animated={false} className="" />
+        <div style={{ display: "flex", flexDirection: "column", margin: "32px 60px 0", fontSize: 132, lineHeight: .99, letterSpacing: -5 }}>
+          {hero.lines.map((line) => <span key={line.text} style={{ fontStyle: line.accent ? "italic" : "normal" }}>{line.text}</span>)}
+        </div>
+        <span style={{ display: "flex", margin: "19px 64px 0", fontFamily: "Labels", fontWeight: 400, fontSize: 13, letterSpacing: 5 }}>{site.wordmark.secondary.toUpperCase()}</span>
+        <div style={{ position: "absolute", left: 60, right: 60, bottom: 36, display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: 20, borderTop: "1px solid #f3f0e840", fontFamily: "Labels", fontWeight: 400, fontSize: 11, letterSpacing: 1.2 }}>
+          <span>WEB DESIGN · SOCIAL MEDIA · STRATEGY</span>
+          <span>{site.tagline}</span>
         </div>
       </div>
     ),
     {
       ...size,
-      fonts: [{ name: "Bricolage", data: font, style: "normal", weight: 800 }],
+      fonts: [
+        { name: "Bodoni", data: regular, style: "normal", weight: 700 },
+        { name: "Bodoni", data: italic, style: "italic", weight: 700 },
+        { name: "Labels", data: labels, style: "normal", weight: 400 },
+      ],
     },
   )
 }

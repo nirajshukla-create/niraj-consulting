@@ -14,8 +14,8 @@ export default function AboutPage() {
   return (
     <>
       <SiteHeader />
-      <main>
-        <PageHero kicker="About the studio" title={about.title} />
+      <main className="inner-page">
+        <PageHero kicker="The people & the practice" title="About." />
         <About />
       </main>
       <SiteFooter />

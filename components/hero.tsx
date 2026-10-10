@@ -1,97 +1,72 @@
 import Link from "next/link"
+import Image from "next/image"
 import type { CSSProperties } from "react"
-import { hero } from "@/lib/site"
+import { hero, site } from "@/lib/site"
 import { HeroMotion } from "./hero-motion"
-import { Magnetic, ParallaxLayer, Spotlight } from "./motion"
-import { Skyline, SkylineLights } from "./skyline"
 
-function rng(seed: number) {
-  let s = seed >>> 0
-  return () => {
-    s = (Math.imul(s, 1664525) + 1013904223) >>> 0
-    return s / 4294967296
-  }
-}
-const r = rng(3)
-// negative delays start every star mid-twinkle instead of all of them popping in at once
-const STARS = Array.from({ length: 46 }, () => ({ left: r() * 100, top: r() * 58, d: -(r() * 5), t: 3 + r() * 4, s: 0.6 + r() * 1 }))
-const SHOOTERS = [
-  { left: 62, top: 8, t: 11, d: -2 },
-  { left: 34, top: 14, t: 15, d: -9 },
-  { left: 84, top: 22, t: 13, d: -5 },
-]
-
-/**
- * Night over the harbour. Colour blobs and an aurora curtain loop on their own timings,
- * the moon floats, stars breathe and the odd one falls, the lighthouse sweeps its beam
- * across the sky, chimneys smoke, fog rolls along the street, and the sky and houses
- * drift with the mouse and the scroll at different depths. The headline flips in a word
- * at a time; the whole scene zooms out and dims as the page slides over it.
- */
+/** The same coastal photograph and editorial voice as Innovation East. */
 export function Hero() {
-  let i = 0
   return (
-    <HeroMotion className="hero">
-      <ParallaxLayer speed={0.28} className="hero__sky" aria-hidden="true">
-        <div className="hero__layer" data-depth="-10">
-          <div className="blob blob--a" />
-          <div className="blob blob--b" />
-          <div className="blob blob--c" />
-          <div className="aurora" />
-          {STARS.map((s, k) => (
-            <i key={k} className="star" style={{ left: `${s.left}%`, top: `${s.top}%`, "--d": `${s.d}s`, "--t": `${s.t}s`, "--s": s.s } as CSSProperties} />
-          ))}
-          {SHOOTERS.map((s, k) => (
-            <i key={k} className="shoot" style={{ left: `${s.left}%`, top: `${s.top}%`, "--t": `${s.t}s`, "--d": `${s.d}s` } as CSSProperties} />
-          ))}
-        </div>
-        <div className="hero__layer" data-depth="-22">
-          <div className="moon" />
-        </div>
-      </ParallaxLayer>
-      <Spotlight className="hero__spot" />
-
-      <div className="hero__body" data-depth="-5">
-        <div className="pill">
-          <span className="pill__dot" aria-hidden="true" />
-          <span>{hero.eyebrow}</span>
-        </div>
-        <h1 id="hero-title" className="hero__title display">
-          {hero.lines.map((line, li) => (
-            <span key={li} className={`hero__line ${line.accent ? "hero__line--accent" : ""}`}>
-              {line.text.split(" ").map((word, wi) => (
-                <span key={wi}>
-                  <span className="w" style={{ "--i": i++ } as CSSProperties}>
-                    {word}
-                  </span>{" "}
-                </span>
-              ))}
-            </span>
-          ))}
+    <HeroMotion className="hero hero--editorial">
+      <div className="hero__photograph" aria-hidden="true">
+        <Image src="/identity/innovation-east-coast.png" alt="" fill priority sizes="100vw" quality={85} />
+      </div>
+      <div className="hero__photo-study" aria-hidden="true">
+        {[0, 1, 2].map((index) => (
+          <div className="hero__photo-strip" key={index} style={{
+            "--slice-start": `${Math.max(0, index * 100 / 3 - .08)}%`,
+            "--slice-end": `${Math.max(0, (2 - index) * 100 / 3 - .08)}%`,
+            "--slice-center": `${(index + .5) * 100 / 3}%`,
+            "--slice-x": index - 1,
+            "--slice-y": [1, -.8, .5][index],
+            "--slice-angle": [-5, 2, 5][index],
+          } as CSSProperties}>
+            <Image src="/identity/innovation-east-coast.png" alt="" fill sizes="100vw" quality={85} loading="eager" />
+          </div>
+        ))}
+      </div>
+      <div className="hero__photo-grade" aria-hidden="true" />
+      <div className="hero__photo-shutters" aria-hidden="true">
+        {Array.from({ length: 5 }, (_, index) => <span key={index} style={{ "--shutter": index } as CSSProperties} />)}
+      </div>
+      <div className="hero__viewfinder" aria-hidden="true"><i /><i /><i /><i /></div>
+      <div className="hero__body">
+        <div className="hero__eyebrow"><p>Strategy, design & digital communications</p></div>
+        <h1 id="hero-title" className="hero__title" aria-label={site.name}>
+          <span className="hero__line" aria-hidden="true">{hero.lines[0].text}</span>
+          <span className="hero__line hero__line--accent" aria-hidden="true"><em>{hero.lines[1].text}</em></span>
+          <span className="hero__consulting" aria-hidden="true">Consulting</span>
         </h1>
-        <p className="hero__sub">{hero.sub}</p>
-        <div className="hero__actions">
-          <Magnetic>
-            <Link href={hero.cta.href} className="btn">
-              {hero.cta.label} <span className="arrow">→</span>
-            </Link>
-          </Magnetic>
-          <a href={hero.scroll.href} className="btn btn--ghost">
-            {hero.scroll.label}
-          </a>
+        <div className="hero__details">
+          <div className="hero__pitch">
+            <p>{hero.sub}</p>
+            <Link href={hero.cta.href} className="project-link">{hero.cta.label}<span aria-hidden="true">↗</span></Link>
+          </div>
+          <a className="hero__scroll" href={hero.scroll.href}>{hero.scroll.label}<span aria-hidden="true">↓</span></a>
         </div>
       </div>
-
-      <ParallaxLayer speed={0.08} className="skyline-wrap" aria-hidden="true">
-        <div className="hero__layer" data-depth="8">
-          <div className="beam" />
-          <Skyline />
-          <SkylineLights />
-          <div className="fog fog--a" />
-          <div className="fog fog--b" />
+      <div className="hero__iris" aria-hidden="true" />
+      <div className="hero__arrival" aria-hidden="true">
+        <div className="hero__arrival-topline"><span>Independent thinking.</span><span>Practical outcomes. ↗</span></div>
+        <div className="hero__arrival-main">
+          <div className="hero__arrival-copy">
+            <p className="hero__arrival-title">Ideas into<br /><em>action.</em></p>
+            <p className="hero__arrival-note">A clear direction.<br />Something worth putting into the world.</p>
+          </div>
+          <div className="hero__arrival-art">
+            <div className="hero__arrival-outline" />
+            <div className="hero__arrival-photo"><Image src="/identity/innovation-east-coast.png" alt="" fill sizes="(max-width: 680px) 65vw, 45vw" quality={85} /></div>
+            <svg className="hero__arrival-arrow" viewBox="0 0 160 160" fill="none"><path d="M20 140 140 20M25 20h115v115" stroke="currentColor" strokeWidth="15" /></svg>
+            <span className="hero__arrival-location">St. John’s / Newfoundland & Labrador</span>
+          </div>
         </div>
-      </ParallaxLayer>
-      <div className="hero__dim" aria-hidden="true" />
+        <div className="hero__arrival-disciplines">
+          <div><span>01 /</span><strong>Strategy.</strong></div>
+          <div><span>02 /</span><strong>Design.</strong></div>
+          <div><span>03 /</span><strong>Digital.</strong></div>
+        </div>
+      </div>
+      <div className="hero__caption" aria-hidden="true"><span>Independent thinking. Practical outcomes.</span><span>St. John’s, Newfoundland & Labrador</span></div>
     </HeroMotion>
   )
 }

@@ -1,0 +1,107 @@
+/* The page remains the scroll surface; only the design preview holds its place. */
+.design-lab.design-lab--editorial { overflow: visible; }
+.design-lab__viewport { position: absolute; width: 0; height: 100svh; visibility: hidden; pointer-events: none; }
+.design-lab.design-lab--editorial .design-lab__scroll-scene { position: relative; }
+.design-lab.design-lab--editorial .design-lab__pin { position: relative; background: var(--ie-paper); }
+.design-lab.design-lab--editorial[data-scroll="on"] .design-lab__scroll-scene { height: calc(var(--lab-pin-height, 660px) + var(--lab-travel, 1100px)); }
+.design-lab.design-lab--editorial[data-scroll="on"] .design-lab__pin { position: sticky; top: var(--lab-pin-top, 90px); }
+.design-lab.design-lab--editorial .design-lab__controls { position: relative; top: auto; margin: 0; box-shadow: none; }
+.design-lab.design-lab--editorial .design-study { margin: 0; }
+.design-lab.design-lab--editorial .design-canvas { height: var(--lab-canvas-height, clamp(360px, 44vw, 510px)); }
+.design-lab.design-lab--editorial .design-lab__scroll-cue {
+  display: flex; min-height: 38px; align-items: center; justify-content: space-between; gap: 18px;
+  font: 9px/1.5 var(--font-mono); letter-spacing: .035em; text-transform: uppercase; color: var(--ie-muted);
+}
+.design-lab.design-lab--editorial .design-lab__scroll-ticks { display: flex; gap: 5px; flex-shrink: 0; }
+.design-lab.design-lab--editorial .design-lab__scroll-ticks > i { display: block; width: 25px; height: 2px; background: var(--ie-rule); transition: background .25s; }
+.design-lab.design-lab--editorial[data-stage="1"] .design-lab__scroll-ticks > i:first-child,
+.design-lab.design-lab--editorial[data-stage="2"] .design-lab__scroll-ticks > i:nth-child(-n+2),
+.design-lab.design-lab--editorial[data-stage="3"] .design-lab__scroll-ticks > i { background: var(--ie-accent); }
+.design-lab.design-lab--editorial:not([data-scroll="on"]) .design-lab__scroll-cue { display: none; }
+
+@media (max-width: 680px) {
+  .design-lab.design-lab--editorial .design-canvas { height: var(--lab-canvas-height, 360px); }
+  .design-lab.design-lab--editorial .design-lab__controls button { min-height: 56px; padding: 9px 10px; row-gap: 5px; }
+  .design-lab.design-lab--editorial .design-lab__scroll-cue { min-height: 32px; font-size: 8px; gap: 12px; }
+  .design-lab.design-lab--editorial .design-lab__scroll-ticks > i { width: 20px; }
+  .design-lab.design-lab--editorial .design-study__specs { padding: 10px 12px; gap: 8px; }
+  .design-lab.design-lab--editorial .design-study__specs > span { font-size: 10px; gap: 3px; }
+  .design-lab.design-lab--editorial .design-study__specs small { font-size: 7px; }
+}
+
+@media (max-width: 520px) {
+  /* Preserve the three distinct compositions as the preview gets shorter. */
+  .design-lab.design-lab--editorial .design-canvas[data-stage="0"] h3 { font-size: clamp(23px, min(7.5cqw, 12cqh), 34px); }
+  .design-lab.design-lab--editorial .design-canvas[data-stage="1"] h3 { font-size: clamp(27px, min(10.5cqw, 13.5cqh), 43px); }
+  .design-lab.design-lab--editorial .design-canvas[data-stage="2"] h3 { font-size: clamp(31px, min(14cqw, 16cqh), 60px); }
+  .design-lab.design-lab--editorial .design-canvas[data-stage="3"] h3 { font-size: clamp(29px, min(10.8cqw, 14.5cqh), 46px); }
+  .design-lab.design-lab--editorial .design-canvas[data-stage="3"] .design-canvas__art { top: 49%; left: 48%; width: 70%; height: 64%; }
+}
+
+/* These rules follow the measured canvas, including small phones and resized windows. */
+@container (max-height: 290px) {
+  .design-lab.design-lab--editorial .design-canvas__eyebrow,
+  .design-lab.design-lab--editorial .design-canvas__clutter,
+  .design-lab.design-lab--editorial .design-canvas__object-note { display: none; }
+  .design-lab.design-lab--editorial .design-canvas__brand { top: 8%; }
+  .design-lab.design-lab--editorial .design-canvas__nav { top: 8.5%; }
+  .design-lab.design-lab--editorial .design-canvas__rule { top: 21%; }
+  .design-lab.design-lab--editorial .design-canvas .design-canvas__text { top: 29%; }
+  .design-lab.design-lab--editorial .design-canvas__copy { margin-block: 8px; font-size: 9px; }
+  .design-lab.design-lab--editorial .design-canvas__cta { padding: 6px 9px; font-size: 7px; }
+  .design-lab.design-lab--editorial .design-canvas__cta b { font-size: 12px; }
+  .design-lab.design-lab--editorial .design-canvas__foot { bottom: 5%; padding-top: 7px; }
+  .design-lab.design-lab--editorial .design-canvas[data-stage="3"] .design-canvas__foot { padding-bottom: 0; }
+}
+@container (max-height: 260px) {
+  .design-lab.design-lab--editorial .design-canvas__cta { display: none; }
+}
+@media (max-width: 520px) {
+  @container (max-height: 290px) {
+    .design-lab.design-lab--editorial .design-canvas[data-stage="3"] .design-canvas__art { top: 54%; }
+  }
+}
+
+@media (max-width: 360px) {
+  .design-lab.design-lab--editorial .design-canvas { height: var(--lab-canvas-height, 340px); }
+}
+
+@media (min-width: 560px) and (max-height: 520px) {
+  .design-lab.design-lab--editorial .design-lab__controls button { display: flex; min-height: 36px; padding: 7px 12px; gap: 12px; font-size: 10px; }
+  .design-lab.design-lab--editorial .design-lab__controls .design-lab__button-arrow { font-size: 17px; }
+  .design-lab.design-lab--editorial .design-study__bar { min-height: 24px; padding: 6px 12px; font-size: 7px; }
+  .design-lab.design-lab--editorial .design-study__specs { min-height: 40px; padding: 8px 12px; gap: 16px; }
+  .design-lab.design-lab--editorial .design-study__specs > span { flex-direction: row; align-items: center; gap: 8px; font-size: 10px; }
+  .design-lab.design-lab--editorial .design-study__specs small { font-size: 7px; }
+  .design-lab.design-lab--editorial .design-lab__scroll-cue { min-height: 24px; font-size: 8px; }
+  .design-lab.design-lab--editorial .design-canvas { height: var(--lab-canvas-height, 180px); }
+  .design-lab.design-lab--editorial .design-canvas__eyebrow,
+  .design-lab.design-lab--editorial .design-canvas__copy,
+  .design-lab.design-lab--editorial .design-canvas__cta,
+  .design-lab.design-lab--editorial .design-canvas__foot,
+  .design-lab.design-lab--editorial .design-canvas__clutter,
+  .design-lab.design-lab--editorial .design-canvas__object-note,
+  .design-lab.design-lab--editorial .design-canvas__edition { display: none; }
+  .design-lab.design-lab--editorial .design-canvas__brand { top: 9%; left: 5%; font-size: 13px; gap: 6px; }
+  .design-lab.design-lab--editorial .design-canvas__brand-symbol { width: 13px; gap: 2px; }
+  .design-lab.design-lab--editorial .design-canvas__brand-symbol i { height: 3px; }
+  .design-lab.design-lab--editorial .design-canvas__nav { top: 10%; right: 5%; font-size: 7px; gap: 12px; }
+  .design-lab.design-lab--editorial .design-canvas__rule { top: 26%; left: 5%; right: 5%; }
+  .design-lab.design-lab--editorial .design-canvas .design-canvas__text { top: 37%; left: 6%; width: 60%; }
+  .design-lab.design-lab--editorial .design-canvas[data-stage="0"] h3 { font-size: clamp(22px, 17cqh, 31px); }
+  .design-lab.design-lab--editorial .design-canvas[data-stage="1"] h3 { font-size: clamp(25px, 18cqh, 36px); }
+  .design-lab.design-lab--editorial .design-canvas[data-stage="2"] h3 { font-size: clamp(28px, 21cqh, 43px); }
+  .design-lab.design-lab--editorial .design-canvas[data-stage="3"] h3 { font-size: clamp(30px, 22cqh, 46px); }
+  .design-lab.design-lab--editorial .design-canvas .design-canvas__art { top: 9%; left: 65%; width: 32%; height: 88%; }
+  .design-lab.design-lab--editorial .design-canvas[data-stage="2"] .design-canvas__art { top: 7%; left: 65%; width: 35%; height: 96%; }
+  .design-lab.design-lab--editorial .design-canvas[data-stage="3"] .design-canvas__art { top: 11%; left: 64%; width: 39%; height: 100%; }
+}
+
+html.reduce-motion .design-lab.design-lab--editorial .design-lab__scroll-scene { height: auto !important; }
+html.reduce-motion .design-lab.design-lab--editorial .design-lab__pin { position: relative !important; top: auto !important; }
+html.reduce-motion .design-lab.design-lab--editorial .design-lab__scroll-cue { display: none !important; }
+@media (prefers-reduced-motion: reduce) {
+  html:not(.force-motion) .design-lab.design-lab--editorial .design-lab__scroll-scene { height: auto !important; }
+  html:not(.force-motion) .design-lab.design-lab--editorial .design-lab__pin { position: relative !important; top: auto !important; }
+  html:not(.force-motion) .design-lab.design-lab--editorial .design-lab__scroll-cue { display: none !important; }
+}

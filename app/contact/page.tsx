@@ -14,8 +14,8 @@ export default function ContactPage() {
   return (
     <>
       <SiteHeader />
-      <main>
-        <PageHero kicker="Contact" title="Start a project." sub="Fixed quotes, honest answers, and no pitch deck. Tell us what you're working on." />
+      <main className="inner-page">
+        <PageHero kicker="Start a conversation" title="Contact." />
         <Contact />
       </main>
       <SiteFooter />

@@ -1,16 +1,28 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Bricolage_Grotesque, DM_Sans, DM_Mono } from "next/font/google"
+import { DM_Sans, Space_Mono } from "next/font/google"
+import localFont from "next/font/local"
 import { Analytics } from "@vercel/analytics/next"
-import { Cursor } from "@/components/cursor"
+import { EditorialMotion } from "@/components/editorial-motion"
 import { people, services, site } from "@/lib/site"
 import "./globals.css"
+import "./cinematic.css"
+import "./editorial.css"
+import "./editorial-motion.css"
 
-// Bricolage Grotesque carries the headlines (heavy, wide, a little eccentric), DM Sans the
-// reading text and DM Mono the small labels. Swap a face here and every page follows.
-const display = Bricolage_Grotesque({ subsets: ["latin"], weight: "variable", axes: ["opsz", "wdth"], variable: "--font-display-src", display: "swap" })
+// Body sans, editorial Bodoni, and monospaced labels match the Innovation East identity.
 const sans = DM_Sans({ subsets: ["latin"], weight: "variable", axes: ["opsz"], variable: "--font-sans-src", display: "swap" })
-const mono = DM_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-mono-src", display: "swap" })
+const mono = Space_Mono({ subsets: ["latin"], weight: ["400", "700"], variable: "--font-mono-src", display: "swap" })
+const editorial = localFont({
+  src: [
+    { path: "./fonts/LibreBodoni-Regular.ttf", weight: "400", style: "normal" },
+    { path: "./fonts/LibreBodoni-Italic.ttf", weight: "400", style: "italic" },
+    { path: "./fonts/LibreBodoni-Bold.ttf", weight: "700", style: "normal" },
+    { path: "./fonts/LibreBodoni-BoldItalic.ttf", weight: "700", style: "italic" },
+  ],
+  variable: "--font-editorial-src",
+  display: "swap",
+})
 
 // Vercel sets this on every deploy; set NEXT_PUBLIC_SITE_URL once a custom domain exists.
 const siteUrl =
@@ -55,7 +67,7 @@ const jsonLd = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en-CA" className={`${display.variable} ${sans.variable} ${mono.variable}`} suppressHydrationWarning>
+    <html lang="en-CA" data-scroll-behavior="smooth" className={`${sans.variable} ${mono.variable} ${editorial.variable}`} suppressHydrationWarning>
       <body>
         {/* Marks the page as scripted before anything paints, so scroll reveals only hide
             content when the script that reveals it is guaranteed to run. Also applies the
@@ -64,11 +76,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <script
           dangerouslySetInnerHTML={{
             __html:
-              "document.documentElement.classList.add('js');try{var q=new URLSearchParams(location.search).get('motion');if(q==='1')localStorage.setItem('motion','force');if(q==='0')localStorage.removeItem('motion');if(localStorage.getItem('motion')==='force')document.documentElement.classList.add('force-motion')}catch(e){}",
+              "document.documentElement.classList.add('js');(function(){var q=new URLSearchParams(location.search).get('motion'),m='';try{m=localStorage.getItem('motion')||''}catch(e){}if(q==='1')m='force';if(q==='0')m='';if(m==='force')document.documentElement.classList.add('force-motion');if(m==='reduce')document.documentElement.classList.add('reduce-motion');try{if(q==='1')localStorage.setItem('motion','force');if(q==='0')localStorage.removeItem('motion')}catch(e){}})();",
           }}
         />
         {children}
-        <Cursor />
+        <EditorialMotion />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <Analytics />
       </body>

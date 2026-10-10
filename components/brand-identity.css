@@ -1,0 +1,100 @@
+/* A quiet serif signature, paired with the small tracked type of the original site. */
+.brand-mark { display: block; width: 1.7em; height: auto; flex-shrink: 0; overflow: visible; }
+.brand-wordmark {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: .3em;
+  color: inherit;
+  font-family: var(--font-editorial-src, Georgia), serif;
+  font-size: inherit;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -.045em;
+  text-transform: none;
+  white-space: nowrap;
+}
+.brand-wordmark__text { display: block; }
+.brand-wordmark__accent { font-style: italic; }
+.brand-wordmark__descriptor {
+  display: block;
+  font-family: var(--font-mono-src, monospace), monospace;
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: .27em;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+.brand-wordmark--display {
+  gap: .2em;
+  font-size: clamp(28px, calc(96cqw / var(--wordmark-width)), 260px);
+  letter-spacing: -.045em;
+  line-height: 1.1;
+}
+.brand-wordmark--display .brand-wordmark__descriptor { font-size: clamp(10px, .115em, 20px); letter-spacing: .36em; }
+
+.nav.nav { color: #f3f0e8; background: #000; }
+.nav.nav--home:not(.nav--solid) { background: transparent; }
+.nav.nav::after { background: currentColor; opacity: .2; }
+.nav.nav .nav__brand.brand-lockup { gap: 0; font-size: 28px; letter-spacing: normal; flex-shrink: 0; }
+.nav.nav .nav__brand > .brand-wordmark { display: inline-flex; }
+.nav.nav .nav__links, .nav.nav .nav__right { flex-shrink: 0; }
+.nav.nav .nav__links { gap: clamp(18px, 2.3vw, 36px); }
+.nav.nav .nav__links a, .nav.nav .nav__cta {
+  font-family: var(--font-mono-src, monospace), monospace;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.nav.nav .nav__links a::after { background: currentColor; }
+.nav.nav .nav__cta { gap: 13px; padding: 9px 0; border: 0; border-bottom: 1px solid currentColor; border-radius: 0; }
+.nav.nav .nav__cta:hover { background: transparent; color: inherit; opacity: .7; }
+.nav.nav .nav__cta .arrow { font-size: 17px; color: inherit; }
+.nav.nav .nav__menu { border-color: currentColor; border-radius: 0; }
+.nav.nav .nav__panel { background: #000; color: #f3f0e8; border-color: #f3f0e830; }
+.nav.nav .nav__panel a { font-family: var(--font-editorial-src, Georgia), serif; font-size: 30px; font-weight: 700; border-color: #f3f0e820; }
+.nav.nav a:focus-visible, .nav.nav button:focus-visible { outline-color: currentColor; }
+
+.footer.footer { background: #000; color: #f3f0e8; --dim-2: #aba79e; --color-line: #f3f0e830; }
+.footer.footer .footer__logo.brand-lockup { gap: 0; font-size: 32px; font-weight: 700; letter-spacing: normal; }
+.footer.footer .footer__intro p { line-height: 1.7; }
+.footer.footer .footer__h { font-weight: 400; font-size: 9px; letter-spacing: .12em; }
+.footer.footer .footer__col a { transition: color .2s; }
+.footer.footer .footer__col a:hover { color: #d59b7e; }
+.footer.footer .footer__wordmark.brand-signature {
+  container-type: inline-size;
+  display: block;
+  margin-top: clamp(64px, 9vw, 140px);
+  padding-bottom: clamp(28px, 4vw, 60px);
+  color: inherit;
+  font-size: inherit;
+  line-height: 1;
+  letter-spacing: normal;
+}
+.brand-signature__lockup { display: flex; align-items: flex-start; }
+.brand-signature .brand-wordmark--display { flex-shrink: 0; }
+.footer.footer .footer__bottom { line-height: 1.65; font-size: 9px; letter-spacing: .035em; }
+.footer.footer a:focus-visible { outline-color: currentColor; }
+
+@media (min-width: 761px) and (max-width: 1120px) {
+  .nav.nav { gap: 20px; }
+  .nav.nav .nav__brand.brand-lockup { font-size: 26px; }
+  .nav.nav .nav__links { gap: clamp(12px, 1.6vw, 18px); }
+  .nav.nav .nav__links a, .nav.nav .nav__cta { font-size: 9px; letter-spacing: .05em; }
+  .nav.nav .nav__cta { gap: 10px; }
+}
+@media (max-width: 760px) {
+  .nav.nav .nav__brand.brand-lockup { font-size: 27px; }
+  .nav.nav.nav--open .nav__panel { max-height: calc(100dvh - 92px); overflow-y: auto; overscroll-behavior: contain; }
+  .footer.footer .footer__logo.brand-lockup { font-size: 30px; }
+}
+@media (max-width: 520px) {
+  .nav.nav .nav__cta { display: none; }
+  .footer.footer .footer__bottom { flex-wrap: wrap; gap: 12px 24px; }
+}
+@media (max-width: 360px) {
+  .nav.nav .nav__brand.brand-lockup { font-size: 25px; }
+  .brand-wordmark__descriptor { font-size: 8px; }
+}
