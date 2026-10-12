@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { nav, site } from "@/lib/site"
 import { Wordmark } from "./brand-mark"
+import { MotionToggle } from "./motion-toggle"
 
 export function SiteFooter() {
   const year = new Date().getFullYear()
@@ -13,7 +14,7 @@ export function SiteFooter() {
         <nav className="footer__col" aria-label="Footer"><span className="footer__h">Find your way</span>{nav.map((n) => <Link key={n.href} href={n.href}>{n.label}</Link>)}</nav>
         <div className="footer__col"><span className="footer__h">Say hello</span><a href={`mailto:${site.email}`}>{site.email}</a><a href={`tel:${site.phone.tel}`}>{site.phone.display}</a><span className="footer__location">{site.location.long}</span>{socials.map((s) => <a key={s.label} href={s.href}>{s.label} ↗</a>)}</div>
       </div>
-      <div className="footer__bottom"><span>© {year} {site.name}</span><span>{site.tagline}</span><Link href="/privacy">Privacy</Link></div>
+      <div className="footer__bottom"><span>© {year} {site.name}</span><span>{site.tagline}</span><MotionToggle /><Link href="/privacy">Privacy</Link></div>
       </div>
     </footer>
   )

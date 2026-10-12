@@ -52,11 +52,9 @@ pnpm build      # production build (what Vercel runs)
 
 Also set `NEXT_PUBLIC_SITE_URL` once a custom domain exists, so the share image and sitemap use it.
 
-## Seeing the motion on a machine with animations turned off
+## Motion policy
 
-The site honours the operating system's reduced-motion preference by default. For preview links, `?motion=1` enables motion and saves the override in the browser; `?motion=0` clears the saved preference. No operating-system settings are changed.
-
-The hero and stacking process run at phone sizes, including short landscape screens. The design lab advances with scrolling on phones too, with a compact landscape preview; reduced motion retains manual stage selection. Touch devices use scroll-driven drift and tilt in place of pointer effects, while service details animate when visible. The intro paragraph fills as its own text enters the screen. Stable small-viewport sizing keeps pinned sequences steady as browser controls collapse. Service articles stack into one column on phones.
+Animation is on for every visitor by default, whatever their operating system reports. (Windows with Settings → Accessibility → Visual effects → **Animation effects** switched off tells every website the user wants reduced motion, which is how the owners first saw a still site.) A visitor who wants less motion uses the **Motion on/off** switch in the footer; the choice is stored in that browser. `?motion=0` in the URL does the same thing and `?motion=1` clears it.
 
 ## Reviewing changes
 

@@ -70,13 +70,17 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en-CA" data-scroll-behavior="smooth" className={`${sans.variable} ${mono.variable} ${editorial.variable}`} suppressHydrationWarning>
       <body>
         {/* Marks the page as scripted before anything paints, so scroll reveals only hide
-            content when the script that reveals it is guaranteed to run. Also applies the
-            owner's motion override: ?motion=1 forces every animation on even when the OS asks
-            for reduced motion (Windows "Animation effects" off does that); ?motion=0 clears it. */}
+            content when the script that reveals it is guaranteed to run.
+
+            Motion policy: animation is ON for everyone by default, whatever the operating
+            system reports (Windows with "Animation effects" off reports reduced motion for
+            every site, which hid everything from the owners). A visitor who wants less motion
+            uses the footer toggle, which stores "reduce" in this browser. ?motion=0 in the URL
+            does the same; ?motion=1 clears it. */}
         <script
           dangerouslySetInnerHTML={{
             __html:
-              "document.documentElement.classList.add('js');(function(){var q=new URLSearchParams(location.search).get('motion'),m='';try{m=localStorage.getItem('motion')||''}catch(e){}if(q==='1')m='force';if(q==='0')m='';if(m==='force')document.documentElement.classList.add('force-motion');if(m==='reduce')document.documentElement.classList.add('reduce-motion');try{if(q==='1')localStorage.setItem('motion','force');if(q==='0')localStorage.removeItem('motion')}catch(e){}})();",
+              "document.documentElement.classList.add('js');(function(){var q=new URLSearchParams(location.search).get('motion'),m='';try{m=localStorage.getItem('motion')||''}catch(e){}if(q==='0')m='reduce';if(q==='1')m='';document.documentElement.classList.add(m==='reduce'?'reduce-motion':'force-motion');try{if(q==='0')localStorage.setItem('motion','reduce');if(q==='1')localStorage.removeItem('motion')}catch(e){}})();",
           }}
         />
         {children}
