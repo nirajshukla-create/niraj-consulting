@@ -97,10 +97,10 @@ export function FeaturedProject() {
   }, [])
 
   return (
-    <section className="featured-project" id="featured-work" ref={rootRef} aria-labelledby="featured-project-title">
+    <section className="featured-project" id="design-lab-low-tide" ref={rootRef} aria-labelledby="featured-project-title">
       <div className="featured-project__viewport" ref={probeRef} aria-hidden="true" />
       <div className="featured-project__intro editorial-shell">
-        <p className="featured-project__eyebrow">INDEPENDENT CONCEPT / 001</p>
+        <p className="featured-project__eyebrow">DESIGN LAB / CONCEPT STUDY 001 — FICTIONAL BRAND</p>
         <div className="featured-project__heading">
           <h2 id="featured-project-title">A quieter kind<br />of <em>escape.</em></h2>
           <div className="featured-project__brief"><span>LOW TIDE — COASTAL STAYS</span><p>A place you feel before you arrive. An identity and digital experience for an imagined coastal retreat.</p><a href="#project-comparison">See the difference <span aria-hidden="true">↓</span></a></div>
@@ -123,7 +123,7 @@ export function FeaturedProject() {
         <div className="featured-project__decisions"><p><span>01 / IDENTITY</span>A little less noise.<br />A lot more character.</p><p><span>02 / EXPERIENCE</span>Lead with the feeling.<br />Make the next step clear.</p><p><span>03 / EVERY SCREEN</span>Same point of view.<br />A different composition.</p></div>
         <div className="featured-project__comparison-heading" id="project-comparison"><h3>Same place.<br /><em>Different impression.</em></h3><p>Move the divider to see how hierarchy, photography and a clearer invitation change the experience.</p></div>
         <ProjectComparison before={<LowTideSite original />} after={<LowTideSite />} />
-        <div className="featured-project__end"><p>An independent design exploration. Fictional brand and AI-generated concept imagery.</p><Link href="/contact?about=web">Give your business a new perspective <span aria-hidden="true">↗</span></Link></div>
+        <div className="featured-project__end"><p>An independent design exploration. Fictional brand and AI-generated concept imagery.</p><Link href="/contact?about=sales-enablement">Talk to us about sales assets <span aria-hidden="true">↗</span></Link></div>
       </div>
     </section>
   )

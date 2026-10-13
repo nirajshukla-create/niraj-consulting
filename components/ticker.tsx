@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react"
 import { prefersReduced } from "./motion"
 import { site } from "@/lib/site"
 
-const items = ["Strategy & positioning", "Web design", "Digital communications", site.location.long]
+const items = ["Market entry", "Lead generation", "Research", "Sales enablement", site.location.long]
 
 export function Tickers() {
   const ref = useRef<HTMLDivElement>(null)

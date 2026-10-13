@@ -40,7 +40,7 @@ type WordmarkProps = {
   decorative?: boolean
 }
 
-/** The final word is italic, echoing the studio's original editorial identity. */
+/** The final word is italic. The small line beneath is optional and hidden when empty. */
 export function Wordmark({ className = "", variant = "compact", decorative = false }: WordmarkProps) {
   const words = site.wordmark.primary.split(" ")
   const accent = words.pop()
@@ -52,7 +52,7 @@ export function Wordmark({ className = "", variant = "compact", decorative = fal
       aria-hidden={decorative || undefined}
     >
       <span className="brand-wordmark__text">{words.length > 0 && `${words.join(" ")} `}<span className="brand-wordmark__accent">{accent}</span></span>
-      <span className="brand-wordmark__descriptor">{site.wordmark.secondary}</span>
+      {site.wordmark.secondary && <span className="brand-wordmark__descriptor">{site.wordmark.secondary}</span>}
     </span>
   )
 }

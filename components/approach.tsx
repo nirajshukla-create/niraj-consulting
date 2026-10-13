@@ -1,8 +1,9 @@
 import Link from "next/link"
 import type { CSSProperties } from "react"
-import { panel, steps } from "@/lib/site"
+import { approachNote, ownership, panel, steps } from "@/lib/site"
 import { ProcessMotion } from "./process-motion"
 import "./studio-sections.css"
+import "./market-sections.css"
 
 /** Kept for the circular wordmark used elsewhere on the site. */
 export function Badge({ text, className = "badge" }: { text: string; className?: string }) {
@@ -17,6 +18,7 @@ export function Badge({ text, className = "badge" }: { text: string; className?:
   )
 }
 
+/** Research, Enter, Generate, Enable. Then who owns what, and how an engagement starts. */
 export function Approach() {
   return (
     <section id="approach" className="ap-section" aria-labelledby="approach-title">
@@ -25,7 +27,7 @@ export function Approach() {
           <p className="editorial-heading__label">04 — Approach</p>
           <div className="editorial-heading__content">
             <h2 id="approach-title" className="editorial-heading__title">How we work.</h2>
-            <p className="editorial-heading__note">A clear plan. Close collaboration. Here for the work, and what comes after.</p>
+            <p className="editorial-heading__note">{approachNote}</p>
           </div>
         </div>
         <ProcessMotion>
@@ -39,6 +41,10 @@ export function Approach() {
             </li>
           ))}
         </ProcessMotion>
+        <div className="ap-ownership">
+          <span>Who owns what</span>
+          <p>{ownership}</p>
+        </div>
         <article className="ap-call" aria-labelledby="first-call-title">
           <p className="ap-call__label">{panel.tag}</p>
           <div className="ap-call__copy">

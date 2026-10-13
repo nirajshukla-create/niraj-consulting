@@ -76,7 +76,7 @@ export function SiteHeader() {
       </nav>
       <div className="nav__right">
         <Link href="/contact" className="nav__cta" onClick={() => setOpen(false)}>
-          Let&apos;s talk <span className="arrow" aria-hidden="true">↗</span>
+          Book a call <span className="arrow" aria-hidden="true">↗</span>
         </Link>
         <button ref={menuButtonRef} type="button" className="nav__menu" aria-expanded={open} aria-controls="nav-panel" aria-label={open ? "Close menu" : "Open menu"} onClick={() => setOpen((o) => !o)}>
           <span />

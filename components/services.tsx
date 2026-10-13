@@ -1,30 +1,13 @@
 import Link from "next/link"
-import { services, type CoverKind } from "@/lib/site"
+import { services, servicesNote, terms, type CoverKind } from "@/lib/site"
 import { ServiceArtMotion } from "./service-motion"
 import "./services.css"
+import "./market-sections.css"
 
-const serviceLabels: Record<CoverKind, string> = {
-  web: "Web design study",
-  social: "Social design study",
-  strategy: "Positioning, illustrated",
-  brand: "Identity design study",
-}
-
-const serviceActions: Record<CoverKind, string> = {
-  web: "Build your website",
-  social: "Start the conversation",
-  strategy: "Find your direction",
-  brand: "Shape your brand",
-}
-
-const serviceCategories: Record<CoverKind, string> = {
-  web: "Digital",
-  social: "Social media",
-  strategy: "Strategy",
-  brand: "Brand & content",
-}
-
-/** Original illustrations of our services, rather than client case studies. */
+/**
+ * Original illustrations, not client case studies. Each practice area in lib/site.ts picks
+ * one by its `cover`: reach (social), routes (strategy), comparison (brand), a page (web).
+ */
 function ServiceArtwork({ kind }: { kind: CoverKind }) {
   if (kind === "web") {
     return (
@@ -88,9 +71,9 @@ function ServiceArtwork({ kind }: { kind: CoverKind }) {
         <g className="service-art__piece service-art__piece--main"><g transform="translate(71 0)">
           <rect x="236" y="48" width="254" height="326" fill="#000000" fillOpacity=".2" />
           <rect x="222" y="35" width="254" height="326" fill="#000000" />
-          <text x="241" y="132" fill="#f2f3f1" className="service-art__display" fontSize="63" fontWeight="800" letterSpacing="-1">Say</text>
-          <text x="241" y="190" fill="#f2f3f1" className="service-art__display" fontSize="53" fontWeight="800" letterSpacing="-1">some-</text>
-          <text x="241" y="248" fill="#f2f3f1" className="service-art__display" fontSize="53" fontWeight="800" letterSpacing="-1">thing.</text>
+          <text x="241" y="132" fill="#f2f3f1" className="service-art__display" fontSize="63" fontWeight="800" letterSpacing="-1">Find</text>
+          <text x="241" y="190" fill="#f2f3f1" className="service-art__display" fontSize="53" fontWeight="800" letterSpacing="-1">your</text>
+          <text x="241" y="248" fill="#f2f3f1" className="service-art__display" fontSize="53" fontWeight="800" letterSpacing="-1">buyer.</text>
           <path className="service-art__ambient service-art__trace" pathLength="1" d="M242 268C278 254 311 281 349 269C386 257 412 265 448 262" fill="none" stroke="#d4c5b5" strokeWidth="5" />
           <path d="M246 326H339" stroke="#f2f3f1" strokeOpacity=".3" strokeWidth="2" />
         </g></g>
@@ -118,24 +101,24 @@ function ServiceArtwork({ kind }: { kind: CoverKind }) {
           <path d="M441 105L450 110L441 115M441 313L450 318L441 323" fill="none" stroke="#000000" strokeWidth="1.6" />
           <g className="service-art__piece service-art__piece--left"><g transform="rotate(-6 135 124)">
             <rect x="57" y="72" width="158" height="109" fill="#f2f3f1" />
-            <text x="75" y="121" className="service-art__display" fontSize="24" fontWeight="700">What makes</text>
-            <text x="75" y="151" className="service-art__display" fontSize="24" fontWeight="700">you, you?</text>
+            <text x="75" y="121" className="service-art__display" fontSize="24" fontWeight="700">Local</text>
+            <text x="75" y="151" className="service-art__display" fontSize="24" fontWeight="700">traction.</text>
           </g></g>
           <g className="service-art__piece service-art__piece--core">
           <circle cx="300" cy="214" r="77" fill="#000000" />
           <circle className="service-art__ambient service-art__ring" cx="300" cy="214" r="66" fill="none" stroke="#f2f3f1" strokeOpacity=".6" strokeDasharray="18 12" />
-          <text x="300" y="207" textAnchor="middle" fill="#f2f3f1" className="service-art__display" fontSize="30" fontWeight="700">True</text>
-          <text x="300" y="241" textAnchor="middle" fill="#f2f3f1" className="service-art__display" fontSize="30" fontWeight="700">north.</text>
+          <text x="300" y="207" textAnchor="middle" fill="#f2f3f1" className="service-art__display" fontSize="30" fontWeight="700">Entry</text>
+          <text x="300" y="241" textAnchor="middle" fill="#f2f3f1" className="service-art__display" fontSize="30" fontWeight="700">plan.</text>
           </g>
           <g className="service-art__piece service-art__piece--right"><g transform="rotate(5 467 110)">
             <rect x="409" y="70" width="140" height="79" fill="#a65632" />
-            <text x="424" y="105" className="service-art__display" fontSize="23" fontWeight="700">Find</text>
-            <text x="424" y="132" className="service-art__display" fontSize="23" fontWeight="700">your fit.</text>
+            <text x="424" y="105" className="service-art__display" fontSize="23" fontWeight="700">New</text>
+            <text x="424" y="132" className="service-art__display" fontSize="23" fontWeight="700">market.</text>
           </g></g>
           <g className="service-art__piece service-art__piece--lower"><g transform="rotate(-3 463 316)">
             <rect x="406" y="278" width="146" height="81" fill="#cbc8bd" />
-            <text x="423" y="312" className="service-art__display" fontSize="23" fontWeight="700">Move</text>
-            <text x="423" y="340" className="service-art__display" fontSize="23" fontWeight="700">with it.</text>
+            <text x="423" y="312" className="service-art__display" fontSize="23" fontWeight="700">Channel</text>
+            <text x="423" y="340" className="service-art__display" fontSize="23" fontWeight="700">partner.</text>
           </g></g>
           <path d="M120 258C118 239 158 248 151 273C146 293 111 292 112 272C114 251 174 258 167 281" fill="none" stroke="#000000" strokeWidth="1.5" />
         </g>
@@ -148,9 +131,9 @@ function ServiceArtwork({ kind }: { kind: CoverKind }) {
       <g className="service-art__piece service-art__piece--back"><g transform="rotate(6 406 208)">
         <rect className="service-art__identity-plane" x="304" y="44" width="213" height="315" fill="#a65632" />
         <g className="service-art__skin">
-        <text x="320" y="189" fill="#000000" className="service-art__display" fontSize="112" fontWeight="700" letterSpacing="-2">Aa</text>
+        <text x="320" y="189" fill="#000000" className="service-art__display" fontSize="112" fontWeight="700" letterSpacing="-2">vs</text>
         <path d="M326 214H494" stroke="#000000" strokeOpacity=".4" />
-        <text x="326" y="248" fill="#000000" className="service-art__display" fontSize="28" letterSpacing="2">Abc 123</text>
+        <text x="356" y="248" fill="#000000" className="service-art__display" fontSize="28" letterSpacing="2">A · B · C</text>
         </g>
         <rect x="326" y="293" width="37" height="38" fill="#a65632" />
         <rect x="369" y="293" width="37" height="38" fill="#d4c5b5" />
@@ -162,8 +145,8 @@ function ServiceArtwork({ kind }: { kind: CoverKind }) {
         <rect className="service-art__identity-paper" x="67" y="75" width="266" height="272" fill="#f2f3f1" />
         <path d="M94 112H306" stroke="#000000" strokeOpacity=".3" />
         <g className="service-art__skin">
-        <text x="90" y="187" className="service-art__display" fontSize="53" fontWeight="700" letterSpacing="-.5">Form.</text>
-        <text x="90" y="247" className="service-art__display" fontSize="53" fontWeight="700" letterSpacing="-.5">Voice.</text>
+        <text x="90" y="187" className="service-art__display" fontSize="47" fontWeight="700" letterSpacing="-.5">Ask.</text>
+        <text x="90" y="247" className="service-art__display" fontSize="47" fontWeight="700" letterSpacing="-.5">Measure.</text>
         <path className="service-art__ambient service-art__trace" pathLength="1" d="M94 290H272M94 304H230" stroke="#000000" strokeOpacity=".3" strokeWidth="2" />
         </g>
         <g className="service-art__identity-mark" fill="#000000">
@@ -188,18 +171,18 @@ export function Services() {
     <section className="studio-services" id="services" aria-labelledby="services-title">
       <div className="editorial-shell">
         <header className="editorial-heading">
-          <p className="editorial-heading__label">02 — Expertise</p>
+          <p className="editorial-heading__label">03 — Expertise</p>
           <div className="editorial-heading__content">
             <h2 id="services-title" className="editorial-heading__title">What we do.</h2>
-            <p className="editorial-heading__note">Four disciplines. One team. Fixed quotes. Built in-house.</p>
+            <p className="editorial-heading__note">{servicesNote}</p>
           </div>
         </header>
         <div className="studio-services__grid">
           {services.map((service, index) => (
               <article className="service-editorial" key={service.id}>
                 <Link href={`/contact?about=${service.id}`} className="service-editorial__link" aria-labelledby={`service-${service.id}-title`}>
-                  <p className="service-editorial__category"><span aria-hidden="true">0{index + 1}</span>{serviceCategories[service.cover]}</p>
-                  <ServiceArtMotion kind={service.cover} caption={serviceLabels[service.cover]}>
+                  <p className="service-editorial__category"><span aria-hidden="true">0{index + 1}</span>{service.category}</p>
+                  <ServiceArtMotion kind={service.cover} caption={service.artLabel} phases={service.phases}>
                     <ServiceArtwork kind={service.cover} />
                   </ServiceArtMotion>
                   <div className="service-editorial__body">
@@ -210,11 +193,16 @@ export function Services() {
                     <ul className="service-editorial__includes">
                       {service.includes.map((item) => <li key={item}>{item}</li>)}
                     </ul>
-                    <span className="service-editorial__cta">{serviceActions[service.cover]} <span aria-hidden="true">↗</span></span>
+                    {service.also && <p className="service-editorial__also">{service.also}</p>}
+                    <span className="service-editorial__cta">{service.action} <span aria-hidden="true">↗</span></span>
                   </div>
                 </Link>
               </article>
           ))}
+        </div>
+        <div className="studio-services__terms">
+          <span>How we quote</span>
+          <p>{terms}</p>
         </div>
       </div>
     </section>

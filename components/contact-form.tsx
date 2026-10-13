@@ -1,24 +1,25 @@
 "use client"
 
 import { useEffect, useState, type FormEvent } from "react"
-import { services, site } from "@/lib/site"
+import { services, site, topics, type Topic } from "@/lib/site"
+import "./market-sections.css"
 
 type Status = "idle" | "sending" | "sent" | "unconfigured" | "error"
 
 /**
  * Posts to /api/contact, which forwards to Resend when RESEND_API_KEY is set. Until it is,
  * the API answers 503 and the form offers a prefilled email link instead, so no message
- * is ever silently lost. A `?about=<service id>` in the URL seeds the message.
+ * is ever silently lost. A `?about=<service id>` in the URL preselects that service's topic.
  */
 export function ContactForm() {
   const [status, setStatus] = useState<Status>("idle")
+  const [topic, setTopic] = useState<Topic | "">("")
   const [draft, setDraft] = useState({ name: "", email: "", business: "", message: "" })
-  const [seed, setSeed] = useState("")
 
   useEffect(() => {
     const id = new URLSearchParams(window.location.search).get("about")
-    const s = services.find((x) => x.id === id)
-    if (s) setSeed(`I'm interested in ${s.title.toLowerCase()}. `)
+    const service = services.find((item) => item.id === id)
+    if (service) setTopic(service.topic)
   }, [])
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
@@ -40,8 +41,8 @@ export function ContactForm() {
     }
   }
 
-  const subject = encodeURIComponent(`Project enquiry from ${draft.name || "the website"}`)
-  const body = encodeURIComponent(`${draft.message}\n\n${draft.name}\n${draft.business}\n${draft.email}`.trim())
+  const subject = encodeURIComponent(`${topic || "Enquiry"} from ${draft.name || "the website"}`)
+  const body = encodeURIComponent(`${topic ? `Topic: ${topic}\n\n` : ""}${draft.message}\n\n${draft.name}\n${draft.business}\n${draft.email}`.trim())
   const mailto = `mailto:${site.email}?subject=${subject}&body=${body}`
 
   if (status === "sent") {
@@ -56,6 +57,17 @@ export function ContactForm() {
 
   return (
     <form className="form editorial-form" onSubmit={onSubmit}>
+      <fieldset className="topic">
+        <legend>What is this about?</legend>
+        <div className="topic__options">
+          {topics.map((option) => (
+            <label key={option} className="topic__option">
+              <input type="radio" name="topic" value={option} checked={topic === option} onChange={() => setTopic(option)} />
+              <span>{option}</span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
       <div className="form__row">
         <div className="field">
           <label htmlFor="name">Name</label>
@@ -67,12 +79,12 @@ export function ContactForm() {
         </div>
       </div>
       <div className="field">
-        <label htmlFor="business">Business</label>
+        <label htmlFor="business">Company</label>
         <input id="business" name="business" autoComplete="organization" maxLength={200} />
       </div>
       <div className="field">
-        <label htmlFor="message">What are you working on?</label>
-        <textarea id="message" name="message" rows={6} required minLength={5} maxLength={5000} defaultValue={seed} key={seed} />
+        <label htmlFor="message">Which market, and where does your pipeline stand?</label>
+        <textarea id="message" name="message" rows={6} required minLength={5} maxLength={5000} />
       </div>
       {/* honeypot: hidden from people, filled by bots, silently dropped by the API */}
       <div className="field field--hp" aria-hidden="true">

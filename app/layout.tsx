@@ -32,7 +32,7 @@ const siteUrl =
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: `${site.name} | Web design, social media and strategy, St. John's NL`,
+    default: `${site.name} | ${site.headline.replace(/\.$/, "")}`,
     template: `%s | ${site.name}`,
   },
   description: site.description,
@@ -56,12 +56,15 @@ const jsonLd = {
   telephone: site.phone.tel,
   address: {
     "@type": "PostalAddress",
-    addressLocality: site.location.city,
-    addressRegion: site.location.region,
-    addressCountry: "CA",
+    streetAddress: site.address.line,
+    postOfficeBoxNumber: site.address.box,
+    addressLocality: site.address.city,
+    addressRegion: site.address.region,
+    postalCode: site.address.postal,
+    addressCountry: site.address.country,
   },
   areaServed: site.location.served,
-  founder: people.map((p) => ({ "@type": "Person", name: p.name, jobTitle: p.role })),
+  member: people.map((p) => ({ "@type": "Person", name: p.name, jobTitle: p.role })),
   knowsAbout: services.map((s) => s.title),
 }
 

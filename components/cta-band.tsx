@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { site } from "@/lib/site"
+import { closing, site } from "@/lib/site"
 import { ScrollScene } from "./scroll-scene"
 import { ClosingTransformation } from "./closing-transformation"
 
@@ -10,10 +10,10 @@ export function CtaBand() {
         <div className="editorial-closing__rule" aria-hidden="true" />
         <div className="editorial-closing__body">
           <div className="editorial-closing__copy">
-            <p className="editorial-heading__label">06 — A conversation</p>
-            <h2 id="cta-title">What are you working on?</h2>
-            <p>Tell us where you are and what you want to change. We’ll take it from there.</p>
-            <Link href="/contact" className="editorial-link">Start a conversation <span aria-hidden="true">→</span></Link>
+            <p className="editorial-heading__label">08 — A conversation</p>
+            <h2 id="cta-title">{closing.title}</h2>
+            <p>{closing.text}</p>
+            <Link href="/contact" className="editorial-link">{closing.cta} <span aria-hidden="true">→</span></Link>
             <a className="editorial-closing__email" href={`mailto:${site.email}`}>{site.email}</a>
           </div>
           <ClosingTransformation />

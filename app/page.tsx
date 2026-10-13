@@ -1,15 +1,20 @@
 import { SiteHeader } from "@/components/site-header"
 import { Hero } from "@/components/hero"
 import { Intro } from "@/components/intro"
+import { Audience } from "@/components/audience"
 import { DirectionStudy } from "@/components/direction-study"
-import { SignalShowcase } from "@/components/signal-showcase"
 import { Services } from "@/components/services"
-import { FeaturedProject } from "@/components/featured-project"
 import { Approach } from "@/components/approach"
+import { Experience } from "@/components/experience"
 import { Team } from "@/components/team"
+import { DesignLab } from "@/components/design-lab"
 import { CtaBand } from "@/components/cta-band"
 import { SiteFooter } from "@/components/site-footer"
 
+/**
+ * Positioning first, then what we do, how, proof and people. The concept studies for
+ * fictional brands sit below all of that, under the Design lab label.
+ */
 export default function Home() {
   return (
     <>
@@ -20,12 +25,13 @@ export default function Home() {
       <main>
         <Hero />
         <Intro />
+        <Audience />
         <DirectionStudy />
         <Services />
-        <FeaturedProject />
-        <SignalShowcase />
         <Approach />
+        <Experience />
         <Team />
+        <DesignLab />
         <CtaBand />
       </main>
       <SiteFooter />

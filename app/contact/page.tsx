@@ -7,7 +7,7 @@ import { site } from "@/lib/site"
 
 export const metadata: Metadata = {
   title: "Contact",
-  description: `Start a project with ${site.name}: web design, social media marketing and strategy from ${site.location.long}.`,
+  description: `Book a 30-minute call with ${site.name} about market entry, lead generation, research or sales enablement.`,
 }
 
 export default function ContactPage() {
@@ -15,7 +15,7 @@ export default function ContactPage() {
     <>
       <SiteHeader />
       <main className="inner-page">
-        <PageHero kicker="Start a conversation" title="Contact." />
+        <PageHero kicker="Book a 30-minute call" title="Contact." />
         <Contact />
       </main>
       <SiteFooter />

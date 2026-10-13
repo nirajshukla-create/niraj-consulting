@@ -7,7 +7,7 @@ import { about, site } from "@/lib/site"
 
 export const metadata: Metadata = {
   title: "About",
-  description: `${about.title} ${about.lede} ${site.name} is a web design, social media and strategy studio in ${site.location.long}.`,
+  description: `${about.teamNote} ${site.name} helps Atlantic Canadian tech companies enter mainland Canadian and U.S. markets.`,
 }
 
 export default function AboutPage() {
@@ -15,7 +15,7 @@ export default function AboutPage() {
     <>
       <SiteHeader />
       <main className="inner-page">
-        <PageHero kicker="The people & the practice" title="About." />
+        <PageHero kicker="The team & how we deliver" title="About." />
         <About />
       </main>
       <SiteFooter />

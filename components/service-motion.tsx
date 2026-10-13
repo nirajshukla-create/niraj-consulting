@@ -44,7 +44,7 @@ const phases: Record<CoverKind, [string, string, string]> = {
 }
 
 /** The artwork moves independently of its caption and the service text. */
-export function ServiceArtMotion({ children, kind, caption }: { children: ReactNode; kind: CoverKind; caption: string }) {
+export function ServiceArtMotion({ children, kind, caption, phases: labels }: { children: ReactNode; kind: CoverKind; caption: string; phases?: [string, string, string] }) {
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -209,7 +209,7 @@ export function ServiceArtMotion({ children, kind, caption }: { children: ReactN
   return (
     <div ref={ref} className={`service-art service-art--${kind}`} data-phase="2">
       <div className="service-art__stage">{children}</div>
-      <span className="service-art__caption" aria-hidden="true">{phases[kind].map((phase, index) => <span key={phase} className={`service-art__phase service-art__phase--${index}`}><i />{phase}</span>)}</span>
+      <span className="service-art__caption" aria-hidden="true">{(labels ?? phases[kind]).map((phase, index) => <span key={phase} className={`service-art__phase service-art__phase--${index}`}><i />{phase}</span>)}</span>
       <span className="sr-only">{caption}</span>
       <span className="service-art__open" aria-hidden="true">↗</span>
     </div>

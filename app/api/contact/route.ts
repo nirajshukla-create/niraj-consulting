@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import { site } from "@/lib/site"
+import { site, topics } from "@/lib/site"
 
 export const runtime = "nodejs"
 
@@ -10,7 +10,7 @@ export const runtime = "nodejs"
  *   RESEND_API_KEY  required to send; without it the route answers 503 and the form falls
  *                   back to a prefilled mailto link.
  *   CONTACT_TO      comma-separated recipients; defaults to site.email.
- *   CONTACT_FROM    a sender on a domain verified in Resend, e.g. "The Narrows <hello@yourdomain.ca>".
+ *   CONTACT_FROM    a sender on a domain verified in Resend, e.g. "Innovation East <hello@yourdomain.ca>".
  *                   Defaults to Resend's onboarding sender, which only delivers to the
  *                   Resend account owner's own address.
  */
@@ -29,6 +29,8 @@ export async function POST(req: Request) {
   const business = str("business")
   const message = str("message")
   const website = str("website")
+  // only a topic from the form's own list is accepted; anything else is dropped
+  const topic = (topics as readonly string[]).includes(str("topic")) ? str("topic") : ""
 
   // honeypot: real people never see this field
   if (website) return NextResponse.json({ ok: true })
@@ -50,7 +52,8 @@ export async function POST(req: Request) {
   const from = process.env.CONTACT_FROM ?? `${site.name} <onboarding@resend.dev>`
 
   const lines = [`Name: ${name}`, `Email: ${email}`]
-  if (business) lines.push(`Business: ${business}`)
+  if (business) lines.push(`Company: ${business}`)
+  if (topic) lines.push(`Topic: ${topic}`)
   lines.push("", message)
 
   const r = await fetch("https://api.resend.com/emails", {
@@ -60,7 +63,7 @@ export async function POST(req: Request) {
       from,
       to,
       reply_to: email,
-      subject: `New enquiry from ${name}${business ? ` (${business})` : ""}`,
+      subject: `${topic || "New enquiry"} from ${name}${business ? ` (${business})` : ""}`,
       text: lines.join("\n"),
     }),
   })

@@ -25,20 +25,20 @@ export default async function Image() {
         {/* A bottom-aligned crop keeps the coastline in the wide share format. */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={`data:image/png;base64,${coast.toString("base64")}`} alt="" width={1200} height={900} style={{ position: "absolute", left: 0, bottom: 0 }} />
-        <div style={{ position: "absolute", inset: 0, backgroundImage: "linear-gradient(90deg, rgba(0,0,0,.82) 0%, rgba(0,0,0,.58) 58%, rgba(0,0,0,.3) 100%)" }} />
+        <div style={{ position: "absolute", top: 0, left: 0, width: 1200, height: 630, backgroundImage: "linear-gradient(90deg, rgba(0,0,0,.82) 0%, rgba(0,0,0,.58) 58%, rgba(0,0,0,.3) 100%)" }} />
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", margin: "34px 60px 0", paddingBottom: 20, borderBottom: "1px solid #f3f0e840" }}>
           <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
             <div style={{ display: "flex", fontSize: 29, letterSpacing: -1 }}><span>{words.join(" ")}&nbsp;</span><span style={{ fontStyle: "italic" }}>{accent}</span></div>
-            <span style={{ fontFamily: "Labels", fontWeight: 400, fontSize: 9, letterSpacing: 3 }}>{site.wordmark.secondary.toUpperCase()}</span>
+            {site.wordmark.secondary && <span style={{ fontFamily: "Labels", fontWeight: 400, fontSize: 9, letterSpacing: 3 }}>{site.wordmark.secondary.toUpperCase()}</span>}
           </div>
           <span style={{ fontFamily: "Labels", fontWeight: 400, fontSize: 11, letterSpacing: 2 }}>ST. JOHN’S, NEWFOUNDLAND</span>
         </div>
         <div style={{ display: "flex", flexDirection: "column", margin: "32px 60px 0", fontSize: 132, lineHeight: .99, letterSpacing: -5 }}>
           {hero.lines.map((line) => <span key={line.text} style={{ fontStyle: line.accent ? "italic" : "normal" }}>{line.text}</span>)}
         </div>
-        <span style={{ display: "flex", margin: "19px 64px 0", fontFamily: "Labels", fontWeight: 400, fontSize: 13, letterSpacing: 5 }}>{site.wordmark.secondary.toUpperCase()}</span>
+        <span style={{ display: "flex", margin: "24px 64px 0", fontFamily: "Labels", fontWeight: 400, fontSize: 15, letterSpacing: 2 }}>{site.headline.toUpperCase()}</span>
         <div style={{ position: "absolute", left: 60, right: 60, bottom: 36, display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: 20, borderTop: "1px solid #f3f0e840", fontFamily: "Labels", fontWeight: 400, fontSize: 11, letterSpacing: 1.2 }}>
-          <span>WEB DESIGN · SOCIAL MEDIA · STRATEGY</span>
+          <span>MARKET ENTRY · LEAD GENERATION · RESEARCH · SALES ENABLEMENT</span>
           <span>{site.tagline}</span>
         </div>
       </div>

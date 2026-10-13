@@ -27,7 +27,7 @@ export default function PrivacyPage() {
             <div className="privacy-editorial__body inner-prose">
               <section id="privacy-contact" aria-labelledby="privacy-contact-title">
                 <h2 id="privacy-contact-title">The contact form.</h2>
-                <p>When you send a message we receive your name, email address, the business you name and the message itself. We use it to reply to you. It is not added to a mailing list or sold.</p>
+                <p>When you send a message we receive your name, email address, the company you name, the topic you choose and the message itself. We use it to reply to you. It is not added to a mailing list or sold.</p>
                 <p>Messages sent through the form are delivered using Resend. If sending is unavailable, the form offers a link to send your message by email instead.</p>
               </section>
               <section id="privacy-analytics" aria-labelledby="privacy-analytics-title">

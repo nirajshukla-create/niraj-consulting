@@ -150,10 +150,10 @@ export function SignalShowcase() {
     setSceneVersion(version => version + 1)
   }
 
-  return <section className="signal-showcase design-lab design-lab--editorial" id="design-lab" aria-labelledby="signal-showcase-title" data-stage={stage} ref={section}>
+  return <section className="signal-showcase design-lab design-lab--editorial" id="design-lab-objects" aria-labelledby="signal-showcase-title" data-stage={stage} ref={section}>
     <div ref={viewportProbe} className="design-lab__viewport" aria-hidden="true" />
     <div className="editorial-shell">
-      <header className="editorial-heading"><p className="editorial-heading__label">03 — Design study</p><div className="editorial-heading__content"><h2 className="editorial-heading__title" id="signal-showcase-title">Design is a series of decisions.</h2><p className="editorial-heading__note">{scrollEnabled ? "Scroll through three decisions. Watch typography, composition and colour transform the same idea." : "One idea, three directions. Explore how typography, composition and colour change the result."}</p></div></header>
+      <header className="editorial-heading"><p className="editorial-heading__label">Design lab / Concept study 002</p><div className="editorial-heading__content"><h2 className="editorial-heading__title" id="signal-showcase-title">Design is a series of decisions.</h2><p className="editorial-heading__note">{scrollEnabled ? "Scroll through three decisions. Watch typography, composition and colour transform the same idea." : "One idea, three directions. Explore how typography, composition and colour change the result."}</p></div></header>
       <div className="design-lab__scroll-scene" ref={scene}>
       <div className="design-lab__pin" ref={pin}>
       <div className="design-lab__workspace" ref={workspace}>

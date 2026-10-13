@@ -117,9 +117,9 @@ export function ProcessMotion({ children }: { children: ReactNode }) {
   return (
     <div ref={ref} className="ap-process-scene">
       <div className="ap-progress" aria-hidden="true">
-        <span>From the first conversation</span>
+        <span>From research</span>
         <span className="ap-progress__track"><span /></span>
-        <span>To what comes next ↗</span>
+        <span>To sales assets ↗</span>
       </div>
       <ol className="ap-process">{children}</ol>
     </div>
