@@ -5,6 +5,13 @@ import { clamp01, onScroll, prefersReduced } from "./motion"
 
 const ease = (value: number) => { const p = clamp01(value); return p * p * (3 - 2 * p) }
 
+/**
+ * The scroll-driven sequence (photo contracts, splits into three panels, then an arrival
+ * panel) is switched off to keep the page calm: the hero now simply scrolls away after its
+ * opening reveal. Set to true to bring the pinned sequence back.
+ */
+const SCROLL_SEQUENCE = false
+
 /** The full coastline contracts into a split image study, then clears into paper. */
 export function HeroMotion({ children, className = "hero" }: { children: ReactNode; className?: string }) {
   const stageRef = useRef<HTMLDivElement>(null)
@@ -40,7 +47,7 @@ export function HeroMotion({ children, className = "hero" }: { children: ReactNo
       stage.dataset.motion = enabled ? "on" : "off"
       hero.dataset.touch = String(!hover.matches)
       stage.style.setProperty("--hero-height", height + "px")
-      stage.style.setProperty("--hero-travel", span + "px")
+      stage.style.setProperty("--hero-travel", (SCROLL_SEQUENCE ? span : 0) + "px")
       stage.style.setProperty("--hero-pin-offset", -stickyTop + "px")
       stage.style.setProperty("--hero-view-height", viewport + "px")
       stage.style.setProperty("--hero-arrival-top", Math.round(-stickyTop + Math.max(104, viewport * .12)) + "px")
@@ -51,12 +58,12 @@ export function HeroMotion({ children, className = "hero" }: { children: ReactNo
       stage.style.setProperty("--hero-frame-side", Math.round(Math.min(180, width * (width <= 680 ? .09 : .12))) + "px")
       stage.style.setProperty("--hero-split-x", Math.round(Math.min(width * .075, 88)) + "px")
       stage.style.setProperty("--hero-split-y", Math.round(Math.min(viewport * (width <= 680 ? .045 : .09), width <= 680 ? 32 : 70)) + "px")
-      hero.style.top = enabled ? stickyTop + "px" : ""
+      hero.style.top = enabled && SCROLL_SEQUENCE ? stickyTop + "px" : ""
     }
     const off = onScroll({
       resize: measure,
       read: () => {
-        if (!enabled) { progress = 0; textProgress = 0; return }
+        if (!enabled || !SCROLL_SEQUENCE) { progress = 0; textProgress = 0; return }
         if (!visible && lastProgress === 1) return
         const top = stage.getBoundingClientRect().top
         progress = enabled ? clamp01((stickyTop - top) / span) : 0

@@ -10,7 +10,7 @@ export function CtaBand() {
         <div className="editorial-closing__rule" aria-hidden="true" />
         <div className="editorial-closing__body">
           <div className="editorial-closing__copy">
-            <p className="editorial-heading__label">08 — A conversation</p>
+            <p className="editorial-heading__label">06 — A conversation</p>
             <h2 id="cta-title">{closing.title}</h2>
             <p>{closing.text}</p>
             <Link href="/contact" className="editorial-link">{closing.cta} <span aria-hidden="true">→</span></Link>

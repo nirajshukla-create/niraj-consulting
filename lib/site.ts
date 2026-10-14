@@ -53,8 +53,7 @@ export const mailingAddress = `${site.address.line}, ${site.address.city}, ${sit
 export const nav = [
   { href: "/#services", label: "Services" },
   { href: "/#approach", label: "Approach" },
-  { href: "/#experience", label: "Experience" },
-  { href: "/#design-lab", label: "Design lab" },
+  { href: "/design-lab", label: "Design lab" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ]
@@ -70,11 +69,6 @@ export const hero = {
   sub: "Strategy, pipeline, research and sales assets that help B2B startups win enterprise buyers in Canada and the U.S.",
   cta: { label: "Book a 30-minute call", href: "/contact" },
   scroll: { label: "See what we do", href: "#services" },
-  /** The panel the photograph resolves into as you scroll. Three short words. */
-  arrival: {
-    note: ["A clear way into a new market.", "Then the pipeline to grow there."],
-    words: ["Markets.", "Pipeline.", "Assets."],
-  },
 }
 
 /** The statement that lights up word by word as you scroll into the page. */
@@ -225,14 +219,6 @@ export const approachNote = "Four steps, in order. Each one ends with a delivera
 /** Who does what. Shown under the four steps and on the About page. */
 export const ownership = "We build the pipeline and the assets. Your team owns selling and closing. We work on fees, not commission."
 
-export const panel = {
-  tag: "How it starts",
-  title: "A 30-minute call. No deck, no pitch.",
-  sub: "Tell us which market you are looking at and where your pipeline stands. We will talk through the fit, the next steps and how the work would be scoped and priced.",
-  note: "St. John's · Atlantic Canada",
-  cta: { label: "Book a 30-minute call", href: "/contact" },
-}
-
 export const closing = {
   title: "Which market is next?",
   text: "Tell us where you sell today and where you want to sell next. We will take it from there.",
@@ -300,42 +286,10 @@ export const about = {
   closing: "If you are weighing a new market, start with a 30-minute call.",
 }
 
-/**
- * Real, anonymized B2B or startup engagements. Every field is a placeholder until the
- * facts are supplied. Do not fill these with invented examples, and do not name a client.
- */
-export type Engagement = { id: string; sector: string; challenge: string; delivered: string; outcome: string }
-export const experience: { title: string; note: string; items: Engagement[] } = {
-  title: "Relevant experience.",
-  note: "Selected B2B and startup engagements. Clients are not named.",
-  items: [
-    {
-      id: "project-1",
-      sector: "[PROJECT 1: sector]",
-      challenge: "[PROJECT 1: challenge]",
-      delivered: "[PROJECT 1: what we delivered]",
-      outcome: "[PROJECT 1: outcome]",
-    },
-    {
-      id: "project-2",
-      sector: "[PROJECT 2: sector]",
-      challenge: "[PROJECT 2: challenge]",
-      delivered: "[PROJECT 2: what we delivered]",
-      outcome: "[PROJECT 2: outcome]",
-    },
-    {
-      id: "project-3",
-      sector: "[PROJECT 3: sector]",
-      challenge: "[PROJECT 3: challenge]",
-      delivered: "[PROJECT 3: what we delivered]",
-      outcome: "[PROJECT 3: outcome]",
-    },
-  ],
-}
-
 export const designLab = {
   title: "Concept work.",
   note: "Two self-initiated design studies for fictional brands. They show how we approach design. They are not client projects.",
+  kicker: "Design lab",
 }
 
 export const contact = {

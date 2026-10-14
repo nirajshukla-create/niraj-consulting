@@ -1,6 +1,6 @@
 import Link from "next/link"
 import type { CSSProperties } from "react"
-import { approachNote, ownership, panel, steps } from "@/lib/site"
+import { approachNote, ownership, steps } from "@/lib/site"
 import { ProcessMotion } from "./process-motion"
 import "./studio-sections.css"
 import "./market-sections.css"
@@ -18,7 +18,7 @@ export function Badge({ text, className = "badge" }: { text: string; className?:
   )
 }
 
-/** Research, Enter, Generate, Enable. Then who owns what, and how an engagement starts. */
+/** Research, Enter, Generate, Enable. Then who owns what. */
 export function Approach() {
   return (
     <section id="approach" className="ap-section" aria-labelledby="approach-title">
@@ -45,17 +45,6 @@ export function Approach() {
           <span>Who owns what</span>
           <p>{ownership}</p>
         </div>
-        <article className="ap-call" aria-labelledby="first-call-title">
-          <p className="ap-call__label">{panel.tag}</p>
-          <div className="ap-call__copy">
-            <h3 id="first-call-title" className="ap-call__title">{panel.title}</h3>
-            <p className="ap-call__text">{panel.sub}</p>
-          </div>
-          <div className="ap-call__foot">
-            <Link href={panel.cta.href} className="ap-call__link">{panel.cta.label}<span aria-hidden="true">↗</span></Link>
-            <span className="ap-call__note">{panel.note}</span>
-          </div>
-        </article>
       </div>
     </section>
   )

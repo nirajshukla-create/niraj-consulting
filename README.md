@@ -21,19 +21,24 @@ pnpm placeholders           # list every placeholder and where it is
 pnpm placeholders --check   # same, and fail if any remain (run before going live)
 ```
 
-Do not merge to `main` while any remain: `main` is the live site.
+`main` is the live site, so any placeholder left in is visible to the public until it is filled.
 
 ## Page order
 
-Hero and positioning, perspective, who we work with, the direction study, four practice areas, the four-step approach, relevant experience, the team, then the Design lab and the closing invitation. The two concept studies for fictional brands (Low Tide and Objects) sit under the Design lab label, below everything real, and are marked as concept work.
+The home page is kept deliberately calm: hero and positioning, perspective, who we work with, four practice areas, the four-step approach, the team, and one closing invitation. Only the four-step approach stacks as you scroll.
+
+- The hero plays its opening reveal, then simply scrolls away. Its pinned scroll sequence (the photo contracting, splitting into three panels and resolving into an arrival panel) is switched off by `SCROLL_SEQUENCE` in `components/hero-motion.tsx`.
+- The service illustrations assemble once as they scroll in, then hold still; their ambient loops are off.
+- The two concept studies for fictional brands (Low Tide and Objects) live on their own page, `/design-lab`, marked as concept work.
+- The direction study (`components/direction-study.tsx`) is kept in the codebase but not rendered.
 
 The home page follows the editorial identity of [Innovation East](https://innovationeast.ca/): Libre Bodoni serif type, italic East, Space Mono labels, monochrome coastal photography, pale paper sections and restrained rust accents. The opening has staggered photographic curtains; scrolling contracts the photograph into a frame, separates it into three offset panels, then reveals paper. The navigation, footer and share image use the same serif identity. Dark sections are pure black.
 
 Every homepage chapter and inner page shares one editorial system: a 1160px shell, 140px label rail, consistent serif headings, fine rules and the same pale paper background. The four practice areas are equal articles with compact monochrome illustrations; process rows and equal portrait columns carry the same rhythm through the rest of the homepage. About, Contact, Privacy and the not-found page use the same masthead, typography and compact footer.
 
-The direction study between the introduction and services turns the same eleven bars from a striped circle into an open arrangement, then an east-pointing arrow. Native scrolling controls and reverses the composition. Its measured sticky panel fits short screens; reduced motion shows the complete arrow without the extra scroll distance.
+The direction study, currently not rendered on any page, turns the same eleven bars from a striped circle into an open arrangement, then an east-pointing arrow. Native scrolling controls and reverses the composition. Its measured sticky panel fits short screens; reduced motion shows the complete arrow without the extra scroll distance.
 
-The interactive design lab lets visitors take an imagined brand through Clarify, Refine and Transform, changing its typography, layout and colour within an ink-and-paper palette. Sculptural layers fan apart and reassemble while the backdrop morphs from circle to arch to angular cutout. Visitors can compare the original, replay and pause the sequence, or select a stage again to replay its artwork. Artwork unfolding, process stacking and portrait motion work on phones. Body copy stays upright; reduced motion keeps every layout and control usable without animated transitions.
+The interactive design lab on the /design-lab page lets visitors take an imagined brand through Clarify, Refine and Transform, changing its typography, layout and colour within an ink-and-paper palette. Sculptural layers fan apart and reassemble while the backdrop morphs from circle to arch to angular cutout. Visitors can compare the original, replay and pause the sequence, or select a stage again to replay its artwork. Artwork unfolding, process stacking and portrait motion work on phones. Body copy stays upright; reduced motion keeps every layout and control usable without animated transitions.
 
 ## Run
 
@@ -47,7 +52,8 @@ pnpm build      # production build (what Vercel runs)
 
 - `lib/site.ts` — the name, wordmark, positioning, mailing address and business number, the four practice areas, the four steps, bios, the specialist network, the experience cards and the contact-form topics.
 - `components/copy.tsx` — renders a line of copy and highlights any placeholder still in it.
-- `components/audience.tsx`, `experience.tsx`, `design-lab.tsx` and `market-sections.css` — who we work with, the relevant-experience cards, the Design lab label over the two concept studies, and the styles for everything added with the market-entry positioning.
+- `components/audience.tsx` and `market-sections.css` — who we work with, and the styles for everything added with the market-entry positioning, including the calmer-page overrides.
+- `app/design-lab/page.tsx` — the Design lab page holding the two concept studies.
 - `scripts/placeholders.mjs` — the placeholder lister behind `pnpm placeholders`.
 - `components/brand-mark.tsx` and `brand-identity.css` — responsive serif wordmark and navigation identity. Brand text follows `site.wordmark`; the small line under it is optional and hidden while `site.wordmark.secondary` is empty.
 - `app/editorial.css` — shared design tokens, shell, section headings, photographic hero, pale sections, design-lab frame and compact closing/footer.

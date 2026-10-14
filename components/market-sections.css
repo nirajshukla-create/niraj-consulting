@@ -16,16 +16,6 @@
 .market-sectors__list li { display: flex; flex-direction: column; gap: 12px; padding-top: 16px; border-top: 1px solid var(--ie-ink); font: 400 28px/1.2 var(--ie-serif); letter-spacing: -.02em; text-wrap: balance; }
 .market-sectors__list li span { color: var(--ie-accent); font: 400 10px/1.6 var(--font-mono); letter-spacing: .11em; }
 
-/* relevant experience */
-.market-cases { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 36px; margin-left: 172px; }
-.market-case { display: flex; flex-direction: column; height: 100%; padding-top: 16px; border-top: 1px solid var(--ie-ink); }
-.market-case__number { margin: 0 0 14px; color: var(--ie-accent); font: 400 10px/1.6 var(--font-mono); letter-spacing: .11em; }
-.market-case__sector { margin: 0 0 20px; font: 700 24px/1.25 var(--ie-serif); letter-spacing: -.015em; text-wrap: balance; }
-.market-case__facts { margin: 0; }
-.market-case__facts > div { padding-block: 14px; border-top: 1px solid var(--ie-rule); }
-.market-case__facts dt { margin: 0 0 6px; color: #696b66; font: 400 10px/1.7 var(--font-mono); text-transform: uppercase; letter-spacing: .09em; }
-.market-case__facts dd { margin: 0; color: var(--ie-muted); font: 400 15px/1.7 var(--font-sans); overflow-wrap: anywhere; }
-
 /* ----------------------------------------------------------------- services */
 /* deliverables read as a list, one per line, in the same mono voice */
 .service-editorial__includes.service-editorial__includes { flex-direction: column; flex-wrap: nowrap; gap: 7px; margin-top: 0; }
@@ -48,11 +38,14 @@
 .studio-network__list li::before { content: "/"; margin-right: 8px; color: #8a9189; }
 .studio-person__credentials, .about-bio__credentials { font-weight: 400; color: var(--ie-muted, #4a4c48); }
 
-/* --------------------------------------------------------------- design lab */
-/* the concept studies are on black, so the label band is too */
-.design-lab-intro { position: relative; z-index: 2; padding: 88px var(--pad-x) 0; background: #000; color: #f2f3f1; --ie-ink: #f2f3f1; --ie-muted: #b5b8b2; --ie-rule: #ffffff33; scroll-margin-top: 88px; }
-.design-lab-intro .editorial-heading { margin-bottom: 0; }
-.design-lab-intro .editorial-heading__label { color: #bd957a; }
+/* ------------------------------------------------------------------ calmer
+   The hero no longer pins for a scroll sequence (see SCROLL_SEQUENCE in hero-motion.tsx),
+   and the service illustrations assemble once as they scroll in, then hold still: the
+   ambient loops are off and their lines rest in the drawn state. */
+.hero-stage[data-motion="on"] > .hero { position: relative; }
+.service-art .service-art__ambient { animation: none !important; }
+.service-art .service-art__trace { stroke-dashoffset: 0 !important; }
+.service-art .service-art__flow { opacity: 0 !important; }
 
 /* --------------------------------------------------------------------- hero */
 /* the positioning headline sits under the wordmark, in the pitch block */
@@ -84,20 +77,15 @@
 .footer.footer .footer__legal a:hover { color: #d59b7e; }
 .footer.footer .footer__legal + .footer__bottom { margin-top: 20px; }
 
-@media (max-width: 980px) {
-  .market-cases { margin-left: 0; gap: 28px; }
-}
 @media (max-width: 760px) {
   .market-section { padding-block: 52px; }
   .market-sectors, .studio-services__terms, .ap-ownership, .studio-network { grid-template-columns: minmax(0, 1fr); gap: 14px; }
   .market-sectors__list { grid-template-columns: minmax(0, 1fr); gap: 20px; }
   .market-sectors__list li { font-size: 24px; }
-  .market-cases { grid-template-columns: minmax(0, 1fr); gap: 36px; }
   .studio-services__terms { margin-top: 36px; }
   .studio-services__terms p, .ap-ownership p { font-size: 19px; }
   .ap-ownership { margin-bottom: 32px; }
   .studio-network { margin-top: 30px; padding-top: 20px; }
-  .design-lab-intro { padding-top: 56px; }
   .hero--editorial .hero__headline { font-size: 25px; max-width: 20ch; }
   .hero--editorial .hero__pitch p.hero__sub { font-size: 15px; max-width: 34ch; }
   .footer.footer .footer__legal { margin-top: 34px; font-size: 9px; }

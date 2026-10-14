@@ -40,7 +40,7 @@ export function Team() {
     <section id="team" className="studio-section" aria-labelledby="team-title">
       <div className="editorial-shell">
         <div className="editorial-heading">
-          <p className="editorial-heading__label">06 — Team</p>
+          <p className="editorial-heading__label">05 — Team</p>
           <div className="editorial-heading__content">
             <h2 id="team-title" className="editorial-heading__title">The team.</h2>
             <p className="editorial-heading__note">{about.teamNote}</p>

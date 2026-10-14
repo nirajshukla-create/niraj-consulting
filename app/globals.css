@@ -292,5 +292,5 @@
 .motion-toggle { display: inline-flex; align-items: center; gap: 8px; padding: 0; border: 0; background: none; color: inherit; font: inherit; cursor: pointer; opacity: 0.8; }
 .motion-toggle:hover, .motion-toggle:focus-visible { opacity: 1; }
 .motion-toggle__dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; opacity: 0.35; }
-.motion-toggle[aria-pressed="true"] .motion-toggle__dot { opacity: 1; animation: motion-toggle-pulse 1.8s ease-in-out infinite; }
+.motion-toggle[aria-pressed="true"] .motion-toggle__dot { opacity: 1; }
 @keyframes motion-toggle-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.5); } }
