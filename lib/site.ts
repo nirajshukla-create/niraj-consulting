@@ -246,13 +246,12 @@ export const people: Person[] = [
     name: "Zach Valiquette",
     role: "Partner, Market Development & Enterprise Sales",
     initials: "ZV",
-    photo: null,
-    short: "Leads market development and is your client lead. SDR and BDR experience with startups at [ZACH: companies] over [ZACH: years].",
+    photo: "/team/zach.jpg",
+    short: "Leads market development and is your client lead. Five years in SaaS startups, mostly scaling and growing sales teams.",
     bio: [
-      "Zach leads market development and enterprise sales support. His background is in SDR and BDR roles with startups at [ZACH: companies], over [ZACH: years].",
-      "He has built and run outbound prospecting programs, worked enterprise buying cycles from first contact to qualified opportunity, and built pipeline in [ZACH: segments sold into].",
-      "[ZACH: one or two verifiable results]",
-      "He is also your client lead. From the first call through delivery, Zach knows where each engagement stands and what happens next.",
+      "Zach leads market development and is your client lead.",
+      "He has spent the past five years in SaaS startup environments, working with a range of startups, mostly on scaling and growing their sales teams.",
+      "From the first call through delivery, Zach is the person who knows where each engagement stands and what happens next.",
     ],
   },
 ]
