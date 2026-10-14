@@ -11,6 +11,8 @@ const ease = (value: number) => { const p = clamp01(value); return p * p * (3 - 
  * opening reveal. Set to true to bring the pinned sequence back.
  */
 const SCROLL_SEQUENCE = false
+/** The photograph drifting a few pixels with the mouse. Off, so the opening holds still. */
+const POINTER_DRIFT = false
 
 /** The full coastline contracts into a split image study, then clears into paper. */
 export function HeroMotion({ children, className = "hero" }: { children: ReactNode; className?: string }) {
@@ -122,8 +124,10 @@ export function HeroMotion({ children, className = "hero" }: { children: ReactNo
       if (event.pointerType !== "mouse") return
       cancelAnimationFrame(pointerFrame); px = 0; py = 0; paintPointer()
     }
-    hero.addEventListener("pointermove", move, { passive: true })
-    hero.addEventListener("pointerleave", reset)
+    if (POINTER_DRIFT) {
+      hero.addEventListener("pointermove", move, { passive: true })
+      hero.addEventListener("pointerleave", reset)
+    }
     return () => {
       off(); resize.disconnect(); observer.disconnect()
       media.removeEventListener("change", updateMotion)

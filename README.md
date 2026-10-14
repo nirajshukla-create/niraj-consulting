@@ -25,10 +25,12 @@ pnpm placeholders --check   # same, and fail if any remain (run before going liv
 
 ## Page order
 
-The home page is kept deliberately calm: hero and positioning, perspective, who we work with, four practice areas, the four-step approach, the team, and one closing invitation. Only the four-step approach stacks as you scroll.
+The home page is kept deliberately calm and still: hero and positioning, About (perspective plus who we work with), four practice areas, the four-step approach, the team, and one closing invitation. Nothing moves except the hero photograph settling as it loads.
 
 - The hero plays its opening reveal, then simply scrolls away. Its pinned scroll sequence (the photo contracting, splitting into three panels and resolving into an arrival panel) is switched off by `SCROLL_SEQUENCE` in `components/hero-motion.tsx`.
-- The service illustrations assemble once as they scroll in, then hold still; their ambient loops are off.
+- The service illustrations are static.
+- Headings, steps, portraits and the closing invitation are static. `EditorialMotion`, `ScrollScene`, `ProcessMotion`, `ServiceArtMotion`, `PortraitMotion` and `ClosingTransformation` remain in the codebase but are not used on the home page.
+- The header lists Services, Approach, About and Contact; the Design lab link lives in the footer.
 - The two concept studies for fictional brands (Low Tide and Objects) live on their own page, `/design-lab`, marked as concept work.
 - The direction study (`components/direction-study.tsx`) is kept in the codebase but not rendered.
 
@@ -52,7 +54,7 @@ pnpm build      # production build (what Vercel runs)
 
 - `lib/site.ts` — the name, wordmark, positioning, mailing address and business number, the four practice areas, the four steps, bios, the specialist network, the experience cards and the contact-form topics.
 - `components/copy.tsx` — renders a line of copy and highlights any placeholder still in it.
-- `components/audience.tsx` and `market-sections.css` — who we work with, and the styles for everything added with the market-entry positioning, including the calmer-page overrides.
+- `components/intro.tsx` and `market-sections.css` — the About section (perspective, then who we work with) and the styles for everything added with the market-entry positioning, including the overrides that keep the page still.
 - `app/design-lab/page.tsx` — the Design lab page holding the two concept studies.
 - `scripts/placeholders.mjs` — the placeholder lister behind `pnpm placeholders`.
 - `components/brand-mark.tsx` and `brand-identity.css` — responsive serif wordmark and navigation identity. Brand text follows `site.wordmark`; the small line under it is optional and hidden while `site.wordmark.secondary` is empty.

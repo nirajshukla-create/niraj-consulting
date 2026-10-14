@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { mailingAddress, nav, site } from "@/lib/site"
+import { footerNav, mailingAddress, site } from "@/lib/site"
 import { Wordmark } from "./brand-mark"
 import { MotionToggle } from "./motion-toggle"
 import "./market-sections.css"
@@ -12,7 +12,7 @@ export function SiteFooter() {
       <div className="editorial-shell">
       <div className="footer__top">
         <div className="footer__intro"><Link href="/" className="footer__logo brand-lockup" aria-label={`${site.name}, home`}><Wordmark decorative /></Link><p>An independent perspective.<br />Rooted in the east.</p></div>
-        <nav className="footer__col" aria-label="Footer"><span className="footer__h">Find your way</span>{nav.map((n) => <Link key={n.href} href={n.href}>{n.label}</Link>)}</nav>
+        <nav className="footer__col" aria-label="Footer"><span className="footer__h">Find your way</span>{footerNav.map((n) => <Link key={n.href} href={n.href}>{n.label}</Link>)}</nav>
         <div className="footer__col"><span className="footer__h">Say hello</span><a href={`mailto:${site.email}`}>{site.email}</a><a href={`tel:${site.phone.tel}`}>{site.phone.display}</a><span className="footer__location">{site.location.long}</span>{socials.map((s) => <a key={s.label} href={s.href}>{s.label} ↗</a>)}</div>
       </div>
       {/* The business identity as it appears on quotes and invoices. */}

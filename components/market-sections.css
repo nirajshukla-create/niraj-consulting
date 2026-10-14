@@ -22,14 +22,10 @@
 .service-editorial__includes li { align-items: baseline; }
 .service-editorial__also { margin: 0 0 20px; color: #555b56; font: 400 13px/1.65 var(--font-sans); }
 .service-editorial__body .service-editorial__cta { margin-top: auto; }
-.studio-services__terms { display: grid; grid-template-columns: 140px minmax(0, 1fr); gap: 32px; align-items: baseline; margin: 48px 0 0; padding-top: 24px; border-top: 1px solid var(--ie-ink); }
-.studio-services__terms span { color: #696b66; font: 400 10px/1.8 var(--font-mono); text-transform: uppercase; letter-spacing: .11em; }
-.studio-services__terms p { max-width: 58ch; margin: 0; font: 400 22px/1.5 var(--ie-serif); letter-spacing: -.01em; text-wrap: balance; }
+.studio-services__terms { max-width: 64ch; margin: 44px 0 0 172px; padding-top: 22px; border-top: 1px solid var(--ie-rule); color: var(--ie-muted); font: 400 16px/1.7 var(--font-sans); }
 
 /* ----------------------------------------------------------------- approach */
-.ap-ownership { display: grid; grid-template-columns: 140px minmax(0, 1fr); gap: 32px; align-items: baseline; margin: 0 0 42px; padding-block: 24px; border-block: 1px solid var(--ie-ink); }
-.ap-ownership span { color: #696b66; font: 400 10px/1.8 var(--font-mono); text-transform: uppercase; letter-spacing: .11em; }
-.ap-ownership p { max-width: 52ch; margin: 0; font: 400 22px/1.5 var(--ie-serif); letter-spacing: -.01em; text-wrap: balance; }
+.ap-ownership { max-width: 56ch; margin: 30px 0 0 172px; padding-top: 0; border-top: 0; color: var(--ie-ink); font: 400 20px/1.5 var(--ie-serif); letter-spacing: -.01em; text-wrap: balance; }
 
 /* --------------------------------------------------------------------- team */
 .studio-network { display: grid; grid-template-columns: 140px minmax(0, 1fr); gap: 32px; align-items: baseline; margin: 40px 0 0; padding-top: 24px; border-top: 1px solid #0002; }
@@ -46,6 +42,22 @@
 .service-art .service-art__ambient { animation: none !important; }
 .service-art .service-art__trace { stroke-dashoffset: 0 !important; }
 .service-art .service-art__flow { opacity: 0 !important; }
+
+/* ------------------------------------------------------------------ still
+   Second pass. The page holds still: no drawn rules, no stacked steps, no portrait wipes,
+   no illustration assembly, no word lighting, no closing morph. The hero photograph
+   settles once as it loads, and that is all. */
+.service-editorial__link { padding-top: 16px; border-top: 1px solid var(--service-line, #0002); }
+.service-art .service-art__stage { inset: 0; }
+.service-art__route { stroke-dashoffset: 0 !important; }
+.ap-process .ap-step { min-height: 0; padding: 26px 0; }
+.ap-step::before, .ap-step::after { display: none; }
+.studio-person .studio-assembly::after { display: none; }
+.studio-foot { justify-content: flex-end; }
+.market-sectors { margin-top: 40px; padding-top: 28px; border-top: 1px solid var(--ie-rule); }
+.market-sectors__lede { max-width: 60ch; margin: 0 0 24px; color: var(--ie-muted); font: 400 17px/1.65 var(--font-sans); }
+.editorial-closing--calm .editorial-closing__body { display: block; }
+.editorial-closing--calm .editorial-closing__copy { max-width: 62ch; }
 
 /* --------------------------------------------------------------------- hero */
 /* the positioning headline sits under the wordmark, in the pitch block */
@@ -79,12 +91,11 @@
 
 @media (max-width: 760px) {
   .market-section { padding-block: 52px; }
-  .market-sectors, .studio-services__terms, .ap-ownership, .studio-network { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .market-sectors, .studio-network { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .studio-services__terms, .ap-ownership { margin-left: 0; }
   .market-sectors__list { grid-template-columns: minmax(0, 1fr); gap: 20px; }
   .market-sectors__list li { font-size: 24px; }
-  .studio-services__terms { margin-top: 36px; }
-  .studio-services__terms p, .ap-ownership p { font-size: 19px; }
-  .ap-ownership { margin-bottom: 32px; }
+  .ap-ownership { font-size: 18px; }
   .studio-network { margin-top: 30px; padding-top: 20px; }
   .hero--editorial .hero__headline { font-size: 25px; max-width: 20ch; }
   .hero--editorial .hero__pitch p.hero__sub { font-size: 15px; max-width: 34ch; }

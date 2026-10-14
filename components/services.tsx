@@ -1,6 +1,5 @@
 import Link from "next/link"
 import { services, servicesNote, terms, type CoverKind } from "@/lib/site"
-import { ServiceArtMotion } from "./service-motion"
 import "./services.css"
 import "./market-sections.css"
 
@@ -171,39 +170,34 @@ export function Services() {
     <section className="studio-services" id="services" aria-labelledby="services-title">
       <div className="editorial-shell">
         <header className="editorial-heading">
-          <p className="editorial-heading__label">03 — Expertise</p>
+          <p className="editorial-heading__label">02 — Expertise</p>
           <div className="editorial-heading__content">
             <h2 id="services-title" className="editorial-heading__title">What we do.</h2>
             <p className="editorial-heading__note">{servicesNote}</p>
           </div>
         </header>
         <div className="studio-services__grid">
-          {services.map((service, index) => (
-              <article className="service-editorial" key={service.id}>
-                <Link href={`/contact?about=${service.id}`} className="service-editorial__link" aria-labelledby={`service-${service.id}-title`}>
-                  <p className="service-editorial__category"><span aria-hidden="true">0{index + 1}</span>{service.category}</p>
-                  <ServiceArtMotion kind={service.cover} caption={service.artLabel} phases={service.phases}>
-                    <ServiceArtwork kind={service.cover} />
-                  </ServiceArtMotion>
-                  <div className="service-editorial__body">
-                    <div className="service-editorial__heading">
-                      <h3 id={`service-${service.id}-title`}>{service.title}</h3>
-                    </div>
-                    <p className="service-editorial__dek">{service.dek}</p>
-                    <ul className="service-editorial__includes">
-                      {service.includes.map((item) => <li key={item}>{item}</li>)}
-                    </ul>
-                    {service.also && <p className="service-editorial__also">{service.also}</p>}
-                    <span className="service-editorial__cta">{service.action} <span aria-hidden="true">↗</span></span>
-                  </div>
-                </Link>
-              </article>
+          {services.map((service) => (
+            <article className="service-editorial" key={service.id}>
+              <Link href={`/contact?about=${service.id}`} className="service-editorial__link" aria-labelledby={`service-${service.id}-title`}>
+                <div className={`service-art service-art--${service.cover}`} data-phase="2">
+                  <div className="service-art__stage"><ServiceArtwork kind={service.cover} /></div>
+                  <span className="sr-only">{service.artLabel}</span>
+                </div>
+                <div className="service-editorial__body">
+                  <h3 id={`service-${service.id}-title`}>{service.title}</h3>
+                  <p className="service-editorial__dek">{service.dek}</p>
+                  <ul className="service-editorial__includes">
+                    {service.includes.map((item) => <li key={item}>{item}</li>)}
+                  </ul>
+                  {service.also && <p className="service-editorial__also">{service.also}</p>}
+                  <span className="service-editorial__cta">{service.action} <span aria-hidden="true">↗</span></span>
+                </div>
+              </Link>
+            </article>
           ))}
         </div>
-        <div className="studio-services__terms">
-          <span>How we quote</span>
-          <p>{terms}</p>
-        </div>
+        <p className="studio-services__terms">{terms}</p>
       </div>
     </section>
   )

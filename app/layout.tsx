@@ -3,7 +3,6 @@ import type { Metadata } from "next"
 import { DM_Sans, Space_Mono } from "next/font/google"
 import localFont from "next/font/local"
 import { Analytics } from "@vercel/analytics/next"
-import { EditorialMotion } from "@/components/editorial-motion"
 import { people, services, site } from "@/lib/site"
 import "./globals.css"
 import "./cinematic.css"
@@ -87,7 +86,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           }}
         />
         {children}
-        <EditorialMotion />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <Analytics />
       </body>

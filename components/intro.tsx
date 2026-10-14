@@ -1,24 +1,35 @@
-import { manifesto } from "@/lib/site"
-import { Reveal } from "./motion"
-import { ScrollScene } from "./scroll-scene"
+import { audience, manifesto } from "@/lib/site"
+import "./market-sections.css"
 
+/** One section: what we believe, then who the work is for. Static on purpose. */
 export function Intro() {
   return (
-    <ScrollScene className="editorial-intro" labelledBy="intro-title">
+    <section className="editorial-intro" aria-labelledby="intro-title">
       <div className="editorial-shell">
         <header className="editorial-heading">
-          <p className="editorial-heading__label">01 — Our perspective</p>
-          <div className="editorial-heading__content"><h2 id="intro-title" className="editorial-heading__title">About.</h2></div>
+          <p className="editorial-heading__label">01 — About</p>
+          <div className="editorial-heading__content">
+            <h2 id="intro-title" className="editorial-heading__title">About.</h2>
+          </div>
         </header>
         <div className="editorial-intro__body">
-          <p className="editorial-intro__location">St. John’s, Newfoundland<br />& Labrador</p>
-          <Reveal className="editorial-intro__copy">
-            <p className="intro__text">{manifesto.split(" ").map((word, index) => <span className="intro-word" key={index} style={{ "--word-index": index } as React.CSSProperties}>{word}{" "}</span>)}</p>
-            <Link className="editorial-link" href="/about">About the people behind it <span aria-hidden="true">→</span></Link>
-          </Reveal>
+          <span className="editorial-intro__location" aria-hidden="true" />
+          <p className="intro__text">{manifesto}</p>
+        </div>
+        <div className="market-sectors">
+          <p className="market-sectors__label" id="audience-title">Who we work with</p>
+          <div>
+            <p className="market-sectors__lede">
+              {audience.lede} {audience.sectorsLabel}:
+            </p>
+            <ul className="market-sectors__list" aria-labelledby="audience-title">
+              {audience.sectors.map((sector) => (
+                <li key={sector}>{sector}</li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
-    </ScrollScene>
+    </section>
   )
 }
-import Link from "next/link"

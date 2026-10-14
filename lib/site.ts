@@ -53,13 +53,14 @@ export const mailingAddress = `${site.address.line}, ${site.address.city}, ${sit
 export const nav = [
   { href: "/#services", label: "Services" },
   { href: "/#approach", label: "Approach" },
-  { href: "/design-lab", label: "Design lab" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ]
 
+/** The footer also lists the Design lab; it stays out of the header to keep that short. */
+export const footerNav = [...nav, { href: "/design-lab", label: "Design lab" }]
+
 export const hero = {
-  eyebrow: "Market entry & growth for tech companies",
   /** The large wordmark. The page's real headline is `site.headline`. */
   lines: [
     { text: "Innovation", accent: false },
@@ -68,7 +69,6 @@ export const hero = {
   headline: site.headline,
   sub: "Strategy, pipeline, research and sales assets that help B2B startups win enterprise buyers in Canada and the U.S.",
   cta: { label: "Book a 30-minute call", href: "/contact" },
-  scroll: { label: "See what we do", href: "#services" },
 }
 
 /** The statement that lights up word by word as you scroll into the page. */
@@ -86,14 +86,12 @@ export const audience = {
 export const topics = ["Market entry", "Lead generation", "Research", "Sales enablement", "Something else"] as const
 export type Topic = (typeof topics)[number]
 
-/** Which illustration a service card uses. The four drawings are part of the design system. */
+/** Which illustration a service card uses. The four drawings are part of the design system and are static. */
 export type CoverKind = "web" | "social" | "strategy" | "brand"
 
 export type Service = {
   id: string
   cover: CoverKind
-  /** Short label above the illustration. */
-  category: string
   title: string
   /** One-line summary. */
   dek: string
@@ -105,8 +103,6 @@ export type Service = {
   action: string
   /** Screen-reader description of the illustration. */
   artLabel: string
-  /** The three stages named under the illustration as it assembles. */
-  phases: [string, string, string]
   /** The contact-form topic this card preselects. */
   topic: Topic
 }
@@ -115,7 +111,6 @@ export const services: Service[] = [
   {
     id: "lead-generation",
     cover: "social",
-    category: "Pipeline",
     title: "Market Development & Lead Generation",
     dek: "Campaigns, data and tracking built to seed a pipeline of qualified B2B leads.",
     includes: [
@@ -128,13 +123,11 @@ export const services: Service[] = [
     also: "Campaign creative, brand and social media content are handled inside this work.",
     action: "Build your pipeline",
     artLabel: "Illustration: one message reaching many buyers",
-    phases: ["Audience", "Campaign", "Qualified lead"],
     topic: "Lead generation",
   },
   {
     id: "market-entry",
     cover: "strategy",
-    category: "Market entry",
     title: "Market Entry & Channel Development",
     dek: "A practical plan for a new city or region: who buys, how they buy and who can open the door.",
     includes: [
@@ -145,13 +138,11 @@ export const services: Service[] = [
     ],
     action: "Plan your entry",
     artLabel: "Illustration: routes from a starting point to new markets",
-    phases: ["Options", "Partners", "Entry plan"],
     topic: "Market entry",
   },
   {
     id: "research",
     cover: "brand",
-    category: "Research",
     title: "Market Research & Competitive Benchmarking",
     dek: "Evidence before spend: who you are up against, what buyers say and how big the segment is.",
     includes: [
@@ -162,13 +153,11 @@ export const services: Service[] = [
     ],
     action: "Know your market",
     artLabel: "Illustration: competitors compared side by side",
-    phases: ["Sources", "Comparison", "Findings"],
     topic: "Research",
   },
   {
     id: "sales-enablement",
     cover: "web",
-    category: "Sales assets",
     title: "Sales Enablement Assets",
     dek: "The pages, videos and documents your sales team uses with enterprise buyers.",
     includes: [
@@ -180,7 +169,6 @@ export const services: Service[] = [
     also: "Web design, brand and copywriting are handled inside this work.",
     action: "Equip your sales team",
     artLabel: "Illustration: a landing page and its mobile version",
-    phases: ["Wireframe", "Design", "Launch"],
     topic: "Sales enablement",
   },
 ]
