@@ -1,6 +1,6 @@
 # Innovation East
 
-Website for Innovation East: export market entry and enterprise sales enablement for Atlantic Canadian tech startups and SMEs expanding into mainland Canada and the United States. Next.js 15 (App Router), Tailwind 4, TypeScript. Built for Vercel.
+Website for Innovation East: market entry, pipeline development and enterprise sales enablement for Atlantic Canadian B2B technology startups and SMEs expanding across Canada and the United States. Next.js 15 (App Router), Tailwind 4, TypeScript. Built for Vercel.
 
 The business name is "Innovation East" everywhere (wordmark, titles, footer, metadata), matching quotes and invoices.
 
@@ -30,8 +30,7 @@ The home page is kept deliberately calm and still: hero and positioning, About (
 - The hero plays its opening reveal, then simply scrolls away. Its pinned scroll sequence (the photo contracting, splitting into three panels and resolving into an arrival panel) is switched off by `SCROLL_SEQUENCE` in `components/hero-motion.tsx`.
 - The service illustrations are static.
 - Headings, steps, portraits and the closing invitation are static. `EditorialMotion`, `ScrollScene`, `ProcessMotion`, `ServiceArtMotion`, `PortraitMotion` and `ClosingTransformation` remain in the codebase but are not used on the home page.
-- The header lists Services, Approach, About and Contact; the Design lab link lives in the footer.
-- The two concept studies for fictional brands (Low Tide and Objects) live on their own page, `/design-lab`, marked as concept work.
+- The header and footer list Services, Approach, About and Contact.
 - The direction study (`components/direction-study.tsx`) is kept in the codebase but not rendered.
 
 The home page follows the editorial identity of [Innovation East](https://innovationeast.ca/): Libre Bodoni serif type, italic East, Space Mono labels, monochrome coastal photography, pale paper sections and restrained rust accents. The opening has staggered photographic curtains; scrolling contracts the photograph into a frame, separates it into three offset panels, then reveals paper. The navigation, footer and share image use the same serif identity. Dark sections are pure black.
@@ -39,8 +38,6 @@ The home page follows the editorial identity of [Innovation East](https://innova
 Every homepage chapter and inner page shares one editorial system: a 1160px shell, 140px label rail, consistent serif headings, fine rules and the same pale paper background. The four practice areas are equal articles with compact monochrome illustrations; process rows and equal portrait columns carry the same rhythm through the rest of the homepage. About, Contact, Privacy and the not-found page use the same masthead, typography and compact footer.
 
 The direction study, currently not rendered on any page, turns the same eleven bars from a striped circle into an open arrangement, then an east-pointing arrow. Native scrolling controls and reverses the composition. Its measured sticky panel fits short screens; reduced motion shows the complete arrow without the extra scroll distance.
-
-The interactive design lab on the /design-lab page lets visitors take an imagined brand through Clarify, Refine and Transform, changing its typography, layout and colour within an ink-and-paper palette. Sculptural layers fan apart and reassemble while the backdrop morphs from circle to arch to angular cutout. Visitors can compare the original, replay and pause the sequence, or select a stage again to replay its artwork. Artwork unfolding, process stacking and portrait motion work on phones. Body copy stays upright; reduced motion keeps every layout and control usable without animated transitions.
 
 ## Run
 
@@ -55,14 +52,11 @@ pnpm build      # production build (what Vercel runs)
 - `lib/site.ts` — the name, wordmark, positioning, mailing address and business number, the four practice areas, the four steps, bios, the specialist network, the experience cards and the contact-form topics.
 - `components/copy.tsx` — renders a line of copy and highlights any placeholder still in it.
 - `components/intro.tsx` and `market-sections.css` — the About section (perspective, then who we work with) and the styles for everything added with the market-entry positioning, including the overrides that keep the page still.
-- `app/design-lab/page.tsx` — the Design lab page holding the two concept studies.
 - `scripts/placeholders.mjs` — the placeholder lister behind `pnpm placeholders`.
 - `components/brand-mark.tsx` and `brand-identity.css` — responsive serif wordmark and navigation identity. Brand text follows `site.wordmark`; the small line under it is optional and hidden while `site.wordmark.secondary` is empty.
-- `app/editorial.css` — shared design tokens, shell, section headings, photographic hero, pale sections, design-lab frame and compact closing/footer.
+- `app/editorial.css` — shared design tokens, shell, section headings, photographic hero, pale sections and compact closing/footer.
 - `components/editorial-motion.tsx` and `app/editorial-motion.css` — viewport-triggered heading reveals, drawn rules, page progress and the photographic opening sequence, with live reduced-motion handling.
 - `components/direction-study.tsx` and `direction-study.css` — the scroll-controlled circle, arrangement and east-arrow sculpture with a static reduced-motion fallback.
-- `components/featured-project.tsx` and `featured-project.css` — LOW TIDE, a clearly labelled fictional hospitality concept. The website frame expands with native scrolling, then reveals its mobile composition; reduced motion shows the finished composition without pinning. `public/concepts/low-tide-house.png` is AI-generated concept architecture, not a real property or client commission.
-- `components/project-comparison.tsx` and `project-comparison.css` — an accessible native range reveals the original and redesigned concept layouts. Drag or tap the preview, use arrow keys for fine adjustments, Home for the redesign and End for the original. Vertical touch scrolling stays available.
 - `components/inner-editorial.css` — About, Contact, Privacy and not-found mastheads, biography layouts, form styling and reading columns.
 - `app/globals.css` — visual tokens, navigation, hero, statement, closing invitation, footer, inner pages, forms and reduced-motion rules.
 - `app/cinematic.css` — crisp typography refinements, pinned hero transformations, rolling type strip and reduced-motion rules.
@@ -71,11 +65,10 @@ pnpm build      # production build (what Vercel runs)
 - `components/closing-transformation.tsx` and `closing-transformation.css` — four shapes morph and fold into the offset-cut studio mark beside the closing invitation, with no pinning or added scroll height and a settled reduced-motion fallback.
 - `components/approach.tsx`, `process-motion.tsx`, `team.tsx` and `studio-sections.css` — the four ruled process rows (Research, Enter, Generate, Enable), the who-owns-what statement, first-call information, equal portrait columns and the specialist network.
 - `components/scroll-scene.tsx` — section progress and paragraph reveal timing. The earlier ticker component remains available but is not rendered on the homepage.
-- `components/signal-showcase.tsx`, `signal-showcase.css` and `design-lab-scroll.css` — the scroll-driven Clarify / Refine / Transform design lab. The preview pins while native scrolling advances or reverses the stages. Stage buttons and keyboard controls jump within that scroll sequence; original comparison resumes on the next scroll. Reduced motion uses a natural, unpinned preview with manual stage selection.
 - `components/studio-finale-motion.tsx` and `studio-finale-motion.css` — portrait wipes, drawn frames, image parallax and assembling initials; biographies and links stay fixed.
 - `components/motion.tsx` — shared entrance effects and retained motion utilities.
 - `public/identity/innovation-east-coast.png` — the hero photograph from `https://innovationeast.ca/assets/hero.png`, reused for the requested visual alignment.
-- `public/team/niraj.jpg` — Niraj's portrait from `https://innovationeast.ca/assets/about-portrait.jpg`. Zach retains the typographic profile artwork until a portrait is supplied.
+- `public/team/niraj.jpg` and `public/team/zach.jpg` — the team portraits shown on the home and About pages.
 - `app/opengraph-image.tsx` — the photographic share image, rendered at build time with local Libre Bodoni and Space Mono fonts in `app/fonts/`.
 
 ## Contact form
@@ -94,4 +87,4 @@ Animation is on for every visitor by default, whatever their operating system re
 
 ## Reviewing changes
 
-Run `pnpm build` for the production check. Review `/`, `/about`, `/contact` and `/privacy` at desktop and phone widths. Scroll down and back through every design lab stage, then check stage jumps by click, tap and keyboard; Left/Right and Home/End move between its three stage controls. Check original comparison, return to Clarify, and reduced motion. Each practice-area card links to the contact form with `?about=<service id>` (`lead-generation`, `market-entry`, `research`, `sales-enablement`), which preselects the matching topic. The form's topics are Market entry, Lead generation, Research, Sales enablement and Something else; the chosen topic is sent with the message and leads the email subject. The mobile menu closes with Escape and returns focus to its button. Retained scripts in `.scratch/rig/` describe an earlier animation system and may need updating before reuse.
+Run `pnpm build` for the production check. Review `/`, `/about`, `/contact` and `/privacy` at desktop and phone widths, including reduced motion. Each practice-area card links to the contact form with `?about=<service id>` (`lead-generation`, `market-entry`, `research`, `sales-enablement`), which preselects the matching topic. The form's topics are Market entry, Lead generation, Research, Sales enablement and Something else; the chosen topic is sent with the message and leads the email subject. The mobile menu closes with Escape and returns focus to its button. Retained scripts in `.scratch/rig/` describe an earlier animation system and may need updating before reuse.

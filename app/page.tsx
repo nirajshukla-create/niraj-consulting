@@ -10,7 +10,6 @@ import { SiteFooter } from "@/components/site-footer"
 /**
  * Five sections, and nothing moves except the hero photograph settling as it loads:
  * positioning, about (with who it is for), what we do, how, who, one invitation.
- * The concept studies live on their own page, /design-lab.
  */
 export default function Home() {
   return (

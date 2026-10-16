@@ -20,11 +20,11 @@ export function Intro() {
           <p className="market-sectors__label" id="audience-title">Who we work with</p>
           <div>
             <p className="market-sectors__lede">
-              {audience.lede} {audience.sectorsLabel}:
+              {audience.lede} {audience.prioritiesLabel}:
             </p>
             <ul className="market-sectors__list" aria-labelledby="audience-title">
-              {audience.sectors.map((sector) => (
-                <li key={sector}>{sector}</li>
+              {audience.priorities.map((priority) => (
+                <li key={priority}>{priority}</li>
               ))}
             </ul>
           </div>

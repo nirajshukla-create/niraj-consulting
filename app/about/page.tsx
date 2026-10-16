@@ -7,7 +7,7 @@ import { about, site } from "@/lib/site"
 
 export const metadata: Metadata = {
   title: "About",
-  description: `${about.teamNote} ${site.name} helps Atlantic Canadian tech companies enter mainland Canadian and U.S. markets.`,
+  description: `${about.teamNote} ${site.name} helps Atlantic Canadian technology companies grow in enterprise markets across Canada and the U.S.`,
 }
 
 export default function AboutPage() {

@@ -2,8 +2,8 @@
  * Every fact the site shows lives here. Change it once and every page updates.
  *
  * Business name: "Innovation East", matching quotes and invoices.
- * Positioning: export market entry and enterprise sales enablement for Atlantic Canadian
- * tech startups and SMEs expanding into mainland Canada and the United States.
+ * Positioning: market entry and enterprise growth for Atlantic Canadian B2B technology
+ * startups and SMEs expanding across Canada and the United States.
  *
  * PLACEHOLDERS. Anything in square brackets with a capitalised key, for example
  * "[ZACH: companies]" or "[PROJECT 1: outcome]", is information nobody has supplied yet.
@@ -26,7 +26,7 @@ export const site = {
   tagline: "Ideas into action.",
   headline: "Market entry and growth for Atlantic Canadian tech companies.",
   description:
-    "Innovation East helps Atlantic Canadian B2B tech startups and SMEs enter mainland Canadian and U.S. markets: market research, market-entry planning, lead generation and sales enablement assets. Based in St. John's, Newfoundland and Labrador.",
+    "Innovation East helps Atlantic Canadian B2B technology startups and SMEs enter and grow in enterprise markets across Canada and the U.S. We provide market research, entry strategy, pipeline development and sales enablement, supported by senior specialists in procurement and security. Based in St. John's, Newfoundland and Labrador.",
   email: "niraj@innovationeast.ca",
   phone: { display: "709-689-9907", tel: "+17096899907" },
   address: {
@@ -57,8 +57,7 @@ export const nav = [
   { href: "/contact", label: "Contact" },
 ]
 
-/** The footer also lists the Design lab; it stays out of the header to keep that short. */
-export const footerNav = [...nav, { href: "/design-lab", label: "Design lab" }]
+export const footerNav = nav
 
 export const hero = {
   /** The large wordmark. The page's real headline is `site.headline`. */
@@ -67,19 +66,24 @@ export const hero = {
     { text: "East.", accent: true },
   ],
   headline: site.headline,
-  sub: "Strategy, pipeline, research and sales assets that help B2B startups win enterprise buyers in Canada and the U.S.",
+  sub: "Strategy, research, pipeline development and sales enablement for B2B technology companies selling to enterprise buyers across Canada and the U.S.",
   cta: { label: "Book a 30-minute call", href: "/contact" },
 }
 
 /** The statement that lights up word by word as you scroll into the page. */
 export const manifesto =
-  "Local traction is one thing. Enterprise buyers in mainland Canada and the United States are another. We help Atlantic Canadian tech companies make that move: research the market, plan the entry, build the pipeline and produce the assets your sales team sells with. Based in St. John’s, working directly with you."
+  "Moving into a new enterprise market takes more than a list of accounts. It takes evidence, an entry plan, a working pipeline and people who understand how enterprise buyers evaluate, approve and buy. We bring those pieces together for Atlantic Canadian technology companies expanding across Canada and the U.S. Based in St. John’s, working directly with your team."
 
 export const audience = {
   title: "Who we work with.",
-  lede: "Atlantic Canadian SaaS and tech startups and SMEs moving from local traction to national and U.S. markets.",
-  sectorsLabel: "Especially companies selling into",
-  sectors: ["Property management", "Multi-location retail", "Hospitality"],
+  lede: "Atlantic Canadian B2B technology startups and SMEs building enterprise revenue beyond their home market.",
+  prioritiesLabel: "We are especially useful when you need to",
+  priorities: [
+    "Choose and understand a new market",
+    "Build an enterprise pipeline",
+    "Equip SDR and BDR teams with research, targeting and sales assets",
+    "Prepare for procurement and security review",
+  ],
 }
 
 /** The topics offered on the contact form. Each service points at one of them. */
@@ -231,14 +235,15 @@ export const people: Person[] = [
     id: "niraj",
     name: "Niraj Shukla",
     credentials: "MBA",
-    role: "Principal, Strategy & Market Entry",
+    role: "Principal, Strategic Direction",
     initials: "NS",
     photo: "/team/niraj.jpg",
-    short: "Leads strategy and market entry. A decade at Mitacs, including five years as Regional Director for Atlantic Canada, and now Director of Intellectual Property Programs at Springboard Atlantic.",
+    short: "Provides strategic direction for Innovation East engagements. A decade at Mitacs, including five years as Regional Director for Atlantic Canada, plus more than ten years scaling multi-location restaurant brands.",
     bio: [
-      "Niraj leads strategy and market entry. His work is with startups on commercialization and go-to-market: he mentors local software founders through their first launches, and he is Director of Intellectual Property Programs at Springboard Atlantic, helping startups and scale-ups navigate, fund and protect their ideas.",
-      "Before that he spent a decade with Mitacs, including five years as Regional Director for Atlantic Canada.",
-      "He also spent more than a decade as a franchise operator, scaling multiple restaurant brands. He has an MBA and is a PhD candidate at Memorial University.",
+      "Niraj provides strategic direction for Innovation East engagements, with a focus on commercialization, market entry and growth.",
+      "He spent a decade with Mitacs, including five years as Regional Director for Atlantic Canada, and mentors local software founders through their first launches.",
+      "He also spent more than ten years as a franchise operator, scaling multi-location restaurant brands. That operating experience is directly relevant to technology companies selling to hospitality groups and multi-location operators.",
+      "He has an MBA and is a PhD candidate at Memorial University.",
     ],
   },
   {
@@ -247,36 +252,38 @@ export const people: Person[] = [
     role: "Partner, Market Development & Enterprise Sales",
     initials: "ZV",
     photo: "/team/zach.jpg",
-    short: "Leads market development and is your client lead. Five years in SaaS startups, mostly scaling and growing sales teams.",
+    short: "Leads market development and client delivery. Five years in SaaS startups, working directly with SDRs and BDRs to grow sales teams selling into enterprise accounts.",
     bio: [
-      "Zach leads market development and is your client lead.",
-      "He has spent the past five years in SaaS startup environments, working with a range of startups, mostly on scaling and growing their sales teams.",
-      "From the first call through delivery, Zach is the person who knows where each engagement stands and what happens next.",
+      "Zach leads market development and is your day-to-day client lead.",
+      "He has spent five years in SaaS startup environments, helping scale sales teams and working directly with SDRs, BDRs and enterprise buyers.",
+      "That hands-on experience shapes how he approaches pipeline development, sales-team execution and conversations with enterprise buyers.",
     ],
   },
 ]
 
 /** The specialist disciplines we bring in from our network. */
-export const network = ["Paid media", "Data and research", "Web development", "Video production", "Design"]
+export const network = [
+  "Enterprise procurement",
+  "Security readiness",
+  "Paid media",
+  "Data and research",
+  "Web development",
+  "Video production",
+  "Design",
+]
 
 export const about = {
   title: "Who you'll work with.",
   teamNote:
-    "A principal-led core team, plus a vetted network of specialists. Innovation East is accountable for quality, schedule and cost.",
-  networkLabel: "Specialist network",
-  lede: "Principal-led. Specialists where the work needs them. One firm accountable.",
+    "A senior-led core team, backed by a roster of experienced consultants. Innovation East remains accountable for quality, schedule and cost.",
+  networkLabel: "Consultant network",
+  lede: "Senior-led. Specialist depth when the work needs it. One firm accountable.",
   body: [
-    "Innovation East is a principal-led core team. Niraj leads strategy and market entry. Zach leads market development and is your client lead.",
-    "For each engagement we bring in vetted specialists from our network: paid media, data and research, web development, video production and design. You deal with one firm. Innovation East is accountable for quality, schedule and cost.",
+    "Innovation East is led by Niraj and Zach. Niraj provides strategic direction. Zach leads market development and is your day-to-day client lead.",
+    "For each engagement, we bring in senior consultants from our network as the work requires. The roster includes people with leadership experience in enterprise procurement and security, alongside specialists in paid media, research, web development, video and design.",
     ownership,
   ],
   closing: "If you are weighing a new market, start with a 30-minute call.",
-}
-
-export const designLab = {
-  title: "Concept work.",
-  note: "Two self-initiated design studies for fictional brands. They show how we approach design. They are not client projects.",
-  kicker: "Design lab",
 }
 
 export const contact = {
