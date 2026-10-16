@@ -238,7 +238,7 @@ export const people: Person[] = [
     role: "Principal, Strategic Direction",
     initials: "NS",
     photo: "/team/niraj.jpg",
-    short: "Provides strategic direction for Innovation East engagements. A decade at Mitacs, including five years as Regional Director for Atlantic Canada, plus more than ten years scaling multi-location restaurant brands.",
+    short: "Provides strategic direction for Innovation East engagements. More than a decade innovation support, he has scaled his own business and helped other SMEs increase sales and break into new markets.",
     bio: [
       "Niraj provides strategic direction for Innovation East engagements, with a focus on commercialization, market entry and growth.",
       "He spent a decade with Mitacs, including five years as Regional Director for Atlantic Canada, and mentors local software founders through their first launches.",
